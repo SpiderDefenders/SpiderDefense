@@ -3,6 +3,11 @@
 public class Tile : MonoBehaviour, ITile
 {
     [SerializeField] private TileType type;
+    
+    public Tile North;
+    public Tile East;
+    public Tile South;
+    public Tile West;
 
     private IPlacable placedObject;
 
@@ -14,23 +19,16 @@ public class Tile : MonoBehaviour, ITile
 
     public bool CanPlace(IPlacable placable)
     {
-        if (IsOccupied)
-            return false;
+        if (IsOccupied) return false;
 
-        switch (type)
+        return type switch
         {
-            case TileType.Buildable:
-                return placable.Type == PlacableType.Defense;
-
-            case TileType.Decoration:
-                return placable.Type == PlacableType.Decoration;
-
-            case TileType.Path:
-                return false;
-        }
-
-        return false;
+            TileType.Buildable => placable.Type == PlacableType.Defense,
+            TileType.Decoration => placable.Type == PlacableType.Decoration,
+            _ => false
+        };
     }
+
 
     public bool Place(IPlacable placable)
     {
@@ -51,5 +49,17 @@ public class Tile : MonoBehaviour, ITile
 
         placedObject.OnRemoved();
         placedObject = null;
+    }
+    
+    public Tile GetNeighbor(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.N => North,
+            Direction.E => East,
+            Direction.S => South,
+            Direction.W => West,
+            _ => null
+        };
     }
 }
