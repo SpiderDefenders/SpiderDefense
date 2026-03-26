@@ -62,7 +62,7 @@ public class SplinePathBuilder : MonoBehaviour
             }
         }
 
-        result.Add(tiles[tiles.Count - 1].Position);
+        result.Add(tiles[^1].GetWaypointPosition());
 
         return result;
     }

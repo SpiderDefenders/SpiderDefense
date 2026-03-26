@@ -7,6 +7,7 @@ public class PathBuilder : MonoBehaviour
     [SerializeField] private GameObject straightPrefab;
     [SerializeField] private GameObject turnPrefab;
     [SerializeField] private GameObject startPrefab;
+    [SerializeField] private GameObject finishPrefab;
     [SerializeField] private float tileSize = 1f;
     
     private GameManager gameManager;
@@ -57,6 +58,13 @@ public class PathBuilder : MonoBehaviour
             // Move to next position
             currentPosition += DirectionToVector(currentDir) * tileSize;
         }
+
+        if (path.Count <= 0) return;
+        Direction lastDir = path[^1];
+        GameObject finishGO = Instantiate(finishPrefab, currentPosition, GetRotationForStraight(lastDir), transform);
+        PathTile finishTile = finishGO.GetComponent<PathTile>();
+        gameManager.ReplaceTileFromGrid((int)currentPosition.x, (int)currentPosition.z, finishTile);
+        pathTiles.Add(finishTile);
     }
 
     private Vector3 DirectionToVector(Direction dir)
@@ -75,10 +83,10 @@ public class PathBuilder : MonoBehaviour
     {
         return dir switch
         {
-            Direction.N => Quaternion.Euler(0, 0, 0),
-            Direction.E => Quaternion.Euler(0, 90, 0),
-            Direction.S => Quaternion.Euler(0, 180, 0),
-            Direction.W => Quaternion.Euler(0, 270, 0),
+            Direction.N => Quaternion.Euler(0, 180, 0),
+            Direction.E => Quaternion.Euler(0, 270, 0),
+            Direction.S => Quaternion.Euler(0, 0, 0),
+            Direction.W => Quaternion.Euler(0, 90, 0),
             _ => Quaternion.identity
         };
     }

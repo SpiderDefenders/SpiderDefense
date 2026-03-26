@@ -17,6 +17,8 @@ public class EventManager : MonoBehaviour
     }
 
     public event Action OnPathGenerated;
+    public event Action OnEnemyReachedTheEnd;
 
     public void PathGenerated() => OnPathGenerated?.Invoke();
+    public void EnemyReachedTheEnd() => OnEnemyReachedTheEnd?.Invoke();
 }
