@@ -7,23 +7,22 @@ public class SplinePathBuilder : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float heightOffset = 0.5f;
-    private GameManager gameManager;
+    private PathBuilder pathBuilder;
 
     private void Start()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
+        pathBuilder = FindAnyObjectByType<PathBuilder>();
     }
 
     public void BuildSpline()
     {
-        List<PathTile> tiles = gameManager.GetPathTiles();
+        List<PathTile> tiles = pathBuilder.GetPathTiles();
         if (tiles == null || tiles.Count < 2)
         {
             Debug.LogWarning("Not enough tiles to build spline");
             return;
         }
 
-        // 🔥 Optional but HIGHLY recommended: simplify path (only corners)
         List<Vector3> points = GetCornerPoints(tiles);
 
         var spline = new Spline();
@@ -35,11 +34,9 @@ public class SplinePathBuilder : MonoBehaviour
             spline.Add(new BezierKnot(point + Vector3.up * heightOffset));
         }
 
-        // Auto smooth tangents
         spline.SetTangentMode(TangentMode.AutoSmooth);
     }
 
-    // 🔥 Extract only corners (big visual upgrade)
     private List<Vector3> GetCornerPoints(List<PathTile> tiles)
     {
         List<Vector3> result = new List<Vector3>();
@@ -55,7 +52,6 @@ public class SplinePathBuilder : MonoBehaviour
             Vector3 dir1 = (current - prev).normalized;
             Vector3 dir2 = (next - current).normalized;
 
-            // If direction changes → it's a corner
             if (dir1 != dir2)
             {
                 result.Add(tiles[i].GetWaypointPosition());
@@ -65,5 +61,12 @@ public class SplinePathBuilder : MonoBehaviour
         result.Add(tiles[^1].GetWaypointPosition());
 
         return result;
+    }
+    
+    public void AddNewPathTileToSpline(PathTile tile)
+    {
+        if (splineContainer == null || splineContainer.Spline == null) return;
+        Vector3 point = tile.GetWaypointPosition();
+        splineContainer.Spline.Add(new BezierKnot(point + Vector3.up * heightOffset));
     }
 }

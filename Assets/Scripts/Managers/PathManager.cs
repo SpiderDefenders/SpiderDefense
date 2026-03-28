@@ -4,29 +4,29 @@ using Random = UnityEngine.Random;
 
 public class PathManager : MonoBehaviour
 {
-    private Tile StartTile;
-    private Tile EndTile;
+    private Tile startTile;
+    private Tile endTile;
     private List<Direction> generatedPath = new List<Direction>();
     private List<Tile> tilesPath = new List<Tile>();
     
     public void GeneratePathSequence()
     {
-        GridGenerator gridGenerator = FindAnyObjectByType<GridGenerator>();
-        StartTile = gridGenerator.GetTile(0, 0);
-        EndTile = gridGenerator.GetTile(gridGenerator.width - 1, gridGenerator.height - 1);
+        GridManager gridManager = FindAnyObjectByType<GridManager>();
+        startTile = gridManager.GetFirstTile();
+        endTile = gridManager.GetLastTile();
 
-        if (StartTile == null || EndTile == null) return;
+        if (startTile == null || endTile == null) return;
 
         Queue<Tile> queue = new Queue<Tile>();
         Dictionary<Tile, Tile> cameFrom = new Dictionary<Tile, Tile>();
 
-        queue.Enqueue(StartTile);
-        cameFrom[StartTile] = null;
+        queue.Enqueue(startTile);
+        cameFrom[startTile] = null;
 
         while (queue.Count > 0)
         {
             Tile current = queue.Dequeue();
-            if (current == EndTile) break;
+            if (current == endTile) break;
 
             foreach (Direction dir in GetBiasedDirections(current))
             {
@@ -41,9 +41,9 @@ public class PathManager : MonoBehaviour
         }
 
         tilesPath = new List<Tile>();
-        Tile temp = EndTile;
+        Tile temp = endTile;
 
-        if (!cameFrom.ContainsKey(EndTile))
+        if (!cameFrom.ContainsKey(endTile))
         {
             Debug.LogWarning("No path found!");
             return;
@@ -85,8 +85,8 @@ public class PathManager : MonoBehaviour
             Tile aTile = current.GetNeighbor(a);
             Tile bTile = current.GetNeighbor(b);
 
-            float aDist = aTile != null ? Vector3.Distance(aTile.Position, EndTile.Position) : float.MaxValue;
-            float bDist = bTile != null ? Vector3.Distance(bTile.Position, EndTile.Position) : float.MaxValue;
+            float aDist = aTile != null ? Vector3.Distance(aTile.Position, endTile.Position) : float.MaxValue;
+            float bDist = bTile != null ? Vector3.Distance(bTile.Position, endTile.Position) : float.MaxValue;
 
             return aDist.CompareTo(bDist);
         });
@@ -103,7 +103,7 @@ public class PathManager : MonoBehaviour
         return dirs;
     }
     
-    public List<Direction> GetGeneratedPath()
+    public List<Direction> GetPath()
     {
         return generatedPath;
     }

@@ -10,6 +10,8 @@ public class PathBuilder : MonoBehaviour
     [SerializeField] private GameObject finishPrefab;
     [SerializeField] private float tileSize = 1f;
     
+    private GridManager gridManager;
+    private PathManager pathManager;
     private GameManager gameManager;
     
     private List<PathTile> pathTiles = new List<PathTile>();
@@ -17,11 +19,13 @@ public class PathBuilder : MonoBehaviour
     private void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
+        gridManager = FindAnyObjectByType<GridManager>();
+        pathManager = FindAnyObjectByType<PathManager>();
     }
 
     public void BuildPath()
     {
-        List<Direction> path = gameManager.GetPath();
+        List<Direction> path = pathManager.GetPath();
         Vector2Int startPos = gameManager.GetStartPosition();
         Vector3 currentPosition = new Vector3(startPos.x, 0f, startPos.y);
 
@@ -53,9 +57,8 @@ public class PathBuilder : MonoBehaviour
 
             GameObject go = Instantiate(prefabToUse, currentPosition, rotation, transform);
             PathTile tile = go.GetComponent<PathTile>();
-            gameManager.ReplaceTileFromGrid((int)currentPosition.x, (int)currentPosition.z, tile);
+            gridManager.SetTile((int)currentPosition.x, (int)currentPosition.z, tile);
             pathTiles.Add(tile);
-            // Move to next position
             currentPosition += DirectionToVector(currentDir) * tileSize;
         }
 
@@ -63,7 +66,7 @@ public class PathBuilder : MonoBehaviour
         Direction lastDir = path[^1];
         GameObject finishGO = Instantiate(finishPrefab, currentPosition, GetRotationForStraight(lastDir) * Quaternion.Euler(0, 180, 0), transform);
         PathTile finishTile = finishGO.GetComponent<PathTile>();
-        gameManager.ReplaceTileFromGrid((int)currentPosition.x, (int)currentPosition.z, finishTile);
+        gridManager.SetTile((int)currentPosition.x, (int)currentPosition.z, finishTile);
         pathTiles.Add(finishTile);
     }
 

@@ -148,8 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9f839b3caf0b943a0a810211e8280d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 10
   tileSize: 1
   tilePrefab: {fileID: 607830026165841740, guid: 737e94d3e79ef1c44b78c5d174b22fb0, type: 3}
 --- !u!4 &590069948
@@ -780,6 +778,52 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9164979587216397849, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
   m_PrefabInstance: {fileID: 1327303102}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1470692264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1470692266}
+  - component: {fileID: 1470692265}
+  m_Layer: 0
+  m_Name: GridManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1470692265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470692264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40dccf1922ac495abde4b4772ca08b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fakeGridWidth: 200
+  fakeGridHeight: 200
+--- !u!4 &1470692266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470692264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.503723, y: 0.86715883, z: 3.1391392}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1502766698
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,6 +854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPosition: {x: 0, y: 0}
+  startingGridSize: {x: 10, y: 10}
 --- !u!4 &1502766700
 Transform:
   m_ObjectHideFlags: 0
@@ -1789,7 +1834,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _edgeThreshold: 5
-  _rightMouseSpeedMultiplier: 10
   _zoomSpeed: 2
   _minY: 5
   _maxY: 15
@@ -1866,3 +1910,4 @@ SceneRoots:
   - {fileID: 1280995750}
   - {fileID: 3490450523377187424}
   - {fileID: 2079475927}
+  - {fileID: 1470692266}
