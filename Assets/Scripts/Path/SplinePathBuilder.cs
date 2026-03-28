@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -22,6 +22,7 @@ public class SplinePathBuilder : MonoBehaviour
             Debug.LogWarning("Not enough tiles to build spline");
             return;
         }
+        tiles.Reverse();
 
         List<Vector3> points = GetCornerPoints(tiles);
 
@@ -33,7 +34,7 @@ public class SplinePathBuilder : MonoBehaviour
         {
             spline.Add(new BezierKnot(point + Vector3.up * heightOffset));
         }
-
+        
         spline.SetTangentMode(TangentMode.AutoSmooth);
     }
 
@@ -67,6 +68,6 @@ public class SplinePathBuilder : MonoBehaviour
     {
         if (splineContainer == null || splineContainer.Spline == null) return;
         Vector3 point = tile.GetWaypointPosition();
-        splineContainer.Spline.Add(new BezierKnot(point + Vector3.up * heightOffset));
+        splineContainer.Spline.Insert(0, new BezierKnot(point + Vector3.up * heightOffset));
     }
 }

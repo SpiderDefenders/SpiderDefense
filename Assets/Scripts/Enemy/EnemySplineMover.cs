@@ -18,7 +18,7 @@ public class EnemySplineMover : MonoBehaviour
 
         if (t >= 1f)
         {
-            DealDamaAndDie();
+            DealDamageAndDie();
             return;
         }
         t = Mathf.Clamp01(t);
@@ -33,7 +33,7 @@ public class EnemySplineMover : MonoBehaviour
         t = 0f;
     }
 
-    private void DealDamaAndDie()
+    private void DealDamageAndDie()
     {
         isDead = true;
         EventManager.Instance.EnemyReachedTheEnd();
