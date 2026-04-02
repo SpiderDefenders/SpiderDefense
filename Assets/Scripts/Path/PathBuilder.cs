@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PathBuilder : MonoBehaviour
 {
     [SerializeField] private GameObject straightPrefab;
     [SerializeField] private GameObject turnPrefab;
+    [SerializeField] private GameObject endPrefab;
     [SerializeField] private GameObject startPrefab;
-    [SerializeField] private GameObject finishPrefab;
     [SerializeField] private float tileSize = 1f;
     
     private GridManager gridManager;
     private PathManager pathManager;
     private GameManager gameManager;
+    private Vector3 currentPosition;
     
     private List<PathTile> pathTiles = new List<PathTile>();
 
@@ -27,12 +29,12 @@ public class PathBuilder : MonoBehaviour
     {
         List<Direction> path = pathManager.GetPath();
         Vector2Int startPos = gameManager.GetStartPosition();
-        Vector3 currentPosition = new Vector3(startPos.x, 0f, startPos.y);
+        currentPosition = new Vector3(startPos.x, 0f, startPos.y);
 
         for (int i = 0; i < path.Count; i++)
         {
             Direction currentDir = path[i];
-            Direction? previousDir = i > 0 ? path[i - 1] : (Direction?)null;
+            Direction previousDir = i > 0 ? path[i - 1] : Direction.UNSPECIFIED;
 
             GameObject prefabToUse;
             Quaternion rotation;
@@ -40,83 +42,51 @@ public class PathBuilder : MonoBehaviour
             if (i == 0)
             {
                 prefabToUse = startPrefab;
-                rotation = GetRotationForStraight(currentDir);
-            }
-            else if (previousDir == null || previousDir == currentDir)
-            {
-                // Straight tile
-                prefabToUse = straightPrefab;
-                rotation = GetRotationForStraight(currentDir);
+                rotation = currentDir.ToRotationStraight();
             }
             else
             {
-                // Turn tile
-                prefabToUse = turnPrefab;
-                rotation = GetRotationForTurn(previousDir.Value, currentDir);
+                prefabToUse = GetPrefab(previousDir, currentDir);
+                rotation = GetRotation(previousDir, currentDir);
             }
-
-            GameObject go = Instantiate(prefabToUse, currentPosition, rotation, transform);
-            PathTile tile = go.GetComponent<PathTile>();
-            gridManager.SetTile((int)currentPosition.x, (int)currentPosition.z, tile);
-            pathTiles.Add(tile);
-            currentPosition += DirectionToVector(currentDir) * tileSize;
+            AddTile(prefabToUse, currentPosition, rotation);
+            currentPosition += currentDir.ToVector() * tileSize;
         }
 
         if (path.Count <= 0) return;
-        Direction lastDir = path[^1];
-        GameObject finishGO = Instantiate(finishPrefab, currentPosition, GetRotationForStraight(lastDir) * Quaternion.Euler(0, 180, 0), transform);
-        PathTile finishTile = finishGO.GetComponent<PathTile>();
-        gridManager.SetTile((int)currentPosition.x, (int)currentPosition.z, finishTile);
-        pathTiles.Add(finishTile);
+        AddTile(endPrefab, currentPosition, path[^1].ToRotationStraight() * Quaternion.Euler(0, 180, 0));
+    }
+    
+    private GameObject GetPrefab(Direction prev, Direction current)
+    {
+        return prev == current ? straightPrefab : turnPrefab;
+    }
+    
+    private Quaternion GetRotation(Direction prev, Direction current)
+    {
+        return prev == current ? current.ToRotationStraight() : prev.ToRotationTurn(current);
     }
 
-    private Vector3 DirectionToVector(Direction dir)
+    private PathTile AddTile(GameObject tileToAdd, Vector3 position, Quaternion rotation)
     {
-        return dir switch
-        {
-            Direction.N => Vector3.forward,
-            Direction.E => Vector3.right,
-            Direction.S => Vector3.back,
-            Direction.W => Vector3.left,
-            _ => Vector3.zero
-        };
-    }
-
-    private Quaternion GetRotationForStraight(Direction dir)
-    {
-        return dir switch
-        {
-            Direction.N => Quaternion.Euler(0, 0, 0),
-            Direction.E => Quaternion.Euler(0, 90, 0),
-            Direction.S => Quaternion.Euler(0, 0, 0),
-            Direction.W => Quaternion.Euler(0, 90, 0),
-            _ => Quaternion.identity
-        };
-    }
-
-    private Quaternion GetRotationForTurn(Direction from, Direction to)
-    {
-        switch (from)
-        {
-            case Direction.N when to == Direction.E:
-            case Direction.W when to == Direction.S:
-                return Quaternion.Euler(0, 180, 0);
-            case Direction.E when to == Direction.S:
-            case Direction.N when to == Direction.W:
-                return Quaternion.Euler(0, -90, 0);
-            case Direction.S when to == Direction.W:
-            case Direction.E when to == Direction.N:
-                return Quaternion.Euler(0, 0, 0);
-            case Direction.W when to == Direction.N:
-            case Direction.S when to == Direction.E:
-                return Quaternion.Euler(0, 90, 0);
-            default:
-                return Quaternion.identity;
-        }
+        GameObject go = Instantiate(tileToAdd, position, rotation, transform);
+        PathTile tile = go.GetComponent<PathTile>();
+        gridManager.SetTile((int)position.x, (int)position.z, tile);
+        pathTiles.Add(tile);
+        return tile;
     }
 
     public List<PathTile> GetPathTiles()
     {
         return pathTiles;
+    }
+    
+    public PathTile ExtendPath(Direction firstDirection, Direction secondLastDirection, Direction thirdLastDirection)
+    {
+        PathTile lastTile = pathTiles[^1];
+        pathTiles.Remove(lastTile);
+        AddTile(GetPrefab(firstDirection, secondLastDirection), lastTile.Position, GetRotation(firstDirection, secondLastDirection));
+        currentPosition = lastTile.Position + firstDirection.Opposite().ToVector() * tileSize;
+        return AddTile(startPrefab, currentPosition, firstDirection.ToRotationStraight());
     }
 }

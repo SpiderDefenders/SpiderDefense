@@ -6,6 +6,9 @@ namespace SimpleRtsCamera.Scripts
 	public class SimpleRtsCamera : MonoBehaviour
 	{
 		[Header("RTS Camera Settings")]
+		[SerializeField] private bool isMovementWithMouseEnabled = true;
+		[SerializeField] private bool isMovementWithKeyboardEnabled = true;
+		[SerializeField] private bool isZoomEnabled = true;
 		[Header("Move")]
 		[SerializeField] private float _moveSpeed = 200;
 		[SerializeField] private float _edgeThreshold = 5;
@@ -50,9 +53,9 @@ namespace SimpleRtsCamera.Scripts
 
 		private void LateUpdate()
 		{
-			MoveCamera();
-			MoveCameraWithCursor();
-			ZoomCamera();
+			if (isMovementWithKeyboardEnabled) MoveCamera();
+			if (isMovementWithMouseEnabled) MoveCameraWithCursor();
+			if (isZoomEnabled) ZoomCamera();
 			ClampPosition();
 		}
 

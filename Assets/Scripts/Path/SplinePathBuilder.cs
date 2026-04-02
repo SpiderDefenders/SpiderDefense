@@ -42,13 +42,13 @@ public class SplinePathBuilder : MonoBehaviour
     {
         List<Vector3> result = new List<Vector3>();
 
-        result.Add(tiles[0].Position);
+        result.Add(tiles[^1].Position);
 
-        for (int i = 1; i < tiles.Count - 1; i++)
+        for (int i = tiles.Count - 2; i > 0; i--)
         {
-            Vector3 prev = tiles[i - 1].Position;
+            Vector3 prev = tiles[i + 1].Position;
             Vector3 current = tiles[i].Position;
-            Vector3 next = tiles[i + 1].Position;
+            Vector3 next = tiles[i - 1].Position;
 
             Vector3 dir1 = (current - prev).normalized;
             Vector3 dir2 = (next - current).normalized;
@@ -59,7 +59,7 @@ public class SplinePathBuilder : MonoBehaviour
             }
         }
 
-        result.Add(tiles[^1].GetWaypointPosition());
+        result.Add(tiles[0].GetWaypointPosition());
 
         return result;
     }
@@ -69,5 +69,6 @@ public class SplinePathBuilder : MonoBehaviour
         if (splineContainer == null || splineContainer.Spline == null) return;
         Vector3 point = tile.GetWaypointPosition();
         splineContainer.Spline.Insert(0, new BezierKnot(point + Vector3.up * heightOffset));
+        splineContainer.Spline.SetTangentMode(TangentMode.AutoSmooth);
     }
 }

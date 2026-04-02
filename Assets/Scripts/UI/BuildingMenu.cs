@@ -32,4 +32,15 @@ public class BuildingMenu : MonoBehaviour
 
         isOpen = !isOpen;
     }
+    
+    public void ToggleMenu(bool desiredState)
+    {
+        if (isOpen == desiredState) return;
+        ToggleMenu();
+    }
+
+    public void CloseEverything()
+    {
+        ToggleMenu(false);
+    }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 using Random = UnityEngine.Random;
 
 public class PathManager : MonoBehaviour
@@ -9,6 +11,15 @@ public class PathManager : MonoBehaviour
     private List<Direction> generatedPath = new List<Direction>();
     private List<Tile> tilesPath = new List<Tile>();
     
+    private PathBuilder pathBuilder;
+    private SplinePathBuilder splinePathBuilder;
+
+    private void Start()
+    {
+        pathBuilder = FindAnyObjectByType<PathBuilder>();
+        splinePathBuilder = FindAnyObjectByType<SplinePathBuilder>();
+    }
+
     public void GeneratePathSequence()
     {
         GridManager gridManager = FindAnyObjectByType<GridManager>();
@@ -54,7 +65,6 @@ public class PathManager : MonoBehaviour
             tilesPath.Add(temp);
             temp = cameFrom[temp];
         }
-
         tilesPath.Reverse();
 
         for (int i = 0; i < tilesPath.Count - 1; i++)
@@ -111,5 +121,13 @@ public class PathManager : MonoBehaviour
     public List<Tile> GetTilesPath()
     {
         return tilesPath;
+    }
+    
+    public void ExtendPath(Direction dir)
+    {
+        generatedPath.Insert(0, dir);
+        PathTile tile = pathBuilder.ExtendPath(generatedPath[0], generatedPath[1], generatedPath[2]);
+        endTile = tile;
+        splinePathBuilder.AddNewPathTileToSpline(tile);
     }
 }
