@@ -1,9 +1,5 @@
-﻿using Mono.Cecil;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 {
@@ -17,6 +13,12 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     [SerializeField] private Material rangeMaterial;
     private GameObject rangeObject;
     private float yOffset = 0.05f;
+
+    [Header("Shooting")]
+    [SerializeField] private float shootingCooldown = 1f; 
+    private float shootingCountdown = 0f;
+    [SerializeField] private GameObject ammoPrefab;
+    [SerializeField] private Transform ammoSpawnPoint;
 
     [Header("Targeting")]
     public GameObject target;
@@ -34,7 +36,19 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     private void Update()
     {
         SetTarget();
-        FollowTarget();
+
+        if (target != null)
+        {
+            FollowTarget();
+
+            if (shootingCountdown <= 0f)
+            {
+                Shoot();
+                shootingCountdown = shootingCooldown;
+            }
+        }
+
+        shootingCountdown -= Time.deltaTime;
     }
 
     private void CreateRangeObject()
@@ -102,15 +116,12 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         target = bestTarget;
     }
 
-    private void SortEnemies()
+    private void Shoot()
     {
-        // first enemy
-        enemiesInRange.Sort((a, b) =>
-        {
-            float progressA = a.GetComponent<EnemySplineMover>().GetProgress();
-            float progressB = b.GetComponent<EnemySplineMover>().GetProgress();
-            return progressB.CompareTo(progressA);
-        });
+        GameObject ammoObject = Instantiate(ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation);
+        Ammo ammo = ammoObject.GetComponent<Ammo>();
+        ammo.SetTarget(target);
+
     }
 
     public void OnPlaced(ITile tile)
@@ -137,8 +148,6 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     public virtual void FollowTarget()
     {
-        if (target == null) return;
-
         Vector3 direction = target.transform.position - horizontalPivot.position;
 
         Vector3 flatDirection = new Vector3(direction.x, 0f, direction.z);
