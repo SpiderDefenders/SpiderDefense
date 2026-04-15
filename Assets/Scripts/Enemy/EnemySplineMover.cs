@@ -39,4 +39,6 @@ public class EnemySplineMover : MonoBehaviour
         EventManager.Instance.EnemyReachedTheEnd();
         Destroy(gameObject);
     }
+
+    public float GetProgress() { return t; }
 }
