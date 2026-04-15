@@ -51,7 +51,7 @@ public class AdditionalPathManager : MonoBehaviour
         {
             // ❗ tylko Buildable
             if (neighbor is PathTile) return;
-            if (neighbor.Type != TileType.Buildable) return;
+            if (neighbor.Type != TileType.Buildable || neighbor.IsOccupied) return;
 
             HighlightTile(neighbor, dir, false);
         }
