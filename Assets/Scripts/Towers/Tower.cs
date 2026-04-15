@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Mono.Cecil;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     }
     private void Update()
     {
-        if (target == null) return;
+        SetTarget();
         FollowTarget();
     }
 
@@ -62,8 +63,6 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         if (other.CompareTag("Enemy"))
         {
             enemiesInRange.Add(other.gameObject);
-            SortEnemies();
-            SetTarget();
         }
     }
 
@@ -72,17 +71,35 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         if (other.CompareTag("Enemy"))
         {
             enemiesInRange.Remove(other.gameObject);
-            SetTarget();
         }
     }
 
     private void SetTarget()
     {
-        target = null;
-        if(enemiesInRange.Count > 0)
+        GameObject bestTarget = null;
+        float maxProgress = -Mathf.Infinity;
+
+        // go backwards to avoid errors when removing enemies
+        for (int i = enemiesInRange.Count - 1; i >= 0; i--)
         {
-            target = enemiesInRange[0];
+            GameObject enemy = enemiesInRange[i];
+
+            if (enemy == null || enemy.GetComponent<EnemySplineMover>().IsDead())
+            {
+                enemiesInRange.RemoveAt(i);
+                continue;
+            }
+
+            float progress = enemy.GetComponent<EnemySplineMover>().GetProgress();
+
+            if (progress > maxProgress)
+            {
+                maxProgress = progress;
+                bestTarget = enemy;
+            }
         }
+
+        target = bestTarget;
     }
 
     private void SortEnemies()
@@ -120,6 +137,8 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     public virtual void FollowTarget()
     {
+        if (target == null) return;
+
         Vector3 direction = target.transform.position - horizontalPivot.position;
 
         Vector3 flatDirection = new Vector3(direction.x, 0f, direction.z);

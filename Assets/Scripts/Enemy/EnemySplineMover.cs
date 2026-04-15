@@ -41,4 +41,5 @@ public class EnemySplineMover : MonoBehaviour
     }
 
     public float GetProgress() { return t; }
+    public bool IsDead() { return isDead; }
 }
