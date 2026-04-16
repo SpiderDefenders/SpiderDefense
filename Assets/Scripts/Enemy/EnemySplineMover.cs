@@ -39,4 +39,14 @@ public class EnemySplineMover : MonoBehaviour
         EventManager.Instance.EnemyReachedTheEnd();
         Destroy(gameObject);
     }
+
+    // TODO temporary solution
+    public void GetDamage(float damage)
+    {
+        isDead = true;
+        Destroy(gameObject);
+    }
+
+    public float GetProgress() { return t; }
+    public bool IsDead() { return isDead; }
 }

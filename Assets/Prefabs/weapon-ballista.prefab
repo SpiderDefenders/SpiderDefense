@@ -101,6 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placingOffset: {x: 0, y: 0.152, z: 0}
+  rangeRadius: 2
+  rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
   target: {fileID: 0}
   horizontalPivot: {fileID: 4196516262668511565}
   verticalPivot: {fileID: 1214862634464998831}
