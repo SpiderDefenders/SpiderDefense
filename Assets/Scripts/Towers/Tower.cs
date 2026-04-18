@@ -155,7 +155,11 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         if (flatDirection.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
-            horizontalPivot.rotation = targetRotation;
+            horizontalPivot.rotation = Quaternion.Slerp(
+                horizontalPivot.rotation,
+                targetRotation,
+                Time.deltaTime * 8f
+                );
         }
 
         float distance = flatDirection.magnitude;
