@@ -131,10 +131,15 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         CreateCollider();
     }
 
-    //private void OnMouseDown()
-    //{
-    //    rangeObject.SetActive(true);
-    //}
+    public void OnClick()
+    {
+        rangeObject.SetActive(!rangeObject.activeSelf);
+    }
+
+    public void OnUnClick()
+    {
+        rangeObject.SetActive(false);
+    }
 
     public void OnRemoved()
     {

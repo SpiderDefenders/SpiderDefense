@@ -15,7 +15,6 @@ public abstract class Ammo : MonoBehaviour
 
     protected void HitTarget()
     {
-        Debug.Log("hit");
         target.GetComponent<EnemySplineMover>().GetDamage(damage);
         Destroy(gameObject);
         return;
