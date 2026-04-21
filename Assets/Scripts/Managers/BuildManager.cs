@@ -87,6 +87,9 @@ public class BuildManager : MonoBehaviour
     {
         foreach (var r in previewRenderers)
         {
+            if (r.CompareTag("Range"))
+                continue;
+
             r.material = material;
         }
     }
