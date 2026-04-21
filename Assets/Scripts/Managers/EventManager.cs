@@ -18,7 +18,11 @@ public class EventManager : MonoBehaviour
 
     public event Action OnPathGenerated;
     public event Action OnEnemyReachedTheEnd;
+    public event Action<int> OnWaveStarted;
+    public event Action<int> OnWaveCompleted;
 
     public void PathGenerated() => OnPathGenerated?.Invoke();
     public void EnemyReachedTheEnd() => OnEnemyReachedTheEnd?.Invoke();
+    public void WaveStarted(int waveIndex) => OnWaveStarted?.Invoke(waveIndex);
+    public void WaveCompleted(int waveIndex) => OnWaveCompleted?.Invoke(waveIndex);
 }

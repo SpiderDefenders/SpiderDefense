@@ -1,53 +1,42 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Splines;
-using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private Transform spawnPoint;
 
-    [Header("Spawn Settings")]
-    [SerializeField] private float spawnInterval = 2f;
-    [SerializeField] private int maxEnemies = 10;
+    [Header("Enemies")]
+    [SerializeField] private List<EnemyDefinition> enemies;
 
-    private int spawnedCount = 0;
+    private Dictionary<EnemyType, GameObject> enemyLookup;
 
-    private void Start()
+    private void Awake()
     {
-        EventManager.Instance.OnPathGenerated += StartSpawning;
-    }
+        enemyLookup = new Dictionary<EnemyType, GameObject>();
 
-    private void OnDisable()
-    {
-        EventManager.Instance.OnPathGenerated -= StartSpawning;
-    }
-
-    private void StartSpawning()
-    {
-        StartCoroutine(SpawnRoutine());
-    }
-
-    private IEnumerator SpawnRoutine()
-    {
-        while (spawnedCount < maxEnemies)
+        foreach (var e in enemies)
         {
-            SpawnEnemy();
-            spawnedCount++;
-
-            yield return new WaitForSeconds(spawnInterval);
+            if (!enemyLookup.ContainsKey(e.type))
+                enemyLookup.Add(e.type, e.prefab);
+            else
+                Debug.LogWarning($"Duplicate enemy type: {e.type}");
         }
     }
 
-    public void SpawnEnemy()
+    public void SpawnEnemy(EnemyType type)
     {
-        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+        if (!enemyLookup.TryGetValue(type, out var prefab))
+        {
+            Debug.LogError($"No prefab for enemy type: {type}");
+            return;
+        }
 
-        EnemySplineMover mover = enemy.GetComponent<EnemySplineMover>();
+        GameObject enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+
+        var mover = enemy.GetComponent<EnemySplineMover>();
 
         if (mover != null)
         {
