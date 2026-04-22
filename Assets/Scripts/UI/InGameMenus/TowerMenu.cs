@@ -40,4 +40,10 @@ public class TowerMenu : InGameMenu
         }
         selectedTower = null;
     }
+
+    public void RemoveTower()
+    {
+        selectedTower.OnRemoved();
+        CloseEverything();
+    }
 }

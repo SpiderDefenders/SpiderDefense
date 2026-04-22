@@ -147,6 +147,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     public void OnRemoved()
     {
+        tile.Remove();
         Destroy(gameObject);
     }
 
