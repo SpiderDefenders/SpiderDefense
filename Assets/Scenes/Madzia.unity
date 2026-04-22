@@ -169,6 +169,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &137503489 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 96982078855333875, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+  m_PrefabInstance: {fileID: 801874980655092453}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &317171390
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,8 +258,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1658047809}
         m_TargetAssemblyTypeName: TowerMenu, Assembly-CSharp
-        m_MethodName: ToggleMenu
-        m_Mode: 6
+        m_MethodName: CloseEverything
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -332,11 +337,16 @@ RectTransform:
   - {fileID: 8875296319886740883}
   m_Father: {fileID: 1658047805}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 465, y: -205}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 465, y: 184}
   m_SizeDelta: {x: 1196.4333, y: 171.32812}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &530911215 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 96982078855333875, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+  m_PrefabInstance: {fileID: 691198427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &590069946
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +442,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &683386190 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 96982078855333875, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+  m_PrefabInstance: {fileID: 1667222054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &691198427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -444,6 +459,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BalistaUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 530911215}
     - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
       propertyPath: towerPrefab
       value: 
@@ -735,6 +754,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &895961409 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 96982078855333875, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+  m_PrefabInstance: {fileID: 1327303102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &913125692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,6 +1233,10 @@ PrefabInstance:
       value: CanonUI
       objectReference: {fileID: 0}
     - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 895961409}
+    - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
       propertyPath: towerPrefab
       value: 
       objectReference: {fileID: 8926371554915663655, guid: 0d849ccbd1851e445aab8c9b8343cd44, type: 3}
@@ -1611,6 +1639,10 @@ PrefabInstance:
       value: TurretUI
       objectReference: {fileID: 0}
     - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 683386190}
+    - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
       propertyPath: towerPrefab
       value: 
       objectReference: {fileID: 5115616775302128543, guid: 96ae40b0508a4234193db2a0c1361bea, type: 3}
@@ -1944,6 +1976,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1735304448}
+  - component: {fileID: 1735304449}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -1966,6 +1999,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1735304449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735304447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cac99c6f55f3714192ffb9cef539dc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1745062424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,7 +2398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 536, y: 12.681999}
+  m_AnchoredPosition: {x: 526, y: 12.681999}
   m_SizeDelta: {x: 147.64001, y: 146.637}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &801874980655092453
@@ -2368,6 +2413,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CatapultUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 137503489}
     - target: {fileID: 8399459929643781619, guid: cf53d9d453ec50345afbc89bd9215b6d, type: 3}
       propertyPath: towerPrefab
       value: 
@@ -2661,7 +2710,7 @@ RectTransform:
   m_GameObject: {fileID: 7274952151164951610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 379254774699351161}
@@ -2669,7 +2718,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -552, y: 0.3359375}
+  m_AnchoredPosition: {x: -324, y: 6}
   m_SizeDelta: {x: -1044.531, y: 171.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8875296319886740884
