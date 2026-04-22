@@ -6,7 +6,13 @@ public class SelectionManger : MonoBehaviour
 {
     [SerializeField] private LayerMask tileMask;
     [SerializeField] private LayerMask towerMask;
+    private MenuManager menuManager;
     private Tower selectedTower;
+
+    private void Start()
+    {
+        menuManager = FindAnyObjectByType<MenuManager>();
+    }
 
     void Update()
     {
@@ -42,12 +48,16 @@ public class SelectionManger : MonoBehaviour
 
     void HandleTowerClick(Tower tower)
     {
+        if (!tower.IsPlaced()) return;
+
         if (selectedTower != null)
         {
             selectedTower.OnUnClick();
         }
         tower.OnClick();
         selectedTower = tower;
+
+        menuManager.OpenTowerMenu(tower);
     }
 
     void HandleExpandableTileClick(ExpandableTile tile)

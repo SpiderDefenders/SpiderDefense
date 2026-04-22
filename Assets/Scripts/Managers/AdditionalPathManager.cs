@@ -11,7 +11,7 @@ public class AdditionalPathManager : MonoBehaviour
 
     private GridManager gridManager;
     private PathBuilder pathBuilder;
-    private BuildingMenu buildingMenu;
+    private MenuManager menuManager;
     private PathManager pathManager;
 
     private List<Tile> availableTiles = new List<Tile>();
@@ -21,13 +21,13 @@ public class AdditionalPathManager : MonoBehaviour
     {
         gridManager = FindAnyObjectByType<GridManager>();
         pathBuilder = FindAnyObjectByType<PathBuilder>();
-        buildingMenu = FindAnyObjectByType<BuildingMenu>();
+        menuManager = FindAnyObjectByType<MenuManager>();
         pathManager = FindAnyObjectByType<PathManager>();
     }
     
     public void StartAdditionalPathBuilding()
     {
-        buildingMenu.CloseEverything();
+        menuManager.CloseAll();
         GenerateAvailableTiles();
     }
 

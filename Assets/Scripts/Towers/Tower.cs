@@ -27,6 +27,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     public PlacableType Type => PlacableType.Defense;
     private List<GameObject> enemiesInRange = new List<GameObject>();
+    private bool isPlaced = false;
 
 
     private void Awake()
@@ -129,11 +130,14 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         this.tile = tile;
         rangeObject.SetActive(false);
         CreateCollider();
+        isPlaced = true;
     }
+
+    public bool IsPlaced() {  return isPlaced; }
 
     public void OnClick()
     {
-        rangeObject.SetActive(!rangeObject.activeSelf);
+        rangeObject.SetActive(true);
     }
 
     public void OnUnClick()
