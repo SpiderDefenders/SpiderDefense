@@ -29,6 +29,22 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     private List<GameObject> enemiesInRange = new List<GameObject>();
     private bool isPlaced = false;
 
+    private bool isGameOver = false;
+
+    private void OnEnable()
+    {
+        EventManager.Instance.OnGameOver += HandleGameOver;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.OnGameOver -= HandleGameOver;
+    }
+    
+    private void HandleGameOver()
+    {
+        isGameOver = true;
+    }
 
     private void Awake()
     {
@@ -36,6 +52,8 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     }
     private void Update()
     {
+        if (isGameOver)
+            return;
         SetTarget();
 
         if (target != null)

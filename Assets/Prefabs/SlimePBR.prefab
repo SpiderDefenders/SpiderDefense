@@ -456,6 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 0}
   speed: 1
+  stats: {fileID: 11400000, guid: 15ef79821f84bef4fb5026b40bcbb3e0, type: 2}
 --- !u!65 &1268743423577151858
 BoxCollider:
   m_ObjectHideFlags: 0

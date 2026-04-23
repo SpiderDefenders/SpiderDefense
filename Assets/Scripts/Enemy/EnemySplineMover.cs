@@ -1,13 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Splines;
 
 public class EnemySplineMover : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float speed = 2f;
+    [SerializeField] private EnemySO stats;
 
     private float t;
     private bool isDead = false;
+    
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = FindAnyObjectByType<GameManager>();
+    }
 
     void Update()
     {
@@ -36,7 +45,7 @@ public class EnemySplineMover : MonoBehaviour
     private void DealDamageAndDie()
     {
         isDead = true;
-        EventManager.Instance.EnemyReachedTheEnd();
+        EventManager.Instance.EnemyReachedTheEnd(stats.attackDamage);
         Destroy(gameObject);
     }
 
