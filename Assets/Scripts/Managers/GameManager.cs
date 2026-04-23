@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private PathManager pathManager;
     private PathBuilder pathBuilder;
     private SplinePathBuilder splinePathBuilder;
+
+    private bool isGameOver = false;
     
     void Start()
     {
@@ -54,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        if (isGameOver) return;
+        isGameOver = true;
         EventManager.Instance.GameOver();
     }
 }

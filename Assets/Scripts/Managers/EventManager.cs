@@ -21,10 +21,14 @@ public class EventManager : MonoBehaviour
     public event Action<int> OnWaveStarted;
     public event Action<int> OnWaveCompleted;
     public event Action OnGameOver;
+    public event Action OnEnemyDead;
+    public event Action OnLevelCompleted;
 
     public void PathGenerated() => OnPathGenerated?.Invoke();
     public void EnemyReachedTheEnd(int damage) => OnEnemyReachedTheEnd?.Invoke(damage);
     public void WaveStarted(int waveIndex) => OnWaveStarted?.Invoke(waveIndex);
     public void WaveCompleted(int waveIndex) => OnWaveCompleted?.Invoke(waveIndex);
     public void GameOver() => OnGameOver?.Invoke();
+    public void EnemyDead() => OnEnemyDead?.Invoke();
+    public void LevelCompleted() => OnLevelCompleted?.Invoke();
 }

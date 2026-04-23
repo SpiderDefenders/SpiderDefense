@@ -6,6 +6,10 @@ public class EndEventSO : SpawnEventSO
 {
     public override IEnumerator Execute(LevelManager manager)
     {
+        while (manager.GetCurrentNumberOfEnemies() > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         EventManager.Instance.WaveCompleted(manager.GetCurrentWave());
         yield break;
     }

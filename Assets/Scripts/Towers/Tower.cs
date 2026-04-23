@@ -137,7 +137,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     private void Shoot()
     {
-        GameObject ammoObject = Instantiate(ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation);
+        GameObject ammoObject = Instantiate(ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
 

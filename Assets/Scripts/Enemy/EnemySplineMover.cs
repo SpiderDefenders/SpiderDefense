@@ -47,7 +47,7 @@ public class EnemySplineMover : MonoBehaviour
     {
         isDead = true;
         EventManager.Instance.EnemyReachedTheEnd(stats.attackDamage);
-        Destroy(gameObject);
+        DestroyEnemy();
     }
 
     public void GetDamage(float damage)
@@ -57,6 +57,12 @@ public class EnemySplineMover : MonoBehaviour
         isDead = true;
         // TODO
         // addMoney(stats.moneyAfterDeath);
+        DestroyEnemy();
+    }
+
+    private void DestroyEnemy()
+    {
+        EventManager.Instance.EnemyDead();
         Destroy(gameObject);
     }
 

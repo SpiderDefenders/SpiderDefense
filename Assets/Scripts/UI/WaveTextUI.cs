@@ -32,6 +32,7 @@ public class WaveTextUI : MonoBehaviour
     {
         EventManager.Instance.OnWaveStarted += HandleWaveStarted;
         EventManager.Instance.OnWaveCompleted += HandleWaveCompleted;
+        EventManager.Instance.OnGameOver += HandleGameOver;
     }
 
     private void OnDisable()
@@ -40,6 +41,7 @@ public class WaveTextUI : MonoBehaviour
 
         EventManager.Instance.OnWaveStarted -= HandleWaveStarted;
         EventManager.Instance.OnWaveCompleted -= HandleWaveCompleted;
+        EventManager.Instance.OnGameOver -= HandleGameOver;
     }
 
     private void HandleWaveStarted(int waveIndex)
@@ -70,6 +72,26 @@ public class WaveTextUI : MonoBehaviour
             LeanTween.alphaCanvas(canvasGroup, 0f, animationTime);
             LeanTween.moveY(rectTransform, startPos.y + moveDistance, animationTime)
                 .setEaseInBack();
+        });
+    }
+    
+    private void HandleGameOver()
+    {
+        LeanTween.cancel(text.gameObject);
+        LeanTween.cancel(rectTransform);
+
+        LeanTween.cancel(gameObject);
+
+        canvasGroup.alpha = Mathf.Clamp01(canvasGroup.alpha);
+
+        LeanTween.alphaCanvas(canvasGroup, 0f, 0.1f);
+
+        LeanTween.scale(text.gameObject, Vector3.one * 0.9f, 0.1f)
+            .setEaseOutQuad();
+
+        LeanTween.delayedCall(0.1f, () =>
+        {
+            gameObject.SetActive(false);
         });
     }
 }

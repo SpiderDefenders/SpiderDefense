@@ -25,6 +25,9 @@ public class GameOverUI : MonoBehaviour
 
     private Button restartButton;
     private Button quitButton;
+    
+    private MenuManager menuManager;
+    private BuildManager buildManager;
 
     private Vector2 centerPos;
 
@@ -59,6 +62,8 @@ public class GameOverUI : MonoBehaviour
         restartText.gameObject.SetActive(false);
         quitText.gameObject.SetActive(false);
         backgroundPanel.gameObject.SetActive(false);
+        menuManager = FindAnyObjectByType<MenuManager>();
+        buildManager = FindAnyObjectByType<BuildManager>();
     }
 
     private void OnEnable()
@@ -93,6 +98,8 @@ public class GameOverUI : MonoBehaviour
         restartText.gameObject.SetActive(true);
         quitText.gameObject.SetActive(true);
         backgroundPanel.gameObject.SetActive(true);
+        buildManager.CancelPlacement();
+        menuManager.CloseAll();
         LeanTween.alphaCanvas(bgCanvasGroup, 0.6f, 1f);
 
         rectTransform.anchoredPosition = centerPos - new Vector2(0, moveDistance);

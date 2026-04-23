@@ -94,12 +94,13 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    void CancelPlacement()
+    public void CancelPlacement()
     {
-        previewObject.SetActive(false);
         previewPlacable = null;
         previewRenderers = null;
         prefabToPlace = null;
+        if (previewObject == null) return;
+        previewObject.SetActive(false);
         Destroy(previewObject);
     }
 }
