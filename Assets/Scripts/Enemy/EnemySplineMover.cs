@@ -5,17 +5,18 @@ using UnityEngine.Splines;
 public class EnemySplineMover : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
-    [SerializeField] private float speed = 2f;
     [SerializeField] private EnemySO stats;
 
     private float t;
     private bool isDead = false;
+    private float health;
     
     private GameManager gameManager;
 
     private void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
+        health = stats.maxHealth;
     }
 
     void Update()
@@ -23,7 +24,7 @@ public class EnemySplineMover : MonoBehaviour
         if (isDead || splineContainer == null || splineContainer.Spline.Count < 2)
             return;
         
-        t += (speed / splineContainer.CalculateLength()) * Time.deltaTime;
+        t += (stats.movementSpeed / splineContainer.CalculateLength()) * Time.deltaTime;
 
         if (t >= 1f)
         {
@@ -49,10 +50,13 @@ public class EnemySplineMover : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // TODO temporary solution
     public void GetDamage(float damage)
     {
+        health -= damage;
+        if (health > 0) return;
         isDead = true;
+        // TODO
+        // addMoney(stats.moneyAfterDeath);
         Destroy(gameObject);
     }
 
