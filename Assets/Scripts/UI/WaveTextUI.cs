@@ -28,7 +28,7 @@ public class WaveTextUI : MonoBehaviour
         canvasGroup.alpha = 0;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         EventManager.Instance.OnWaveStarted += HandleWaveStarted;
         EventManager.Instance.OnWaveCompleted += HandleWaveCompleted;

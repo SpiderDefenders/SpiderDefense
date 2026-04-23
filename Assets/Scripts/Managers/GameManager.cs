@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
         pathBuilder = FindAnyObjectByType<PathBuilder>();
         splinePathBuilder = FindAnyObjectByType<SplinePathBuilder>();
         SetUpGame();
+    }
+
+    private void OnEnable()
+    {
         EventManager.Instance.OnEnemyReachedTheEnd += DealDamage;
     }
 

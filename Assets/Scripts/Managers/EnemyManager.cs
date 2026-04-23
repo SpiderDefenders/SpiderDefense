@@ -26,6 +26,11 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void SpawnSingleEnemy()
+    {
+        SpawnEnemy(EnemyType.Basic);
+    }
+
     public void SpawnEnemy(EnemyType type)
     {
         if (!enemyLookup.TryGetValue(type, out var prefab))

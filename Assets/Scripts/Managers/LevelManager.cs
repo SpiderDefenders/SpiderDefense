@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     
     private bool isGameOver = false;
     
-    private void Start()
+    private void OnEnable()
     {
         EventManager.Instance.OnPathGenerated += StartLevel;
         enemyManager = FindAnyObjectByType<EnemyManager>();
@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel()
     {
+        Debug.Log("Level Started");
         if (level == null)
         {
             Debug.LogError("LevelSO is not assigned!");
@@ -43,8 +44,6 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator RunLevel()
     {
-        Debug.Log("Level Started");
-
         for (int i = 0; i < level.waves.Count; i++)
         {
             if (isGameOver) yield break;

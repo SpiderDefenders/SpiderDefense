@@ -55,9 +55,13 @@ public class GameOverUI : MonoBehaviour
         restartCanvasGroup.alpha = 0;
         quitCanvasGroup.alpha = 0;
         bgCanvasGroup.alpha = 0;
+        gameOverText.gameObject.SetActive(false);
+        restartText.gameObject.SetActive(false);
+        quitText.gameObject.SetActive(false);
+        backgroundPanel.gameObject.SetActive(false);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         EventManager.Instance.OnGameOver += ShowGameOver;
     }
@@ -85,6 +89,10 @@ public class GameOverUI : MonoBehaviour
 
     private void ShowGameOver()
     {
+        gameOverText.gameObject.SetActive(true);
+        restartText.gameObject.SetActive(true);
+        quitText.gameObject.SetActive(true);
+        backgroundPanel.gameObject.SetActive(true);
         LeanTween.alphaCanvas(bgCanvasGroup, 0.6f, 1f);
 
         rectTransform.anchoredPosition = centerPos - new Vector2(0, moveDistance);

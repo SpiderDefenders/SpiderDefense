@@ -165,11 +165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e28c91e7354374ba0f08ec0ed9d500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 0}
-  towerImage: {fileID: 96982078855333875}
-  amountText: {fileID: 6137594042302217918}
+  image: {fileID: 96982078855333875}
   hoverScale: 1.2
   animationTime: 0.2
+  towerPrefab: {fileID: 0}
+  amountText: {fileID: 6137594042302217918}
 --- !u!1 &8314356882525625881
 GameObject:
   m_ObjectHideFlags: 0
