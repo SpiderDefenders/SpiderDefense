@@ -39,7 +39,7 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        GameObject enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        GameObject enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity, transform);
 
         var mover = enemy.GetComponent<EnemySplineMover>();
 
