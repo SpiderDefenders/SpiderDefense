@@ -44,10 +44,10 @@ public class Tile : MonoBehaviour, ITile
 
     public void Remove()
     {
-        if (placedObject == null)
-            return;
+        //if (placedObject == null)
+        //    return;
+        //placedObject.OnRemoved();
 
-        placedObject.OnRemoved();
         placedObject = null;
     }
     

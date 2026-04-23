@@ -11,7 +11,7 @@ public class ExpandableTile : MonoBehaviour
         this.direction = direction;
     }
 
-    private void OnMouseDown()
+    public void OnClick()
     {
         manager.ExtendPath(direction.Opposite());
     }

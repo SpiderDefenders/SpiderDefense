@@ -1,24 +1,30 @@
 ﻿using UnityEngine;
 
-public class BuildingMenu : MonoBehaviour
+public class InGameMenu : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private RectTransform menuPanel;
-    [SerializeField] private RectTransform toggleButton;
+    [SerializeField] protected RectTransform menuPanel;
+    [SerializeField] protected RectTransform toggleButton;
 
     [Header("Animation")]
     [SerializeField] private float animationTime = 0.3f;
     [SerializeField] private float hiddenY = -300f; // off-screen
-    [SerializeField] private float visibleY = 0f;
+    [SerializeField] protected float visibleY = -76.05f;
 
-    private bool isOpen = false;
+    protected bool isOpen = false;
+    protected bool moveBackOnDown = false;
 
-    private void Start()
+    protected void Init()
     {
         // Start hidden
         Vector2 pos = menuPanel.anchoredPosition;
         pos.y = hiddenY;
         menuPanel.anchoredPosition = pos;
+    }
+
+    private void Start()
+    {
+        Init();
     }
 
     public void ToggleMenu()
@@ -28,7 +34,14 @@ public class BuildingMenu : MonoBehaviour
         float targetY = isOpen ? hiddenY : visibleY;
 
         LeanTween.moveY(menuPanel, targetY, animationTime)
-            .setEaseInOutCubic();
+            .setEaseInOutCubic()
+            .setOnComplete(() =>
+            {
+                if (targetY == hiddenY && moveBackOnDown)
+                {
+                    menuPanel.transform.SetAsFirstSibling();
+                }
+            });
 
         isOpen = !isOpen;
     }
@@ -39,8 +52,10 @@ public class BuildingMenu : MonoBehaviour
         ToggleMenu();
     }
 
-    public void CloseEverything()
+    public virtual void CloseEverything()
     {
         ToggleMenu(false);
     }
+
+    public bool IsOpen() { return isOpen; }
 }
