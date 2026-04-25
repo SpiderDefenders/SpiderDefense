@@ -55,14 +55,12 @@ public class EnemySplineMover : MonoBehaviour
         health -= damage;
         if (health > 0) return;
         isDead = true;
-        // TODO
-        // addMoney(stats.moneyAfterDeath);
+        EventManager.Instance.EnemyDead(stats.moneyAfterDeath);
         DestroyEnemy();
     }
 
     private void DestroyEnemy()
     {
-        EventManager.Instance.EnemyDead();
         Destroy(gameObject);
     }
 

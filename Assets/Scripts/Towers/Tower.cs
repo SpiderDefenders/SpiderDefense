@@ -8,6 +8,9 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     [Header("Placing")]
     public Vector3 placingOffset;
 
+    [Header("Cost")]
+    [SerializeField] private int cost = 100;
+
     [Header("Range")]
     [SerializeField] private float rangeRadius = 1.5f;
     [SerializeField] private Material rangeMaterial;
@@ -28,8 +31,9 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     public PlacableType Type => PlacableType.Defense;
     private List<GameObject> enemiesInRange = new List<GameObject>();
     private bool isPlaced = false;
-
     private bool isGameOver = false;
+
+    private int value;
 
     private void OnEnable()
     {
@@ -40,7 +44,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     {
         EventManager.Instance.OnGameOver -= HandleGameOver;
     }
-    
+
     private void HandleGameOver()
     {
         isGameOver = true;
@@ -149,9 +153,15 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         rangeObject.SetActive(false);
         CreateCollider();
         isPlaced = true;
+
+        value = cost;
+        CurrencyManager.Instance.RemoveMoney(cost);
     }
 
     public bool IsPlaced() {  return isPlaced; }
+    public void AddValue(int extraValue) {  value += extraValue; } // in updates
+    public int GetCost() { return cost; }
+    public int GetValue() {  return value; }
 
     public void OnClick()
     {
@@ -166,6 +176,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
     public void OnRemoved()
     {
         tile.Remove();
+        CurrencyManager.Instance.OnTowerRemoved(value);
         Destroy(gameObject);
     }
 

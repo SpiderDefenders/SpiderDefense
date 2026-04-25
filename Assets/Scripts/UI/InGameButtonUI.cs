@@ -1,15 +1,13 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using TMPro;
 
 public class InGameButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    //[Header("Tower Data")]
-    //[SerializeField] private GameObject towerPrefab;
 
     [Header("UI")]
     [SerializeField] protected RectTransform image;
-    //[SerializeField] private TextMeshProUGUI amountText;
+    [SerializeField] protected TextMeshProUGUI amountText;
 
     [Header("Animation")]
     [SerializeField] private float hoverScale = 1.2f;
@@ -22,7 +20,7 @@ public class InGameButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         originalScale = image.localScale;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         LeanTween.cancel(image);
         LeanTween.scale(image, originalScale * hoverScale, animationTime)
@@ -49,7 +47,12 @@ public class InGameButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                     .setEaseOutBack();
             });
 
-        //BuildManager.Instance.StartPlacement(towerPrefab);
     }
+
+    public void SetAmount(int amount)
+    {
+        amountText.text = amount.ToString();
+    }
+
 
 }

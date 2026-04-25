@@ -97,7 +97,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Level stopped due to Game Over");
     }
     
-    private void EnemyDead()
+    private void EnemyDead(int moneyAfterDead)
     {
         currentNumberOfEnemies -= 1;
     }

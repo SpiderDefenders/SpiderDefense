@@ -2,8 +2,6 @@
 
 public class RemoveTowerUI : InGameButtonUI
 {
-    //[Header("UI")]
-    //[SerializeField] private TextMeshProUGUI amountText;
     private TowerMenu towerMenu;
 
     private void Start()
