@@ -9,18 +9,12 @@ public class GameManager : MonoBehaviour
 
     private int currentHP = 100;
     
-    private GridManager gridManager;
-    private PathManager pathManager;
-    private PathBuilder pathBuilder;
     private SplinePathBuilder splinePathBuilder;
 
     private bool isGameOver = false;
     
     void Start()
     {
-        gridManager = FindAnyObjectByType<GridManager>();
-        pathManager = FindAnyObjectByType<PathManager>();
-        pathBuilder = FindAnyObjectByType<PathBuilder>();
         splinePathBuilder = FindAnyObjectByType<SplinePathBuilder>();
         SetUpGame();
     }
@@ -37,9 +31,6 @@ public class GameManager : MonoBehaviour
 
     private void SetUpGame()
     {
-        gridManager.GenerateGrid(startingGridSize.x, startingGridSize.y);
-        pathManager.GeneratePathSequence();
-        pathBuilder.BuildPath();
         splinePathBuilder.BuildSpline();
         EventManager.Instance.PathGenerated();
     }

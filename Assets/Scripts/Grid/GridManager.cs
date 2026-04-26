@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private int fakeGridWidth = 200;
-    [SerializeField] private int fakeGridHeight= 200;
+    [SerializeField] private int tileSize = 1;
     private Dictionary<Vector2Int, Tile> grid = new Dictionary<Vector2Int, Tile>();
-    private GridGenerator gridGenerator;
-    private Tile firstTile;
-    private Tile lastTile;
-    private GameManager gameManager;
 
-    private void Start()
+    private void Awake()
     {
-        gridGenerator = FindAnyObjectByType<GridGenerator>();
-        gameManager = FindAnyObjectByType<GameManager>();
-    }
+        foreach (Transform child in transform)
+        {
+            Tile tile = child.GetComponent<Tile>();
 
-    public void GenerateGrid(int width, int height)
-    {
-        grid = gridGenerator.Generate(width, height);
-        firstTile = GetTile(gameManager.GetStartPosition().x, gameManager.GetStartPosition().y);
-        lastTile = GetTile(width - 1, height - 1);
+            Vector2Int pos = new Vector2Int(
+                Mathf.RoundToInt(child.position.x / tileSize),
+                Mathf.RoundToInt(child.position.z / tileSize)
+            );
+
+            grid[pos] = tile;
+        }
+
+        AssignNeighbors();
     }
     
     public Tile GetTile(int x, int z)
@@ -54,9 +53,20 @@ public class GridManager : MonoBehaviour
         Destroy(GetTile(x, z).gameObject);
         grid.Remove(new Vector2Int(x, z));
     }
-    
+
+    void AssignNeighbors()
+    {
+        foreach (var element in grid)
+        {
+            Vector2Int pos = element.Key;
+            Tile tile = element.Value;
+
+            grid.TryGetValue(pos + Vector2Int.up, out tile.North);
+            grid.TryGetValue(pos + Vector2Int.down, out tile.South);
+            grid.TryGetValue(pos + Vector2Int.right, out tile.East);
+            grid.TryGetValue(pos + Vector2Int.left, out tile.West);
+        }
+    }
+
     public Dictionary<Vector2Int, Tile> GetGrid() => grid;
-    
-    public Tile GetFirstTile() => firstTile;
-    public Tile GetLastTile() => lastTile;
 }

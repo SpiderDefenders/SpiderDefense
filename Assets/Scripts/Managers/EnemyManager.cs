@@ -6,7 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private SplineContainer splineContainer;
-    [SerializeField] private Transform spawnPoint;
+    private Vector3 spawnPoint;
 
     [Header("Enemies")]
     [SerializeField] private List<EnemyDefinition> enemies;
@@ -24,6 +24,8 @@ public class EnemyManager : MonoBehaviour
             else
                 Debug.LogWarning($"Duplicate enemy type: {e.type}");
         }
+
+        
     }
 
     public void SpawnSingleEnemy()
@@ -39,7 +41,8 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        GameObject enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity, transform);
+        spawnPoint = splineContainer.Spline[0].Position;
+        GameObject enemy = Instantiate(prefab, spawnPoint, Quaternion.identity, transform);
 
         var mover = enemy.GetComponent<EnemySplineMover>();
 

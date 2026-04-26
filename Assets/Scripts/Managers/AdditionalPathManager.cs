@@ -10,7 +10,6 @@ public class AdditionalPathManager : MonoBehaviour
     private List<Tile> temporaryTiles = new List<Tile>();
 
     private GridManager gridManager;
-    private PathBuilder pathBuilder;
     private MenuManager menuManager;
     private PathManager pathManager;
 
@@ -20,7 +19,6 @@ public class AdditionalPathManager : MonoBehaviour
     private void Start()
     {
         gridManager = FindAnyObjectByType<GridManager>();
-        pathBuilder = FindAnyObjectByType<PathBuilder>();
         menuManager = FindAnyObjectByType<MenuManager>();
         pathManager = FindAnyObjectByType<PathManager>();
     }
@@ -35,7 +33,7 @@ public class AdditionalPathManager : MonoBehaviour
     {
         ClearHighlights();
 
-        lastTile = pathBuilder.GetPathTiles()[^1];
+        lastTile = pathManager.GetPathTiles()[^1];
 
         CheckDirection(lastTile, Direction.N);
         CheckDirection(lastTile, Direction.E);
@@ -133,7 +131,7 @@ public class AdditionalPathManager : MonoBehaviour
     public void ExtendPath(Direction direction)
     {
         pathManager.ExtendPath(direction);
-        Tile newEnd = pathBuilder.GetPathTiles()[^1];
+        Tile newEnd = pathManager.GetPathTiles()[^1];
         temporaryTiles.RemoveAll(t => t == newEnd);
         ClearHighlights();
     }

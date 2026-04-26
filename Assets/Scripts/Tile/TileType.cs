@@ -4,3 +4,9 @@
     Path,
     Decoration
 }
+
+public enum PathTileType
+{
+    Straight,
+    Turn
+}

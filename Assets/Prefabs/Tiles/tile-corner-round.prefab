@@ -150,3 +150,4 @@ MonoBehaviour:
   South: {fileID: 0}
   West: {fileID: 0}
   waypoint: {fileID: 5168889863494849251}
+  pathTileType: 1
