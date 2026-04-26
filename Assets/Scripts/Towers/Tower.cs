@@ -121,13 +121,13 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         {
             GameObject enemy = enemiesInRange[i];
 
-            if (enemy == null || enemy.GetComponent<EnemySplineMover>().IsDead())
+            if (enemy == null || enemy.GetComponent<Enemy>().IsDead())
             {
                 enemiesInRange.RemoveAt(i);
                 continue;
             }
 
-            float progress = enemy.GetComponent<EnemySplineMover>().GetProgress();
+            float progress = enemy.GetComponent<Enemy>().GetProgress();
 
             if (progress > maxProgress)
             {

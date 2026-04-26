@@ -44,7 +44,7 @@ public class EnemyManager : MonoBehaviour
         spawnPoint = splineContainer.Spline[0].Position;
         GameObject enemy = Instantiate(prefab, spawnPoint, Quaternion.identity, transform);
 
-        var mover = enemy.GetComponent<EnemySplineMover>();
+        var mover = enemy.GetComponent<Enemy>();
 
         if (mover != null)
         {

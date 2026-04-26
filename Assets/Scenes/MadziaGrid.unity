@@ -1211,7 +1211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 744996096}
-  spawnPoint: {fileID: 1280995750}
   enemies:
   - type: 0
     prefab: {fileID: 7726430220569439094, guid: 8937f032c1c57234f918b730ceaac670, type: 3}
@@ -3387,7 +3386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709048496}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4703,7 +4702,7 @@ SceneRoots:
   - {fileID: 1871518773}
   - {fileID: 1502766700}
   - {fileID: 1476336530}
-  - {fileID: 2014044646}
   - {fileID: 1550478256}
+  - {fileID: 2014044646}
   - {fileID: 443003191}
   - {fileID: 1709048497}

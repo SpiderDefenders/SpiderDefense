@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Splines;
 
-public class EnemySplineMover : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private EnemySO stats;
@@ -10,12 +9,9 @@ public class EnemySplineMover : MonoBehaviour
     private float t;
     private bool isDead = false;
     private float health;
-    
-    private GameManager gameManager;
 
     private void Start()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
         health = stats.maxHealth;
     }
 
