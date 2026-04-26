@@ -30,7 +30,6 @@ public class PathManager : MonoBehaviour
         BuildPath();
     }
 
-
     public void BuildPath()
     {
         Vector2Int currentPosition = new Vector2Int((int)startTile.Position.x, (int)startTile.Position.z);
@@ -55,12 +54,6 @@ public class PathManager : MonoBehaviour
             generatedPath.Add(currentDir);
             currentPosition += currentDir.ToVector2Int() * tileSize;
         }
-
-        //foreach (var p in pathTiles)
-        //{
-        //    Debug.Log(p.Position);
-        //}
-        //Debug.Log(pathTiles);
     }
 
     private void BuildDict()
@@ -141,15 +134,6 @@ public class PathManager : MonoBehaviour
     {
         return prev == current ? current.ToRotationStraight() : prev.ToRotationTurn(current);
     }
-
-    //public PathTile ExtendPath(Direction firstDirection, Direction secondLastDirection, Direction thirdLastDirection)
-    //{
-    //    PathTile lastTile = pathTiles[^1];
-    //    pathTiles.Remove(lastTile);
-    //    AddTileFromPrefab(GetPrefab(firstDirection, secondLastDirection), lastTile.Position, GetRotation(firstDirection, secondLastDirection));
-    //    Vector3 currentPosition = lastTile.Position + firstDirection.Opposite().ToVector() * tileSize;
-    //    return AddTileFromPrefab(startPrefab, currentPosition, firstDirection.ToRotationStraight());
-    //}
 
     public void ExtendPath(Direction dir)
     {

@@ -46,13 +46,10 @@ public class InGameButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 LeanTween.scale(image, originalScale * hoverScale, animationTime / 2 )
                     .setEaseOutBack();
             });
-
     }
 
     public void SetAmount(int amount)
     {
         amountText.text = amount.ToString();
     }
-
-
 }

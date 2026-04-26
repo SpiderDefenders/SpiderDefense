@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public abstract class Ammo : MonoBehaviour
 {
     protected GameObject target;
@@ -12,13 +11,10 @@ public abstract class Ammo : MonoBehaviour
         this.target = target;
     }
 
-
     protected void HitTarget()
     {
         target.GetComponent<Enemy>().GetDamage(damage);
         Destroy(gameObject);
         return;
     }
-
-
 }

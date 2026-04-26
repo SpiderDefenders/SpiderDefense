@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,6 +66,4 @@ public class GridManager : MonoBehaviour
             grid.TryGetValue(pos + Vector2Int.left, out tile.West);
         }
     }
-
-    public Dictionary<Vector2Int, Tile> GetGrid() => grid;
 }

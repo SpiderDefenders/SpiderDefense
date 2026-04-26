@@ -65,7 +65,6 @@ public class CurrencyManager : MonoBehaviour
         AddMoney(GetMoneyOnTowerRemoved(towerValue));
     }
 
-    public int GetCurrentMoney() { return currentAmount; }
     public int GetMoneyOnTowerRemoved(int towerValue)
     {
         return (int)(towerValue * removeMoneyFactor);

@@ -1,6 +1,4 @@
-﻿using UnityEditorInternal;
-using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+﻿using UnityEngine;
 
 public class TurretAmmo : Ammo
 {
@@ -23,5 +21,4 @@ public class TurretAmmo : Ammo
 
         transform.Translate(dir.normalized * frameDist, Space.World);
     }
-
 }

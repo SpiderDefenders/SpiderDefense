@@ -47,7 +47,6 @@ public class AdditionalPathManager : MonoBehaviour
 
         if (neighbor != null)
         {
-            // ❗ tylko Buildable
             if (neighbor is PathTile) return;
             if (neighbor.Type != TileType.Buildable || neighbor.IsOccupied) return;
 
@@ -76,13 +75,11 @@ public class AdditionalPathManager : MonoBehaviour
 
         if (r != null)
         {
-            // 🔥 zapisuj tylko dla istniejących tile
             if (!isTemporary && !originalMaterials.ContainsKey(tile))
             {
                 originalMaterials[tile] = r.material;
             }
 
-            // 🔥 highlight dla WSZYSTKICH
             r.material = highlightMaterial;
         }
 
@@ -98,19 +95,15 @@ public class AdditionalPathManager : MonoBehaviour
         {
             if (tile == null) continue;
 
-            // usuń kliknięcie
             Destroy(tile.GetComponent<ExpandableTile>());
-
             Renderer r = tile.GetComponent<Renderer>();
 
-            // 🔥 przywróć materiał jeśli był zmieniony
             if (r != null && originalMaterials.ContainsKey(tile))
             {
                 r.material = originalMaterials[tile];
             }
         }
 
-        // 🔥 usuń tymczasowe tile
         foreach (var tempTile in temporaryTiles)
         {
             if (tempTile == null) continue;
