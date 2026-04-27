@@ -1,0 +1,10 @@
+Buttons: https://www.flaticon.com/packs/basic-ui-elements-color-round-14025411
+placy: https://www.flaticon.com/free-icon/play-button_9073187?term=play&page=1&position=6&origin=search&related_id=9073187
+controller: https://www.flaticon.com/free-icon/game-controller_7358397?term=controller&page=1&position=2&origin=search&related_id=7358397
+coin: https://www.flaticon.com/free-icon/game-coin_17879858?term=coin&page=1&position=43&origin=search&related_id=17879858
+heart: https://www.flaticon.com/free-icon/heart_2589175?term=heart&page=1&position=11&origin=search&related_id=2589175
+hourglass: https://www.flaticon.com/free-icon/hourglass_8090317?term=hourglass&page=1&position=6&origin=search&related_id=8090317
+menu1: https://www.flaticon.com/free-icon/more_6015685?term=hamburger+menu&page=1&position=1&origin=search&related_id=6015685
+menu2: https://www.flaticon.com/free-icon/menu_5550603?term=hamburger+menu&page=1&position=30&origin=search&related_id=5550603
+
+[można pobrać stamtąd licencje]
