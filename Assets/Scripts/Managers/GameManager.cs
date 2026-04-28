@@ -51,5 +51,15 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         EventManager.Instance.GameOver();
     }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+    
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+    }
 }
 

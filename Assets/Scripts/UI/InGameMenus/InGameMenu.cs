@@ -35,6 +35,7 @@ public class InGameMenu : MonoBehaviour
 
         LeanTween.moveY(menuPanel, targetY, animationTime)
             .setEaseInOutCubic()
+            .setIgnoreTimeScale(true)
             .setOnComplete(() =>
             {
                 if (targetY == hiddenY && moveBackOnDown)
