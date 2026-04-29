@@ -69,5 +69,7 @@ public class CurrencyManager : MonoBehaviour
     {
         return (int)(towerValue * removeMoneyFactor);
     }
+    
+    public int GetCurrentAmount() => currentAmount;
 
 }

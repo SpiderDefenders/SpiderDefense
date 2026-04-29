@@ -11,6 +11,5 @@ public class EndEventSO : SpawnEventSO
             yield return new WaitForSeconds(0.1f);
         }
         EventManager.Instance.WaveCompleted(manager.GetCurrentWave());
-        yield break;
     }
 }

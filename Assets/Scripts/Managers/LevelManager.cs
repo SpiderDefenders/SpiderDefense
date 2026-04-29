@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
         enemyManager = FindAnyObjectByType<EnemyManager>();
         EventManager.Instance.OnGameOver += HandleGameOver;
         EventManager.Instance.OnEnemyDead += EnemyDead;
+        EventManager.Instance.OnEnemyReachedTheEnd += EnemyDead;
     }
 
     private void OnDisable()
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.OnPathGenerated -= StartLevel;
         EventManager.Instance.OnGameOver -= HandleGameOver;
         EventManager.Instance.OnEnemyDead -= EnemyDead;
+        EventManager.Instance.OnEnemyReachedTheEnd -= EnemyDead;
     }
 
     private void StartLevel()
