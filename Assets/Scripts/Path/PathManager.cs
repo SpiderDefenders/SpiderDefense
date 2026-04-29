@@ -49,7 +49,6 @@ public class PathManager : MonoBehaviour
                     currentDir = GetTurnTileDirection(currentDir, currTile);
                 }
             }
-            Debug.Log(currentDir + " " + currentPosition);
             AddTile(currentPosition);
             generatedPath.Add(currentDir);
             currentPosition += currentDir.ToVector2Int() * tileSize;
