@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     {
         splinePathBuilder.BuildSpline();
         EventManager.Instance.PathGenerated();
+        EventManager.Instance.HPChanged(currentHP);
     }
     
     public Vector2Int GetStartPosition() => startPosition;
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
     public void DealDamage(int damage)
     {
         currentHP -= damage;
+        currentHP = Math.Max(0, currentHP);
+        EventManager.Instance.HPChanged(currentHP);
         if (currentHP > 0) return;
         currentHP = 0;
         GameOver();

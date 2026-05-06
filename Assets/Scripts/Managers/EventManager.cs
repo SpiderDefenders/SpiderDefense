@@ -25,6 +25,7 @@ public class EventManager : MonoBehaviour
     public event Action OnLevelCompleted;
 
     public event Action<int> OnMoneyChanged;
+    public event Action<int> OnHPChanged;
 
     public void PathGenerated() => OnPathGenerated?.Invoke();
     public void EnemyReachedTheEnd(int damage) => OnEnemyReachedTheEnd?.Invoke(damage);
@@ -34,4 +35,5 @@ public class EventManager : MonoBehaviour
     public void EnemyDead(int moneyAfterDead) => OnEnemyDead?.Invoke(moneyAfterDead);
     public void LevelCompleted() => OnLevelCompleted?.Invoke();
     public void MoneyChanged(int moneyAmount) => OnMoneyChanged?.Invoke(moneyAmount);
+    public void HPChanged(int hp) => OnHPChanged?.Invoke(hp);
 }
