@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Catapult : Tower
+public class Ballista : Tower
 {
     [SerializeField] private Transform verticalPivot;
 

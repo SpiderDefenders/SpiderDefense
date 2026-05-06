@@ -188,14 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da40855ba7d7c804f8e88bb73cc61ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placingOffset: {x: 0, y: 0.152, z: 0}
-  cost: 50
-  rangeRadius: 1.5
-  rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
-  shootingCooldown: 1
-  ammoPrefab: {fileID: 5204778606501298190, guid: 98dbc02ee74b1e4448f087f3d64f1ddc, type: 3}
+  towerConfig: {fileID: 11400000, guid: 5306ef7b9bb6e74409a9ee45d3ae9f17, type: 2}
   ammoSpawnPoint: {fileID: 7444283246813280409}
-  target: {fileID: 0}
   horizontalPivot: {fileID: 9039848865160210680}
 --- !u!1 &6166105576335179539
 GameObject:

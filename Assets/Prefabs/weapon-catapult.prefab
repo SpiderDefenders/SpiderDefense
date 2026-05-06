@@ -327,12 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a837a9c5b74c498fd7701db33e9e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placingOffset: {x: 0, y: 0.152, z: 0}
-  rangeRadius: 1.5
-  rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
-  shootingCooldown: 1
-  ammoPrefab: {fileID: 0}
+  towerConfig: {fileID: 11400000, guid: 2179649ea5f61ee4a9f2c002bbfb7e40, type: 2}
   ammoSpawnPoint: {fileID: 0}
-  target: {fileID: 0}
   horizontalPivot: {fileID: 2518918475661192778}
   verticalPivot: {fileID: 8639158585656794334}
