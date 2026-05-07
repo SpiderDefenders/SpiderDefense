@@ -481,8 +481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 6852968939831370797}
   - {fileID: 8154980348588649996}
@@ -978,7 +978,7 @@ GameObject:
   - component: {fileID: 4946555302129473970}
   m_Layer: 0
   m_Name: AntBody
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1158,7 +1158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8554fcce20f048b9b9e947813754f711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splineContainer: {fileID: 0}
   stats: {fileID: 11400000, guid: 15ef79821f84bef4fb5026b40bcbb3e0, type: 2}
 --- !u!1 &2318388224063977104
 GameObject:
@@ -1641,8 +1640,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 8113952328198086319}
   - {fileID: 1922124840996806787}
@@ -1804,8 +1803,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 6791073173096745334}
   - {fileID: 6542469088342622258}
@@ -1967,8 +1966,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 4344364807405339401}
   - {fileID: 3220667858626394264}
@@ -2644,8 +2643,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 6302580615612084295}
   - {fileID: 1470111492284780348}
@@ -3156,8 +3155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 1892545220335581702}
   - {fileID: 86595547483671642}
@@ -3173,7 +3172,7 @@ GameObject:
   - component: {fileID: 6448512795821044449}
   m_Layer: 0
   m_Name: LastJoints
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3940,8 +3939,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 4649720803786575344}
   - {fileID: 8688666043962660856}
@@ -3995,8 +3994,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.35
-  boneWeight: 0.35
+  linkLength: 0.4
+  boneWeight: 0.4
   joints:
   - {fileID: 1868693906547082996}
   - {fileID: 2727749384932666513}
@@ -4339,8 +4338,8 @@ GameObject:
   - component: {fileID: 5104701835084440165}
   - component: {fileID: 2920193609238376630}
   m_Layer: 0
-  m_Name: NEWAnt
-  m_TagString: Player
+  m_Name: SpiderModel
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

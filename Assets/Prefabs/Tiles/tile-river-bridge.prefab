@@ -96,10 +96,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe397e8342d5a404badd2c8970ca0269, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -6378030257506038242}
+      addedObject: {fileID: -6303371841697416850}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fe397e8342d5a404badd2c8970ca0269, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -6303371841697416850}
+      addedObject: {fileID: 4385450121494613451}
   m_SourcePrefab: {fileID: 100100000, guid: fe397e8342d5a404badd2c8970ca0269, type: 3}
 --- !u!4 &400485170296578464 stripped
 Transform:
@@ -111,27 +111,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fe397e8342d5a404badd2c8970ca0269, type: 3}
   m_PrefabInstance: {fileID: 145371236362061387}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &-6378030257506038242
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1064291587659840282}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 0.3, z: 1}
-  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!114 &-6303371841697416850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,3 +130,25 @@ MonoBehaviour:
   West: {fileID: 0}
   waypoint: {fileID: 1471189689784437746}
   pathTileType: 0
+--- !u!64 &4385450121494613451
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064291587659840282}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5656927910083103439, guid: fe397e8342d5a404badd2c8970ca0269, type: 3}

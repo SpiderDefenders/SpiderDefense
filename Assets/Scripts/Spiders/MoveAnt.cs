@@ -45,8 +45,6 @@ public class MoveAnt : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void EnableMovement(object sender, EventArgs e)

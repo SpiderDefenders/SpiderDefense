@@ -3,7 +3,7 @@ using UnityEngine.Splines;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private SplineContainer splineContainer;
+    private SplineContainer splineContainer;
     [SerializeField] private EnemySO stats;
 
     private float t;
@@ -29,7 +29,8 @@ public class Enemy : MonoBehaviour
         }
         t = Mathf.Clamp01(t);
 
-        transform.position = splineContainer.EvaluatePosition(t);
+        Vector3 splinePos = splineContainer.EvaluatePosition(t);
+        transform.position = new Vector3(splinePos.x, transform.position.y, splinePos.z);
         transform.forward = splineContainer.EvaluateTangent(t);
     }
     
