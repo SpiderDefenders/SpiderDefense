@@ -33,6 +33,7 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel()
     {
+        Time.timeScale = 1f;
         Debug.Log("Level Started");
         if (level == null)
         {

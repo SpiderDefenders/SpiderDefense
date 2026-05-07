@@ -42,6 +42,10 @@ public class EnemyManager : MonoBehaviour
         GameObject enemy = Instantiate(prefab, spawnPoint, Quaternion.identity, transform);
 
         var mover = enemy.GetComponent<Enemy>();
+        if (mover == null)
+        {
+            mover = enemy.GetComponentInChildren<Enemy>();
+        }
 
         if (mover != null)
         {
