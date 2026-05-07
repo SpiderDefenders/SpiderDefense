@@ -17,6 +17,7 @@ public class EventManager : MonoBehaviour
     }
 
     public event Action OnPathGenerated;
+    public event Action OnAdditionalPathPlacingStarted;
     public event Action<int> OnEnemyReachedTheEnd;
     public event Action<int> OnWaveStarted;
     public event Action<int> OnWaveCompleted;
@@ -26,6 +27,7 @@ public class EventManager : MonoBehaviour
 
     public event Action<int> OnMoneyChanged;
     public event Action<int> OnHPChanged;
+    public event Action OnAdditionalPathPlacingCompleted;
 
     public void PathGenerated() => OnPathGenerated?.Invoke();
     public void EnemyReachedTheEnd(int damage) => OnEnemyReachedTheEnd?.Invoke(damage);
@@ -36,4 +38,6 @@ public class EventManager : MonoBehaviour
     public void LevelCompleted() => OnLevelCompleted?.Invoke();
     public void MoneyChanged(int moneyAmount) => OnMoneyChanged?.Invoke(moneyAmount);
     public void HPChanged(int hp) => OnHPChanged?.Invoke(hp);
+    public void AdditionalPathPlacingStarted() => OnAdditionalPathPlacingStarted?.Invoke();
+    public void AdditionalPathPlacingCompleted() => OnAdditionalPathPlacingCompleted?.Invoke();
 }

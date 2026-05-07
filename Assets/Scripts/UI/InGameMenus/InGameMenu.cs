@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InGameMenu : MonoBehaviour
+public class InGameMenu : AdditionalPathBlocker
 {
     [Header("UI")]
     [SerializeField] protected RectTransform menuPanel;
@@ -11,6 +11,7 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] private float hiddenY = -300f; // off-screen
     [SerializeField] protected float visibleY = -76.05f;
 
+    [SerializeField] private bool overrideIsBlocked = false;
     protected bool isOpen = false;
     protected bool moveBackOnDown = false;
 
@@ -29,6 +30,7 @@ public class InGameMenu : MonoBehaviour
 
     public void ToggleMenu()
     {
+        if (!overrideIsBlocked && isBlocked) isOpen = true;
         LeanTween.cancel(menuPanel);
 
         float targetY = isOpen ? hiddenY : visibleY;

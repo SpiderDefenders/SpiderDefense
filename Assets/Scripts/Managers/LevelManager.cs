@@ -5,7 +5,9 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Level")] [SerializeField] private LevelSO level;
 
-    [Header("Settings")] [SerializeField] private float delayBetweenWaves = 3f;
+    [Header("Settings")]
+    [SerializeField] private float delayBetweenWaves = 3f;
+    [SerializeField] private float delayAfterAdditionalPathPlaced = 5f;
 
     private Coroutine levelRoutine;
     private EnemyManager enemyManager;
@@ -13,6 +15,7 @@ public class LevelManager : MonoBehaviour
     
     private bool isGameOver = false;
     private int currentNumberOfEnemies = 0;
+    private bool canStartNextWave = false;
     
     private void OnEnable()
     {
@@ -21,6 +24,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.OnGameOver += HandleGameOver;
         EventManager.Instance.OnEnemyDead += EnemyDead;
         EventManager.Instance.OnEnemyReachedTheEnd += EnemyDead;
+        EventManager.Instance.OnAdditionalPathPlacingCompleted += EnableStartingNextWave;
     }
 
     private void OnDisable()
@@ -29,6 +33,12 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.OnGameOver -= HandleGameOver;
         EventManager.Instance.OnEnemyDead -= EnemyDead;
         EventManager.Instance.OnEnemyReachedTheEnd -= EnemyDead;
+        EventManager.Instance.OnAdditionalPathPlacingCompleted -= EnableStartingNextWave;
+    }
+    
+    private void EnableStartingNextWave()
+    {
+        canStartNextWave = true;
     }
 
     private void StartLevel()
@@ -66,6 +76,14 @@ public class LevelManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
+
+            while (!canStartNextWave)
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+
+            canStartNextWave = false;
+            yield return new WaitForSeconds(delayAfterAdditionalPathPlaced);
         }
         
         EventManager.Instance.LevelCompleted();

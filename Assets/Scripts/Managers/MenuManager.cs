@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : AdditionalPathBlocker
 {
     private TowerMenu towerMenu;
     private BuildingMenu buildingMenu;
@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
 
     public void OpenTowerMenu(Tower tower)
     {
+        if (isBlocked) return;
         if (buildingMenu.IsOpen())
         {
             towerMenu.InstantOpenMenu(tower);
