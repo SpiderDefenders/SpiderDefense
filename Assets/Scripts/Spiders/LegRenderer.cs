@@ -43,7 +43,7 @@ public class LegRenderer : MonoBehaviour
             bones[i].transform.position = mid;
             bones[i].transform.rotation = Quaternion.FromToRotation(Vector3.up, dir);
             Vector3 scale = bones[i].transform.localScale;
-            scale.y = dir.magnitude * 2.5f;
+            scale.y = dir.magnitude * 5f;
             bones[i].transform.localScale = scale;
         }
     }

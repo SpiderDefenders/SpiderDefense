@@ -481,8 +481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 6852968939831370797}
   - {fileID: 8154980348588649996}
@@ -516,7 +516,7 @@ Transform:
   m_GameObject: {fileID: 464108249080922885}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.6099854, y: -1.6624244, z: 0.6630009}
+  m_LocalPosition: {x: 1.6099854, y: -1.6624244, z: 0.53999996}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -610,9 +610,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 3657570001966199957}
   offset: {x: 0.1, y: 0, z: 0.1}
-  maxDistance: 0.2
+  maxDistance: 0.12
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -993,7 +993,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 0.74, z: 1.83}
+  m_LocalScale: {x: 0.5, y: 0.37, z: 0.9150001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8015463028450410433}
@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deac1bcf4cb582a4eb05b5eb47c9d67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyHeight: 0.25
+  bodyHeight: 0.2
   mouseSensitivity: 3
   attackDistance: 0.5
   attackDuration: 0.15
@@ -1159,6 +1159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 15ef79821f84bef4fb5026b40bcbb3e0, type: 2}
+  enemyRoot: {fileID: 5104701835084440165}
 --- !u!1 &2318388224063977104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,8 +1641,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 8113952328198086319}
   - {fileID: 1922124840996806787}
@@ -1803,8 +1804,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 6791073173096745334}
   - {fileID: 6542469088342622258}
@@ -1966,8 +1967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 4344364807405339401}
   - {fileID: 3220667858626394264}
@@ -2109,7 +2110,7 @@ Transform:
   m_GameObject: {fileID: 3885309709776117138}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.4700012, y: -1.6624244, z: 1.45}
+  m_LocalPosition: {x: -1.4700012, y: -1.6624244, z: 0.9999999}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2203,9 +2204,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 4625939499797642385}
   offset: {x: 0.1, y: 0, z: 0.1}
-  maxDistance: 0.2
+  maxDistance: 0.12
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -2490,7 +2491,7 @@ Transform:
   m_GameObject: {fileID: 5028993651023470288}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4200134, y: -1.6624244, z: -0.87799984}
+  m_LocalPosition: {x: 1.4200134, y: -1.6624244, z: -0.44000003}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2584,9 +2585,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 3935708340022022777}
   offset: {x: 0.1, y: 0, z: 0.1}
-  maxDistance: 0.2
+  maxDistance: 0.12
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -2643,8 +2644,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 6302580615612084295}
   - {fileID: 1470111492284780348}
@@ -2894,7 +2895,7 @@ Transform:
   m_GameObject: {fileID: 5711381981922115248}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.8, y: -1.6624244, z: -0.13999915}
+  m_LocalPosition: {x: -1.8, y: -1.6624244, z: -0.000000029802322}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2988,9 +2989,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 9019775424494176315}
   offset: {x: 0.1, y: 0, z: 0.1}
-  maxDistance: 0.2
+  maxDistance: 0.12
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -3155,8 +3156,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 1892545220335581702}
   - {fileID: 86595547483671642}
@@ -3221,7 +3222,7 @@ Transform:
   m_GameObject: {fileID: 6500279783940256785}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4700012, y: -1.6624244, z: 1.45}
+  m_LocalPosition: {x: 1.4700012, y: -1.6624244, z: 1}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3315,9 +3316,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 96464522875045637}
   offset: {x: 0.2, y: 0, z: 0.4}
-  maxDistance: 0.18
+  maxDistance: 0.14
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -3462,7 +3463,7 @@ Transform:
   m_GameObject: {fileID: 6991724318378068266}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6099854, y: -1.6624244, z: 0.6630009}
+  m_LocalPosition: {x: -1.6099854, y: -1.6624244, z: 0.53999996}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3556,9 +3557,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 4261897478905178801}
   offset: {x: 0.2, y: 0, z: 0.4}
-  maxDistance: 0.18
+  maxDistance: 0.14
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -3939,8 +3940,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 4649720803786575344}
   - {fileID: 8688666043962660856}
@@ -3994,8 +3995,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jointPrefab: {fileID: 8781456665216753357, guid: 82862b57d693ff549886a03553f5820b, type: 3}
   bonePrefab: {fileID: 6378020822823361913, guid: 2ca08825b4dcb104891e2ae0bcff66cf, type: 3}
-  linkLength: 0.2
-  boneWeight: 0.2
+  linkLength: 0.15
+  boneWeight: 0.3
   joints:
   - {fileID: 1868693906547082996}
   - {fileID: 2727749384932666513}
@@ -4029,7 +4030,7 @@ Transform:
   m_GameObject: {fileID: 8390981415211013204}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8, y: -1.6624244, z: -0.13999915}
+  m_LocalPosition: {x: 1.8, y: -1.6624244, z: 0}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4123,9 +4124,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 1825643109383461977}
   offset: {x: 0.2, y: 0, z: 0.4}
-  maxDistance: 0.18
+  maxDistance: 0.14
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2
@@ -4520,7 +4521,7 @@ Transform:
   m_GameObject: {fileID: 9210380821073339739}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.4200134, y: -1.6624244, z: -0.87799984}
+  m_LocalPosition: {x: -1.4200134, y: -1.6624244, z: -0.43999985}
   m_LocalScale: {x: 0.2, y: 0.10416667, z: 0.10416669}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4614,9 +4615,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   legTargetPoint: {fileID: 6013159144126459390}
   offset: {x: 0.2, y: 0, z: 0.4}
-  maxDistance: 0.18
+  maxDistance: 0.14
   stepDuration: 0.2
-  stepHeight: 0.15
+  stepHeight: 0.1
   raycastDistance: 1.4
   groundMask:
     serializedVersion: 2

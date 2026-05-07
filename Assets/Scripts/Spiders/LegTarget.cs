@@ -51,7 +51,7 @@ public class LegTarget : MonoBehaviour
         Vector3 rayOrigin = new Vector3(transform.position.x, antBody.transform.position.y + 0.5f, transform.position.z);
         Vector3 rayDirection = Vector3.down;
         Vector3 rayEnd = rayOrigin + rayDirection * raycastDistance;
-        Debug.DrawRay(rayOrigin, rayDirection * raycastDistance, Color.red);
+        // Debug.DrawRay(rayOrigin, rayDirection * raycastDistance, Color.red);
         
         if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, raycastDistance, groundMask))
         {
@@ -59,7 +59,7 @@ public class LegTarget : MonoBehaviour
             if (dot < 0f)
             {
                 transform.position = hit.point;
-                Debug.DrawRay(hit.point, hit.normal * 0.5f, Color.green, 0.5f);
+                // Debug.DrawRay(hit.point, hit.normal * 0.5f, Color.green, 0.5f);
             }
         }
         else
