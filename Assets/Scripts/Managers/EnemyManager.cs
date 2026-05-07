@@ -6,7 +6,6 @@ public class EnemyManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private SplineContainer splineContainer;
-    [SerializeField] private Transform spawnPoint;
 
     [Header("Enemies")]
     [SerializeField] private List<EnemyDefinition> enemies;
@@ -39,9 +38,14 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        GameObject enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity, transform);
+        Vector3 spawnPoint = splineContainer.Spline[0].Position;
+        GameObject enemy = Instantiate(prefab, spawnPoint, Quaternion.identity, transform);
 
-        var mover = enemy.GetComponent<EnemySplineMover>();
+        var mover = enemy.GetComponent<Enemy>();
+        if (mover == null)
+        {
+            mover = enemy.GetComponentInChildren<Enemy>();
+        }
 
         if (mover != null)
         {

@@ -7,6 +7,8 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private LayerMask tileLayer;
     [SerializeField] private Material unableToPlaceMaterial;
     [SerializeField] private Material ableToPlaceMaterial;
+    [SerializeField] private Material unableToPlaceRangeMaterial;
+    [SerializeField] private Material ableToPlaceRangeMaterial;
 
     private GameObject prefabToPlace;
     private GameObject previewObject;
@@ -57,7 +59,9 @@ public class BuildManager : MonoBehaviour
 
             bool canPlace = tile.CanPlace(previewPlacable);
 
-            SetPreviewColor(canPlace ? ableToPlaceMaterial : unableToPlaceMaterial);
+            Material towerMaterial = canPlace ? ableToPlaceMaterial : unableToPlaceMaterial;
+            Material rangeMaterial = canPlace ? ableToPlaceRangeMaterial : unableToPlaceRangeMaterial;
+            SetPreviewColor(towerMaterial, rangeMaterial);
 
             if (Input.GetMouseButtonDown(0) && canPlace)
             {
@@ -83,23 +87,30 @@ public class BuildManager : MonoBehaviour
         prefabToPlace = null;
     }
 
-    void SetPreviewColor(Material material)
+
+
+    void SetPreviewColor(Material material, Material rangeMaterial)
     {
         foreach (var r in previewRenderers)
         {
             if (r.CompareTag("Range"))
-                continue;
-
-            r.material = material;
+            {
+                r.material = rangeMaterial;
+            }
+            else 
+            {
+                r.material = material;
+            }
         }
     }
 
-    void CancelPlacement()
+    public void CancelPlacement()
     {
-        previewObject.SetActive(false);
         previewPlacable = null;
         previewRenderers = null;
         prefabToPlace = null;
+        if (previewObject == null) return;
+        previewObject.SetActive(false);
         Destroy(previewObject);
     }
 }

@@ -2,8 +2,8 @@
 
 public class Catapult : Tower
 {
-    [SerializeField] private Transform verticalPivot; 
-    
+    [SerializeField] private Transform verticalPivot;
+
     protected override void CalculateAndModifyLaunchAngle(float distance, float height)
     {
         float baseAngle = Mathf.Atan2(height, distance) * Mathf.Rad2Deg;

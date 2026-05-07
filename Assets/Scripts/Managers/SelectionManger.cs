@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class SelectionManger : MonoBehaviour
@@ -20,7 +19,6 @@ public class SelectionManger : MonoBehaviour
         {
             HandleClick();
         }
-
     }
 
     void HandleClick()

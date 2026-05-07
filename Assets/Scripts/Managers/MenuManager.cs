@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    
     private TowerMenu towerMenu;
     private BuildingMenu buildingMenu;
     
@@ -30,7 +28,5 @@ public class MenuManager : MonoBehaviour
         {
             towerMenu.OpenMenu(tower);
         }
-        
     }
-
 }

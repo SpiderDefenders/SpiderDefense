@@ -23,6 +23,18 @@ public static class DirectionExtensions
         };
     }
 
+    public static Vector2Int ToVector2Int(this Direction dir)
+    {
+        return dir switch
+        {
+            Direction.N => new Vector2Int(0, 1),
+            Direction.E => new Vector2Int(1, 0),
+            Direction.S => new Vector2Int(0, -1),
+            Direction.W => new Vector2Int(-1, 0),
+            _ => new Vector2Int(0, 0)
+        };
+    }
+
     public static Quaternion ToRotationStraight(this Direction dir)
     {
         return dir switch

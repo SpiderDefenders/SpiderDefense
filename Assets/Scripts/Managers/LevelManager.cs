@@ -12,22 +12,28 @@ public class LevelManager : MonoBehaviour
     private int currentWave = 0;
     
     private bool isGameOver = false;
+    private int currentNumberOfEnemies = 0;
     
     private void OnEnable()
     {
         EventManager.Instance.OnPathGenerated += StartLevel;
         enemyManager = FindAnyObjectByType<EnemyManager>();
         EventManager.Instance.OnGameOver += HandleGameOver;
+        EventManager.Instance.OnEnemyDead += EnemyDead;
+        EventManager.Instance.OnEnemyReachedTheEnd += EnemyDead;
     }
 
     private void OnDisable()
     {
         EventManager.Instance.OnPathGenerated -= StartLevel;
         EventManager.Instance.OnGameOver -= HandleGameOver;
+        EventManager.Instance.OnEnemyDead -= EnemyDead;
+        EventManager.Instance.OnEnemyReachedTheEnd -= EnemyDead;
     }
 
     private void StartLevel()
     {
+        Time.timeScale = 1f;
         Debug.Log("Level Started");
         if (level == null)
         {
@@ -55,14 +61,14 @@ public class LevelManager : MonoBehaviour
             yield return StartCoroutine(RunWave(wave));
 
             Debug.Log($"--- Wave {i:00} END ---");
-
-            // wait between waves (except after last)
+            
             if (i < level.waves.Count - 1)
             {
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
         }
-
+        
+        EventManager.Instance.LevelCompleted();
         Debug.Log("Level Finished");
     }
 
@@ -77,6 +83,7 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnEnemy(EnemyType type)
     {
+        currentNumberOfEnemies += 1;
         enemyManager.SpawnEnemy(type);
     }
     
@@ -93,5 +100,11 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Level stopped due to Game Over");
     }
     
+    private void EnemyDead(int moneyAfterDead)
+    {
+        currentNumberOfEnemies -= 1;
+    }
+    
     public int GetCurrentWave() => currentWave;
+    public int GetCurrentNumberOfEnemies() => currentNumberOfEnemies;
 }

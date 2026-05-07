@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -7,16 +6,16 @@ public class SplinePathBuilder : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float heightOffset = 0.5f;
-    private PathBuilder pathBuilder;
+    private PathManager pathManager;
 
     private void Start()
     {
-        pathBuilder = FindAnyObjectByType<PathBuilder>();
+        pathManager = FindAnyObjectByType<PathManager>();
     }
 
     public void BuildSpline()
     {
-        List<PathTile> tiles = pathBuilder.GetPathTiles();
+        List<PathTile> tiles = pathManager.GetPathTiles();
         if (tiles == null || tiles.Count < 2)
         {
             Debug.LogWarning("Not enough tiles to build spline");

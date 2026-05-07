@@ -9,16 +9,12 @@ public class GameManager : MonoBehaviour
 
     private int currentHP = 100;
     
-    private GridManager gridManager;
-    private PathManager pathManager;
-    private PathBuilder pathBuilder;
     private SplinePathBuilder splinePathBuilder;
+
+    private bool isGameOver = false;
     
     void Start()
     {
-        gridManager = FindAnyObjectByType<GridManager>();
-        pathManager = FindAnyObjectByType<PathManager>();
-        pathBuilder = FindAnyObjectByType<PathBuilder>();
         splinePathBuilder = FindAnyObjectByType<SplinePathBuilder>();
         SetUpGame();
     }
@@ -35,11 +31,9 @@ public class GameManager : MonoBehaviour
 
     private void SetUpGame()
     {
-        gridManager.GenerateGrid(startingGridSize.x, startingGridSize.y);
-        pathManager.GeneratePathSequence();
-        pathBuilder.BuildPath();
         splinePathBuilder.BuildSpline();
         EventManager.Instance.PathGenerated();
+        EventManager.Instance.HPChanged(currentHP);
     }
     
     public Vector2Int GetStartPosition() => startPosition;
@@ -47,6 +41,8 @@ public class GameManager : MonoBehaviour
     public void DealDamage(int damage)
     {
         currentHP -= damage;
+        currentHP = Math.Max(0, currentHP);
+        EventManager.Instance.HPChanged(currentHP);
         if (currentHP > 0) return;
         currentHP = 0;
         GameOver();
@@ -54,7 +50,19 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        if (isGameOver) return;
+        isGameOver = true;
         EventManager.Instance.GameOver();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+    
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
     }
 }
 

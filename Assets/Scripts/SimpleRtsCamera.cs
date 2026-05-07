@@ -29,6 +29,8 @@ namespace SimpleRtsCamera.Scripts
 		private Vector2 _initialMousePosition;
 		private Vector2 _scrollMouseInput;
 		private float _middleMouseInput;
+		
+		private bool isGameFinished;
 
 		private void Awake()
 		{
@@ -37,6 +39,7 @@ namespace SimpleRtsCamera.Scripts
 
 		private void OnEnable()
 		{
+			isGameFinished = false;
 			_playerInput.actions["CameraMove"].performed += MoveHandler;
 			_playerInput.actions["CameraMove"].canceled += MoveHandler;
 
@@ -49,10 +52,13 @@ namespace SimpleRtsCamera.Scripts
 			_playerInput.actions["ScrollMouse"].canceled += ScrollMouseHandler;
 
 			_playerInput.actions["MiddleMouse"].started += InitialMousePositionHandler;
+			EventManager.Instance.OnGameOver += GameFinished;
+			EventManager.Instance.OnLevelCompleted += GameFinished;
 		}
 
 		private void LateUpdate()
 		{
+			if (isGameFinished) return;
 			if (isMovementWithKeyboardEnabled) MoveCamera();
 			if (isMovementWithMouseEnabled) MoveCameraWithCursor();
 			if (isZoomEnabled) ZoomCamera();
@@ -73,7 +79,14 @@ namespace SimpleRtsCamera.Scripts
 			_playerInput.actions["ScrollMouse"].canceled -= ScrollMouseHandler;
 
 			_playerInput.actions["MiddleMouse"].started -= InitialMousePositionHandler;
+			EventManager.Instance.OnGameOver -= GameFinished;
+			EventManager.Instance.OnLevelCompleted -= GameFinished;
 		}
+		private void GameFinished()
+		{
+			isGameFinished = true;
+		}
+		
 
 		private void MoveHandler(InputAction.CallbackContext callbackContext) =>
 			_moveInput = callbackContext.ReadValue<Vector2>();

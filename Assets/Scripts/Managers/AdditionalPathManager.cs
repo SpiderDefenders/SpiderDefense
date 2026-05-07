@@ -10,7 +10,6 @@ public class AdditionalPathManager : MonoBehaviour
     private List<Tile> temporaryTiles = new List<Tile>();
 
     private GridManager gridManager;
-    private PathBuilder pathBuilder;
     private MenuManager menuManager;
     private PathManager pathManager;
 
@@ -20,7 +19,6 @@ public class AdditionalPathManager : MonoBehaviour
     private void Start()
     {
         gridManager = FindAnyObjectByType<GridManager>();
-        pathBuilder = FindAnyObjectByType<PathBuilder>();
         menuManager = FindAnyObjectByType<MenuManager>();
         pathManager = FindAnyObjectByType<PathManager>();
     }
@@ -35,7 +33,7 @@ public class AdditionalPathManager : MonoBehaviour
     {
         ClearHighlights();
 
-        lastTile = pathBuilder.GetPathTiles()[^1];
+        lastTile = pathManager.GetPathTiles()[^1];
 
         CheckDirection(lastTile, Direction.N);
         CheckDirection(lastTile, Direction.E);
@@ -49,7 +47,6 @@ public class AdditionalPathManager : MonoBehaviour
 
         if (neighbor != null)
         {
-            // ❗ tylko Buildable
             if (neighbor is PathTile) return;
             if (neighbor.Type != TileType.Buildable || neighbor.IsOccupied) return;
 
@@ -78,13 +75,11 @@ public class AdditionalPathManager : MonoBehaviour
 
         if (r != null)
         {
-            // 🔥 zapisuj tylko dla istniejących tile
             if (!isTemporary && !originalMaterials.ContainsKey(tile))
             {
                 originalMaterials[tile] = r.material;
             }
 
-            // 🔥 highlight dla WSZYSTKICH
             r.material = highlightMaterial;
         }
 
@@ -100,19 +95,15 @@ public class AdditionalPathManager : MonoBehaviour
         {
             if (tile == null) continue;
 
-            // usuń kliknięcie
             Destroy(tile.GetComponent<ExpandableTile>());
-
             Renderer r = tile.GetComponent<Renderer>();
 
-            // 🔥 przywróć materiał jeśli był zmieniony
             if (r != null && originalMaterials.ContainsKey(tile))
             {
                 r.material = originalMaterials[tile];
             }
         }
 
-        // 🔥 usuń tymczasowe tile
         foreach (var tempTile in temporaryTiles)
         {
             if (tempTile == null) continue;
@@ -133,7 +124,7 @@ public class AdditionalPathManager : MonoBehaviour
     public void ExtendPath(Direction direction)
     {
         pathManager.ExtendPath(direction);
-        Tile newEnd = pathBuilder.GetPathTiles()[^1];
+        Tile newEnd = pathManager.GetPathTiles()[^1];
         temporaryTiles.RemoveAll(t => t == newEnd);
         ClearHighlights();
     }
