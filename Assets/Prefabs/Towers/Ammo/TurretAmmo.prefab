@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6583902703394008886}
   - component: {fileID: 8458105059900761677}
   m_Layer: 0
-  m_Name: Turret_ammo
+  m_Name: TurretAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,5 +99,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba54439943074d4f968bb9084caca27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  damage: 5
+  ammoConfig: {fileID: 11400000, guid: 6767304d17b40ca40b38b4cf4154cdb6, type: 2}

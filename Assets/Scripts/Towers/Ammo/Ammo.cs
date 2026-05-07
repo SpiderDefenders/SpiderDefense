@@ -3,8 +3,7 @@
 public abstract class Ammo : MonoBehaviour
 {
     protected GameObject target;
-    [SerializeField] protected float speed;
-    [SerializeField] protected float damage=1f;
+    [SerializeField] protected AmmoSO ammoConfig;
 
     public void SetTarget(GameObject target)
     {
@@ -13,7 +12,7 @@ public abstract class Ammo : MonoBehaviour
 
     protected void HitTarget()
     {
-        target.GetComponent<Enemy>().GetDamage(damage);
+        target.GetComponent<Enemy>().GetDamage(ammoConfig.damage);
         Destroy(gameObject);
         return;
     }

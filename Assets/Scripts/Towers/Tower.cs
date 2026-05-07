@@ -4,30 +4,18 @@ using UnityEngine;
 public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 {
     private ITile tile;
-    
-    [Header("Placing")]
-    public Vector3 placingOffset;
 
-    [Header("Cost")]
-    [SerializeField] private int cost = 100;
+    [SerializeField] private TowerSO towerConfig;
+    [SerializeField] Transform ammoSpawnPoint;
 
-    [Header("Range")]
-    [SerializeField] private float rangeRadius = 1.5f;
-    [SerializeField] private Material rangeMaterial;
-    private GameObject rangeObject;
-    private float yOffset = 0.05f;
-
-    [Header("Shooting")]
-    [SerializeField] private float shootingCooldown = 1f; 
-    private float shootingCountdown = 0f;
-    [SerializeField] private GameObject ammoPrefab;
-    [SerializeField] private Transform ammoSpawnPoint;
-
-    [Header("Targeting")]
-    public GameObject target;
-    
+    [Header("Pivoting")]
     [SerializeField] private Transform horizontalPivot;
-
+    //[SerializeField] private Transform verticalPivot; 
+    
+    private GameObject rangeObject;
+    private GameObject target;
+    private float yOffset = 0.05f;
+    private float shootingCountdown = 0f;
     public PlacableType Type => PlacableType.Defense;
     private List<GameObject> enemiesInRange = new List<GameObject>();
     private bool isPlaced = false;
@@ -67,7 +55,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
             if (shootingCountdown <= 0f)
             {
                 Shoot();
-                shootingCountdown = shootingCooldown;
+                shootingCountdown = towerConfig.shootingCooldown;
             }
         }
 
@@ -82,15 +70,15 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         rangeObject.transform.SetParent(transform);
         rangeObject.transform.localPosition = new Vector3(0f, yOffset, 0f);
         rangeObject.transform.localRotation = Quaternion.identity;
-        rangeObject.transform.localScale = new Vector3(rangeRadius * 2f, 0.01f, rangeRadius * 2f);
+        rangeObject.transform.localScale = new Vector3(towerConfig.rangeRadius * 2f, 0.01f, towerConfig.rangeRadius * 2f);
 
-        rangeObject.GetComponent<MeshRenderer>().material = rangeMaterial;
+        rangeObject.GetComponent<MeshRenderer>().material = towerConfig.rangeMaterial;
     }
 
     private void CreateCollider()
     {
         SphereCollider col = gameObject.AddComponent<SphereCollider>();
-        col.radius = rangeRadius;
+        col.radius = towerConfig.rangeRadius;
         col.center = new Vector3(0f, yOffset, 0f);
         col.isTrigger = true;
     }
@@ -141,7 +129,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     private void Shoot()
     {
-        GameObject ammoObject = Instantiate(ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
+        GameObject ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
 
@@ -154,13 +142,13 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
         CreateCollider();
         isPlaced = true;
 
-        value = cost;
-        CurrencyManager.Instance.RemoveMoney(cost);
+        value = towerConfig.cost;
+        CurrencyManager.Instance.RemoveMoney(towerConfig.cost);
     }
 
     public bool IsPlaced() {  return isPlaced; }
     public void AddValue(int extraValue) {  value += extraValue; } // in updates
-    public int GetCost() { return cost; }
+    public int GetCost() { return towerConfig.cost; }
     public int GetValue() {  return value; }
 
     public void OnClick()
@@ -182,7 +170,7 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     public Vector3 GetPlacingOffset()
     {
-        return placingOffset;
+        return towerConfig.placingOffset;
     }
 
     public virtual void FollowTarget()

@@ -11,7 +11,7 @@ public class TurretAmmo : Ammo
         }
 
         Vector3 dir = target.transform.position - transform.position;
-        float frameDist = speed * Time.deltaTime;
+        float frameDist = ammoConfig.speed * Time.deltaTime;
 
         if (dir.magnitude <= frameDist)
         {
