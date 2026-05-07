@@ -17,13 +17,15 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        LeanTween.scale(buttonTransform, originalScale * scaleUp, duration)
-            .setEaseOutBack();
+        LeanTween.scale(buttonTransform, originalScale * scaleUp, duration)   
+            .setEaseOutBack()
+            .setIgnoreTimeScale(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         LeanTween.scale(buttonTransform, originalScale, duration)
-            .setEaseOutBack();
+            .setEaseOutBack()
+            .setIgnoreTimeScale(true);
     }
 }
