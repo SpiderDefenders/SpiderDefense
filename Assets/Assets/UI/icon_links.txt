@@ -9,4 +9,18 @@ menu2: https://www.flaticon.com/free-icon/menu_5550603?term=hamburger+menu&page=
 exit: https://www.flaticon.com/free-icon/exit_13409973?term=quit&page=1&position=34&origin=tag&related_id=13409973
 star: https://www.flaticon.com/free-icon/star_1828884?term=star&page=1&position=1&origin=tag&related_id=1828884
 
+bin: https://www.flaticon.com/free-icon/bin_484662
+badge: https://www.flaticon.com/free-icon/favorites_7601227
+spider: https://www.flaticon.com/free-icon/spider_12439802
+explosion: https://www.flaticon.com/free-icon/explosion_2147240
+volume: https://www.flaticon.com/free-icon/medium-volume_4024628
+music: https://www.flaticon.com/free-icon/music_876817
+forbidden: https://www.flaticon.com/free-icon/forbidden_2001386
+arrow: https://www.flaticon.com/free-icon/right-arrow_271228
+lvl_easy: https://www.flaticon.com/free-icon/speedometer_3563393?term=speedometer&related_id=3563393
+lvl_medium: https://www.flaticon.com/free-icon/speedometer_3563394
+lvl_hard: https://www.flaticon.com/free-icon/speedometer_3563395
+camera: https://www.flaticon.com/free-icon/video_8407947
+magnifier: https://www.flaticon.com/free-icon/magnifier_64673?term=magnifying+glass&page=1&position=4&origin=search&related_id=64673
+
 [można pobrać stamtąd licencje]

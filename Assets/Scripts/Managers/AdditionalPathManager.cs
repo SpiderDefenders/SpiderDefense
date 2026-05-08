@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AdditionalPathManager : MonoBehaviour
 {
     [SerializeField] private Material highlightMaterial;
     [SerializeField] private GameObject temporaryTilePrefab;
+    [SerializeField] private float delayBeforePathBuilding = 1f;
+    [SerializeField] private InGameMenu inGameMenu;
     
     private Dictionary<Tile, Material> originalMaterials = new Dictionary<Tile, Material>();
     private List<Tile> temporaryTiles = new List<Tile>();
@@ -22,11 +25,34 @@ public class AdditionalPathManager : MonoBehaviour
         menuManager = FindAnyObjectByType<MenuManager>();
         pathManager = FindAnyObjectByType<PathManager>();
     }
+
+    void OnEnable()
+    {
+        EventManager.Instance.OnWaveCompleted += StartAdditionalPathBuildingWithDelay;
+    }
+    
+    void OnDisable()
+    {
+        EventManager.Instance.OnWaveCompleted -= StartAdditionalPathBuildingWithDelay;
+    }
+    
+    private void StartAdditionalPathBuildingWithDelay(int _)
+    {
+        StartCoroutine(Delay(delayBeforePathBuilding));
+    }
+
+    private IEnumerator Delay(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        StartAdditionalPathBuilding();
+    }
     
     public void StartAdditionalPathBuilding()
     {
+        EventManager.Instance.AdditionalPathPlacingStarted();
         menuManager.CloseAll();
         GenerateAvailableTiles();
+        inGameMenu.ToggleMenu();
     }
 
     public void GenerateAvailableTiles()
@@ -34,6 +60,7 @@ public class AdditionalPathManager : MonoBehaviour
         ClearHighlights();
 
         lastTile = pathManager.GetPathTiles()[^1];
+        FindAnyObjectByType<SimpleRtsCamera.Scripts.SimpleRtsCamera>().GoTo(lastTile.transform);
 
         CheckDirection(lastTile, Direction.N);
         CheckDirection(lastTile, Direction.E);
@@ -127,5 +154,7 @@ public class AdditionalPathManager : MonoBehaviour
         Tile newEnd = pathManager.GetPathTiles()[^1];
         temporaryTiles.RemoveAll(t => t == newEnd);
         ClearHighlights();
+        EventManager.Instance.AdditionalPathPlacingCompleted();
+        inGameMenu.ToggleMenu();
     }
 }

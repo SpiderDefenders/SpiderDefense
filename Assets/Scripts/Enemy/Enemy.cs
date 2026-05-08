@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     private SplineContainer splineContainer;
     [SerializeField] private EnemySO stats;
+    [SerializeField] private Transform enemyRoot;
 
     private float t;
     private bool isDead = false;
@@ -30,7 +31,7 @@ public class Enemy : MonoBehaviour
         t = Mathf.Clamp01(t);
 
         Vector3 splinePos = splineContainer.EvaluatePosition(t);
-        transform.position = new Vector3(splinePos.x, transform.position.y, splinePos.z);
+        transform.position = new Vector3(splinePos.x, splinePos.y + 0.1f, splinePos.z);
         transform.forward = splineContainer.EvaluateTangent(t);
     }
     
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     private void DestroyEnemy()
     {
+        if (enemyRoot != null) Destroy(enemyRoot.gameObject);
         Destroy(gameObject);
     }
 

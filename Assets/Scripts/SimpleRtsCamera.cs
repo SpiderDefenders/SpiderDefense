@@ -9,6 +9,7 @@ namespace SimpleRtsCamera.Scripts
 		[SerializeField] private bool isMovementWithMouseEnabled = true;
 		[SerializeField] private bool isMovementWithKeyboardEnabled = true;
 		[SerializeField] private bool isZoomEnabled = true;
+
 		[Header("Move")]
 		[SerializeField] private float _moveSpeed = 200;
 		[SerializeField] private float _edgeThreshold = 5;
@@ -17,20 +18,24 @@ namespace SimpleRtsCamera.Scripts
 		[SerializeField] private float _zoomSpeed = 200;
 		[SerializeField] private float _minY = 10f;
 		[SerializeField] private float _maxY = 80f;
-		
+
 		[Header("Bounds")]
 		[SerializeField] private Vector2 _xLimits = new Vector2(-100, 100);
 		[SerializeField] private Vector2 _zLimits = new Vector2(-100, 100);
 
+		[Header("Go To")]
+		[SerializeField] private float _goToSpeed = 10f;
+
 		private PlayerInput _playerInput;
 		private Vector2 _moveInput;
 		private Vector2 _mousePositionInput;
-		private float _rightMouseInput;
 		private Vector2 _initialMousePosition;
 		private Vector2 _scrollMouseInput;
-		private float _middleMouseInput;
-		
+
 		private bool isGameFinished;
+
+		private bool _isGoingToTarget;
+		private Vector3 _targetPosition;
 
 		private void Awake()
 		{
@@ -40,6 +45,7 @@ namespace SimpleRtsCamera.Scripts
 		private void OnEnable()
 		{
 			isGameFinished = false;
+
 			_playerInput.actions["CameraMove"].performed += MoveHandler;
 			_playerInput.actions["CameraMove"].canceled += MoveHandler;
 
@@ -52,6 +58,7 @@ namespace SimpleRtsCamera.Scripts
 			_playerInput.actions["ScrollMouse"].canceled += ScrollMouseHandler;
 
 			_playerInput.actions["MiddleMouse"].started += InitialMousePositionHandler;
+
 			EventManager.Instance.OnGameOver += GameFinished;
 			EventManager.Instance.OnLevelCompleted += GameFinished;
 		}
@@ -59,9 +66,19 @@ namespace SimpleRtsCamera.Scripts
 		private void LateUpdate()
 		{
 			if (isGameFinished) return;
-			if (isMovementWithKeyboardEnabled) MoveCamera();
-			if (isMovementWithMouseEnabled) MoveCameraWithCursor();
+
+			if (_isGoingToTarget)
+			{
+				UpdateGoTo();
+			}
+			else
+			{
+				if (isMovementWithKeyboardEnabled) MoveCamera();
+				if (isMovementWithMouseEnabled) MoveCameraWithCursor();
+			}
+
 			if (isZoomEnabled) ZoomCamera();
+
 			ClampPosition();
 		}
 
@@ -79,14 +96,15 @@ namespace SimpleRtsCamera.Scripts
 			_playerInput.actions["ScrollMouse"].canceled -= ScrollMouseHandler;
 
 			_playerInput.actions["MiddleMouse"].started -= InitialMousePositionHandler;
+
 			EventManager.Instance.OnGameOver -= GameFinished;
 			EventManager.Instance.OnLevelCompleted -= GameFinished;
 		}
+
 		private void GameFinished()
 		{
 			isGameFinished = true;
 		}
-		
 
 		private void MoveHandler(InputAction.CallbackContext callbackContext) =>
 			_moveInput = callbackContext.ReadValue<Vector2>();
@@ -102,29 +120,41 @@ namespace SimpleRtsCamera.Scripts
 
 		private void MoveCamera()
 		{
+			if (_moveInput.sqrMagnitude > 0.01f)
+				_isGoingToTarget = false;
+
 			var moveDirection = new Vector3(_moveInput.x, 0, _moveInput.y) * (_moveSpeed * Time.deltaTime);
 			transform.position += moveDirection;
 		}
 
 		private void MoveCameraWithCursor()
 		{
+			var moved = false;
+
 			if (_mousePositionInput.x < _edgeThreshold)
 			{
 				transform.position += Vector3.left * (_moveSpeed * Time.deltaTime);
+				moved = true;
 			}
 			else if (_mousePositionInput.x > Screen.width - _edgeThreshold)
 			{
 				transform.position += Vector3.right * (_moveSpeed * Time.deltaTime);
+				moved = true;
 			}
 
 			if (_mousePositionInput.y < _edgeThreshold)
 			{
 				transform.position += Vector3.back * (_moveSpeed * Time.deltaTime);
+				moved = true;
 			}
 			else if (_mousePositionInput.y > Screen.height - _edgeThreshold)
 			{
 				transform.position += Vector3.forward * (_moveSpeed * Time.deltaTime);
+				moved = true;
 			}
+
+			if (moved)
+				_isGoingToTarget = false;
 		}
 
 		private void ZoomCamera()
@@ -133,11 +163,12 @@ namespace SimpleRtsCamera.Scripts
 
 			var zoomDirection = transform.forward;
 
-			transform.position += zoomDirection * (_scrollMouseInput.x * _zoomSpeed) + zoomDirection * (_scrollMouseInput.y * _zoomSpeed);
-    
-			_scrollMouseInput = new Vector2(0f, 0f);
+			transform.position += zoomDirection * (_scrollMouseInput.x * _zoomSpeed) +
+			                      zoomDirection * (_scrollMouseInput.y * _zoomSpeed);
+
+			_scrollMouseInput = Vector2.zero;
 		}
-		
+
 		private void ClampPosition()
 		{
 			var pos = transform.position;
@@ -147,6 +178,47 @@ namespace SimpleRtsCamera.Scripts
 			pos.y = Mathf.Clamp(pos.y, _minY, _maxY);
 
 			transform.position = pos;
+		}
+
+		private void UpdateGoTo()
+		{
+			transform.position = Vector3.Lerp(
+				transform.position,
+				_targetPosition,
+				_goToSpeed * Time.deltaTime
+			);
+
+			if (Vector3.Distance(transform.position, _targetPosition) < 0.1f)
+			{
+				transform.position = _targetPosition;
+				_isGoingToTarget = false;
+			}
+		}
+
+		public void GoTo(Transform target)
+		{
+			if (!target) return;
+
+			var currentOffset = transform.position - GetLookPoint();
+
+			var desiredPosition = target.position + currentOffset;
+
+			desiredPosition.y = transform.position.y;
+
+			desiredPosition.x = Mathf.Clamp(desiredPosition.x, _xLimits.x, _xLimits.y);
+			desiredPosition.z = Mathf.Clamp(desiredPosition.z, _zLimits.x, _zLimits.y);
+
+			_targetPosition = desiredPosition;
+			_isGoingToTarget = true;
+		}
+
+		private Vector3 GetLookPoint()
+		{
+			var ray = new Ray(transform.position, transform.forward);
+
+			return Physics.Raycast(ray, out var hit, 1000f)
+				? hit.point
+				: transform.position + transform.forward * 50f;
 		}
 	}
 }

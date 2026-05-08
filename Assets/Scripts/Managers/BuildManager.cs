@@ -87,8 +87,6 @@ public class BuildManager : MonoBehaviour
         prefabToPlace = null;
     }
 
-
-
     void SetPreviewColor(Material material, Material rangeMaterial)
     {
         foreach (var r in previewRenderers)
