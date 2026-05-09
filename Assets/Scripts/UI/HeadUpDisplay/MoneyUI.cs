@@ -6,14 +6,16 @@ public class MoneyUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI moneyText;
 
-    private bool isGameFinished;
+    private bool isAddingMoneyStopped;
     
     private void OnEnable()
     {
-        isGameFinished = false;
+        StartAddingMoney();
         EventManager.Instance.OnMoneyChanged += HandleMoneyUpdate;
         EventManager.Instance.OnGameOver += StopAddingMoney;
         EventManager.Instance.OnLevelCompleted += StopAddingMoney;
+        EventManager.Instance.OnWaveStarted += WaveStarted;
+        EventManager.Instance.OnWaveCompleted += WaveFinished;
     }
 
     private void OnDisable()
@@ -23,17 +25,33 @@ public class MoneyUI : MonoBehaviour
         EventManager.Instance.OnMoneyChanged -= HandleMoneyUpdate;
         EventManager.Instance.OnGameOver -= StopAddingMoney;
         EventManager.Instance.OnLevelCompleted -= StopAddingMoney;
+        EventManager.Instance.OnWaveStarted -= WaveStarted;
+        EventManager.Instance.OnWaveCompleted -= WaveFinished;
+    }
+
+    private void WaveFinished(int _, bool isLastWave)
+    {
+        StopAddingMoney();
+    }
+
+    private void WaveStarted(int _)
+    {
+        StartAddingMoney();
     }
     
     private void StopAddingMoney()
     {
-        isGameFinished = true;
+        isAddingMoneyStopped = true;
     }
 
+    private void StartAddingMoney()
+    {
+        isAddingMoneyStopped = false;
+    }
 
     private void HandleMoneyUpdate(int money)
     {
-        if (isGameFinished) return;
+        if (isAddingMoneyStopped) return;
         moneyText.text = money.ToString();
     }
 }

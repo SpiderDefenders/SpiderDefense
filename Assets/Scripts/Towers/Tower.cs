@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tower : MonoBehaviour, IPlacable, IDefense
+public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 {
     private ITile tile;
 
@@ -25,11 +25,13 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     private void OnEnable()
     {
+        base.OnEnable();
         EventManager.Instance.OnGameOver += HandleGameOver;
     }
 
     private void OnDisable()
     {
+        base.OnDisable();
         EventManager.Instance.OnGameOver -= HandleGameOver;
     }
 
@@ -153,6 +155,8 @@ public abstract class Tower : MonoBehaviour, IPlacable, IDefense
 
     public void OnClick()
     {
+        if (isBlocked) return;
+        Debug.Log("Tower clicked");
         rangeObject.SetActive(true);
     }
 

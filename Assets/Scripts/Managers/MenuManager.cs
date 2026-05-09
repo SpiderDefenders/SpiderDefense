@@ -14,7 +14,9 @@ public class MenuManager : AdditionalPathBlocker
     public void CloseAll()
     {
         towerMenu.CloseEverything();
+        towerMenu.CompletelyHideMenu();
         buildingMenu.CloseEverything();
+        buildingMenu.CompletelyHideMenu();
     }
 
     public void OpenTowerMenu(Tower tower)

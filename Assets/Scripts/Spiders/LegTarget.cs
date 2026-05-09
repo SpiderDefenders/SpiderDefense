@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class LegTarget : MonoBehaviour
@@ -13,34 +11,19 @@ public class LegTarget : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Transform antBody;
     [SerializeField] private bool isOdd;
-    [SerializeField] private bool simulate;
 
     private bool isStepping = false;
     private float stepTimer = 0f;
     private Vector3 stepStart;
     private Vector3 stepEnd;
-    private Vector3 originalPosition;
-    private string ID;
-    private MoveAnt moveAnt;
     private float dist;
 
     private void Start()
     {
-        originalPosition = transform.localPosition;
-        moveAnt = GetComponentInParent<MoveAnt>();
         if (legTargetPoint != null)
         {
             legTargetPoint.position = transform.position;
         }
-
-        if (moveAnt != null)
-        {
-            moveAnt.onMovementStarted += (sender, e) => ApplyOffset(e);
-            moveAnt.onMovementChanged += (sender, e) => ApplyOffset(e);
-            moveAnt.onMovementStopped += (sender, e) => ApplyOffset(e);
-            ID = moveAnt.GetID();
-        }
-        if (simulate) ApplyOffset(new MovementEventArgs(ID, true, null, true));
     }
 
     private void Update()
@@ -89,37 +72,10 @@ public class LegTarget : MonoBehaviour
         }
     }
 
-    public void ApplyOffset(MovementEventArgs e)
-    {
-        if (e.ID != ID) return;
-        //Debug.Log("Moving legs");
-        transform.localPosition = originalPosition;
-        if (!e.IsMoving)
-        {
-            GoToTarget();
-            return;
-        }
-
-        Vector3 newOffset = Vector3.zero;
-        if (e.IsMovingX.HasValue)
-        {
-            newOffset.x = (e.IsMovingX.Value ? 1 : -1) * offset.x;
-        }
-        
-        if (e.IsMovingZ.HasValue)
-        {
-            newOffset.z = (e.IsMovingZ.Value ? 1 : -1) * offset.z;
-        }
-        
-        transform.localPosition += newOffset;
-    }
-
-    public void GoToTarget()
+    private void GoToTarget()
     {
         isStepping = true;
         stepTimer = 0f;
         stepStart = legTargetPoint.position;
     }
-
-    public bool IsStepping() {  return isStepping; }
 }

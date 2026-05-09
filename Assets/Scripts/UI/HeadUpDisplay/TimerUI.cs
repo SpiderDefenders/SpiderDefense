@@ -11,17 +11,31 @@ public class TimerDisplay : MonoBehaviour
 
     private void OnEnable()
     {
+        ResetTimer();
         EventManager.Instance.OnPathGenerated += StartTimer;
         EventManager.Instance.OnGameOver += StopTimer;
         EventManager.Instance.OnLevelCompleted += StopTimer;
-
+        EventManager.Instance.OnWaveStarted += WaveStarted;
+        EventManager.Instance.OnWaveCompleted += WaveCompleted;
     }
 
     private void OnDisable()
     {
         EventManager.Instance.OnPathGenerated -= StartTimer;
-        EventManager.Instance.OnGameOver += StopTimer;
-        EventManager.Instance.OnLevelCompleted += StopTimer;
+        EventManager.Instance.OnGameOver -= StopTimer;
+        EventManager.Instance.OnLevelCompleted -= StopTimer;
+        EventManager.Instance.OnWaveStarted -= WaveStarted;
+        EventManager.Instance.OnWaveCompleted -= WaveCompleted;
+    }
+
+    private void WaveCompleted(int _, bool isLastWave)
+    {
+        StopTimer();
+    }
+
+    private void WaveStarted(int _)
+    {
+        StartTimer();
     }
 
     private void Update()
@@ -34,12 +48,17 @@ public class TimerDisplay : MonoBehaviour
 
     private void StartTimer()
     {
-        elapsedTime = 0;
         isRunning = true;
         UpdateTimerUI();
     }
 
-    public void StopTimer()
+    private void ResetTimer()
+    {
+        elapsedTime = 0;
+        UpdateTimerUI();
+    }
+
+    private void StopTimer()
     {
         isRunning = false;
     }

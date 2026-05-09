@@ -70,16 +70,21 @@ public class LevelManager : MonoBehaviour
 
             yield return StartCoroutine(RunWave(wave));
 
+            EventManager.Instance.WaveCompleted(currentWave, i==level.waves.Count-1);
             Debug.Log($"--- Wave {i:00} END ---");
-            
+
             if (i < level.waves.Count - 1)
             {
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
+            else
+            {
+                break;
+            }
 
             while (!canStartNextWave)
             {
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.05f);
             }
 
             canStartNextWave = false;
@@ -125,4 +130,5 @@ public class LevelManager : MonoBehaviour
     
     public int GetCurrentWave() => currentWave;
     public int GetCurrentNumberOfEnemies() => currentNumberOfEnemies;
+    public float GetDelayAfterAdditionalPathPlaced() => delayAfterAdditionalPathPlaced;
 }

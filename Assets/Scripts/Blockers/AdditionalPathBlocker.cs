@@ -2,16 +2,16 @@ using UnityEngine;
 
 public abstract class AdditionalPathBlocker : MonoBehaviour
 {
-    protected bool isBlocked = false;
+    protected bool isBlocked;
     
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         isBlocked = false;
         EventManager.Instance.OnAdditionalPathPlacingStarted += BlockMenu;
         EventManager.Instance.OnAdditionalPathPlacingCompleted += UnblockMenu;
     }
     
-    void OnDisable()
+    protected virtual void OnDisable() 
     {
         EventManager.Instance.OnAdditionalPathPlacingStarted -= BlockMenu;
         EventManager.Instance.OnAdditionalPathPlacingCompleted -= UnblockMenu;

@@ -49,7 +49,7 @@ public class WaveTextUI : MonoBehaviour
         ShowText($"Wave {waveIndex}");
     }
 
-    private void HandleWaveCompleted(int waveIndex)
+    private void HandleWaveCompleted(int waveIndex, bool _)
     {
         ShowText($"Wave {waveIndex} Completed");
     }

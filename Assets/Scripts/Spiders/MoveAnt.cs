@@ -21,12 +21,7 @@ public class MoveAnt : MonoBehaviour
 
     [SerializeField] private List<Transform> lastJoints;
 
-    public EventHandler<MovementEventArgs> onMovementStarted;
-    public EventHandler<MovementEventArgs> onMovementChanged;
-    public EventHandler<MovementEventArgs> onMovementStopped;
-
     private Rigidbody rb;
-    private bool canMoveOddLegs = true;
     private bool isAttacking = false;
 
     private Vector3 inputDir;
@@ -34,9 +29,6 @@ public class MoveAnt : MonoBehaviour
 
     private void OnEnable()
     {
-        onMovementStarted = null;
-        onMovementChanged = null;
-        onMovementStopped = null;
         ID = Guid.NewGuid();
     }
 
@@ -44,21 +36,6 @@ public class MoveAnt : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-
-    private void EnableMovement(object sender, EventArgs e)
-    {
-        StartCoroutine(EnableMovementAfterDalay(10));
-    }
-
-    IEnumerator EnableMovementAfterDalay(int numberOfFrames)
-    {
-        for (int i = 0; i < numberOfFrames; i++)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-    public string GetID() => ID.ToString();
 
     private IEnumerator Attack()
     {

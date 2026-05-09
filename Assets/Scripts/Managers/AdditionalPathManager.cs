@@ -36,8 +36,9 @@ public class AdditionalPathManager : MonoBehaviour
         EventManager.Instance.OnWaveCompleted -= StartAdditionalPathBuildingWithDelay;
     }
     
-    private void StartAdditionalPathBuildingWithDelay(int _)
+    private void StartAdditionalPathBuildingWithDelay(int _, bool isLastWave)
     {
+        if (isLastWave) return;
         StartCoroutine(Delay(delayBeforePathBuilding));
     }
 
@@ -155,6 +156,6 @@ public class AdditionalPathManager : MonoBehaviour
         temporaryTiles.RemoveAll(t => t == newEnd);
         ClearHighlights();
         EventManager.Instance.AdditionalPathPlacingCompleted();
-        inGameMenu.ToggleMenu();
+        inGameMenu.CompletelyHideMenu();
     }
 }

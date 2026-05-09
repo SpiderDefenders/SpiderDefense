@@ -8,7 +8,8 @@ public class InGameMenu : AdditionalPathBlocker
 
     [Header("Animation")]
     [SerializeField] private float animationTime = 0.3f;
-    [SerializeField] private float hiddenY = -300f; // off-screen
+    [SerializeField] private float hiddenY = -300f;
+    [SerializeField] private float completelyHiddenY = -400f;
     [SerializeField] protected float visibleY = -76.05f;
 
     [SerializeField] private bool overrideIsBlocked = false;
@@ -17,7 +18,6 @@ public class InGameMenu : AdditionalPathBlocker
 
     protected void Init()
     {
-        // Start hidden
         Vector2 pos = menuPanel.anchoredPosition;
         pos.y = hiddenY;
         menuPanel.anchoredPosition = pos;
@@ -48,11 +48,37 @@ public class InGameMenu : AdditionalPathBlocker
 
         isOpen = !isOpen;
     }
-    
+
     public void ToggleMenu(bool desiredState)
     {
         if (isOpen == desiredState) return;
         ToggleMenu();
+    }
+
+    public void CompletelyHideMenu()
+    {
+        LeanTween.cancel(menuPanel);
+
+        LeanTween.moveY(menuPanel, completelyHiddenY, animationTime)
+            .setEaseInOutCubic()
+            .setIgnoreTimeScale(true)
+            .setOnComplete(() =>
+            {
+                menuPanel.transform.SetAsFirstSibling();
+            });
+
+        isOpen = false;
+    }
+
+    public void RestoreHiddenMenu()
+    {
+        LeanTween.cancel(menuPanel);
+
+        LeanTween.moveY(menuPanel, hiddenY, animationTime)
+            .setEaseInOutCubic()
+            .setIgnoreTimeScale(true);
+
+        isOpen = false;
     }
 
     public virtual void CloseEverything()
