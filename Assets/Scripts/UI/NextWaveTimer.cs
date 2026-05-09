@@ -86,6 +86,6 @@ public class NextWaveTimer : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        timerText.text = $"Time to next wave: {Mathf.CeilToInt(currentTime)} seconds";
+        timerText.text = $"Next wave in {Mathf.CeilToInt(currentTime)}s";
     }
 }

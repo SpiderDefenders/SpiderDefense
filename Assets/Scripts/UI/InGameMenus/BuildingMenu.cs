@@ -3,13 +3,15 @@
 public class BuildingMenu : InGameMenu
 {
     
-    private void OnEnable()
+    private new void OnEnable()
     {
+        base.OnEnable();
         EventManager.Instance.OnAdditionalPathPlacingCompleted += RestoreMenuToClosedState;
     }
     
-    private void OnDisable()
+    private new void OnDisable()
     {
+        base.OnDisable();
         EventManager.Instance.OnAdditionalPathPlacingCompleted -= RestoreMenuToClosedState;
     }
 

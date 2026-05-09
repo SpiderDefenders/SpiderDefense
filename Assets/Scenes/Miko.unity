@@ -15500,6 +15500,11 @@ MonoBehaviour:
   _maxY: 15
   _xLimits: {x: -2, y: 10}
   _zLimits: {x: -4, y: 5}
+  _boundsPadding:
+    xMin: 1
+    xMax: 2
+    zMin: 3
+    zMax: -2
   _goToSpeed: 10
 --- !u!114 &3860700217826559994
 MonoBehaviour:

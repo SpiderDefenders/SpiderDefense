@@ -23,13 +23,13 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private int value;
 
-    private void OnEnable()
+    private new void OnEnable()
     {
         base.OnEnable();
         EventManager.Instance.OnGameOver += HandleGameOver;
     }
 
-    private void OnDisable()
+    private new void OnDisable()
     {
         base.OnDisable();
         EventManager.Instance.OnGameOver -= HandleGameOver;

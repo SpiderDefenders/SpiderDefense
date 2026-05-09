@@ -23,8 +23,26 @@ namespace SimpleRtsCamera.Scripts
 		[SerializeField] private Vector2 _xLimits = new Vector2(-100, 100);
 		[SerializeField] private Vector2 _zLimits = new Vector2(-100, 100);
 
+		[Header("Bounds Padding")]
+		[SerializeField] private CameraBoundsPadding _boundsPadding = new CameraBoundsPadding
+		{
+			xMin = 5f,
+			xMax = 5f,
+			zMin = 10f,
+			zMax = 2f
+		};
+
 		[Header("Go To")]
 		[SerializeField] private float _goToSpeed = 10f;
+
+		[System.Serializable]
+		private struct CameraBoundsPadding
+		{
+			public float xMin;
+			public float xMax;
+			public float zMin;
+			public float zMax;
+		}
 
 		private PlayerInput _playerInput;
 		private Vector2 _moveInput;
@@ -37,30 +55,12 @@ namespace SimpleRtsCamera.Scripts
 		private bool _isGoingToTarget;
 		private Vector3 _targetPosition;
 
+		private Vector2 _rawXLimits;
+		private Vector2 _rawZLimits;
+
 		private void Awake()
 		{
 			_playerInput = FindAnyObjectByType<PlayerInput>();
-		}
-
-		private void OnEnable()
-		{
-			isGameFinished = false;
-
-			_playerInput.actions["CameraMove"].performed += MoveHandler;
-			_playerInput.actions["CameraMove"].canceled += MoveHandler;
-
-			_playerInput.actions["MousePosition"].performed += MousePositionHandler;
-			_playerInput.actions["MousePosition"].canceled += MousePositionHandler;
-
-			_playerInput.actions["RightMouse"].started += InitialMousePositionHandler;
-
-			_playerInput.actions["ScrollMouse"].performed += ScrollMouseHandler;
-			_playerInput.actions["ScrollMouse"].canceled += ScrollMouseHandler;
-
-			_playerInput.actions["MiddleMouse"].started += InitialMousePositionHandler;
-
-			EventManager.Instance.OnGameOver += GameFinished;
-			EventManager.Instance.OnLevelCompleted += GameFinished;
 		}
 
 		private void LateUpdate()
@@ -82,6 +82,28 @@ namespace SimpleRtsCamera.Scripts
 			ClampPosition();
 		}
 
+		private void OnEnable()
+		{
+			isGameFinished = false;
+
+			_playerInput.actions["CameraMove"].performed += MoveHandler;
+			_playerInput.actions["CameraMove"].canceled += MoveHandler;
+
+			_playerInput.actions["MousePosition"].performed += MousePositionHandler;
+			_playerInput.actions["MousePosition"].canceled += MousePositionHandler;
+
+			_playerInput.actions["RightMouse"].started += InitialMousePositionHandler;
+
+			_playerInput.actions["ScrollMouse"].performed += ScrollMouseHandler;
+			_playerInput.actions["ScrollMouse"].canceled += ScrollMouseHandler;
+
+			_playerInput.actions["MiddleMouse"].started += InitialMousePositionHandler;
+
+			EventManager.Instance.OnGameOver += GameFinished;
+			EventManager.Instance.OnLevelCompleted += GameFinished;
+			EventManager.Instance.OnPathBoundsChanged += UpdateCameraBounds;
+		}
+
 		private void OnDisable()
 		{
 			if (!_playerInput) return;
@@ -99,6 +121,20 @@ namespace SimpleRtsCamera.Scripts
 
 			EventManager.Instance.OnGameOver -= GameFinished;
 			EventManager.Instance.OnLevelCompleted -= GameFinished;
+			EventManager.Instance.OnPathBoundsChanged -= UpdateCameraBounds;
+		}
+
+		private void UpdateCameraBounds(Vector2 xLimits, Vector2 zLimits)
+		{
+			_rawXLimits = xLimits;
+			_rawZLimits = zLimits;
+			ApplyBoundsPadding();
+		}
+
+		private void ApplyBoundsPadding()
+		{
+			_xLimits = new Vector2(_rawXLimits.x - _boundsPadding.xMin, _rawXLimits.y + _boundsPadding.xMax);
+			_zLimits = new Vector2(_rawZLimits.x - _boundsPadding.zMin, _rawZLimits.y + _boundsPadding.zMax);
 		}
 
 		private void GameFinished()
@@ -161,11 +197,18 @@ namespace SimpleRtsCamera.Scripts
 		{
 			if (Mathf.Approximately(_scrollMouseInput.sqrMagnitude, 0f)) return;
 
-			var zoomDirection = transform.forward;
+			float scrollAmount = _scrollMouseInput.x + _scrollMouseInput.y;
+			Vector3 zoomDirection = transform.forward;
+			Vector3 move = zoomDirection * (scrollAmount * _zoomSpeed);
 
-			transform.position += zoomDirection * (_scrollMouseInput.x * _zoomSpeed) +
-			                      zoomDirection * (_scrollMouseInput.y * _zoomSpeed);
+			float newY = transform.position.y + move.y;
 
+			if (newY < _minY || newY > _maxY)
+			{
+				move = Vector3.zero;
+			}
+
+			transform.position += move;
 			_scrollMouseInput = Vector2.zero;
 		}
 
@@ -173,8 +216,19 @@ namespace SimpleRtsCamera.Scripts
 		{
 			var pos = transform.position;
 
-			pos.x = Mathf.Clamp(pos.x, _xLimits.x, _xLimits.y);
-			pos.z = Mathf.Clamp(pos.z, _zLimits.x, _zLimits.y);
+			float forwardX = transform.forward.x;
+			float forwardZ = transform.forward.z;
+			float forwardY = Mathf.Abs(transform.forward.y);
+
+			float horizontalPerY = forwardY > 0.001f
+				? new Vector2(forwardX, forwardZ).magnitude / forwardY
+				: 0f;
+
+			float yDelta = pos.y - _minY;
+			float horizontalOffset = yDelta * horizontalPerY;
+
+			pos.x = Mathf.Clamp(pos.x, _xLimits.x - horizontalOffset, _xLimits.y + horizontalOffset);
+			pos.z = Mathf.Clamp(pos.z, _zLimits.x - horizontalOffset, _zLimits.y + horizontalOffset);
 			pos.y = Mathf.Clamp(pos.y, _minY, _maxY);
 
 			transform.position = pos;

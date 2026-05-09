@@ -24,6 +24,7 @@ public class EventManager : MonoBehaviour
     public event Action OnGameOver;
     public event Action<int> OnEnemyDead;
     public event Action OnLevelCompleted;
+    public event Action<Vector2, Vector2> OnPathBoundsChanged;
 
     public event Action<int> OnMoneyChanged;
     public event Action<int> OnHPChanged;
@@ -40,4 +41,5 @@ public class EventManager : MonoBehaviour
     public void HPChanged(int hp) => OnHPChanged?.Invoke(hp);
     public void AdditionalPathPlacingStarted() => OnAdditionalPathPlacingStarted?.Invoke();
     public void AdditionalPathPlacingCompleted() => OnAdditionalPathPlacingCompleted?.Invoke();
+    public void PathBoundsChanged(Vector2 xLimits, Vector2 zLimits) => OnPathBoundsChanged?.Invoke(xLimits, zLimits);
 }

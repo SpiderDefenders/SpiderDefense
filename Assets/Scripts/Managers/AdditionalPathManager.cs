@@ -8,7 +8,7 @@ public class AdditionalPathManager : MonoBehaviour
     [SerializeField] private GameObject temporaryTilePrefab;
     [SerializeField] private float delayBeforePathBuilding = 1f;
     [SerializeField] private InGameMenu inGameMenu;
-    
+
     private Dictionary<Tile, Material> originalMaterials = new Dictionary<Tile, Material>();
     private List<Tile> temporaryTiles = new List<Tile>();
 
@@ -19,23 +19,54 @@ public class AdditionalPathManager : MonoBehaviour
     private List<Tile> availableTiles = new List<Tile>();
     private PathTile lastTile;
 
+    private Vector2 xBounds;
+    private Vector2 zBounds;
+
     private void Start()
     {
         gridManager = FindAnyObjectByType<GridManager>();
         menuManager = FindAnyObjectByType<MenuManager>();
         pathManager = FindAnyObjectByType<PathManager>();
+
+        CalculateInitialBounds();
     }
 
     void OnEnable()
     {
         EventManager.Instance.OnWaveCompleted += StartAdditionalPathBuildingWithDelay;
     }
-    
+
     void OnDisable()
     {
         EventManager.Instance.OnWaveCompleted -= StartAdditionalPathBuildingWithDelay;
     }
-    
+
+    private void CalculateInitialBounds()
+    {
+        xBounds = new Vector2(float.MaxValue, float.MinValue);
+        zBounds = new Vector2(float.MaxValue, float.MinValue);
+
+        foreach (PathTile tile in pathManager.GetPathTiles())
+        {
+            ExpandBounds(tile.Position);
+        }
+
+        EventManager.Instance.PathBoundsChanged(xBounds, zBounds);
+    }
+
+    private void ExpandBounds(Vector3 position)
+    {
+        bool changed = false;
+
+        if (position.x < xBounds.x) { xBounds.x = position.x; changed = true; }
+        if (position.x > xBounds.y) { xBounds.y = position.x; changed = true; }
+        if (position.z < zBounds.x) { zBounds.x = position.z; changed = true; }
+        if (position.z > zBounds.y) { zBounds.y = position.z; changed = true; }
+
+        if (changed)
+            EventManager.Instance.PathBoundsChanged(xBounds, zBounds);
+    }
+
     private void StartAdditionalPathBuildingWithDelay(int _, bool isLastWave)
     {
         if (isLastWave) return;
@@ -47,7 +78,7 @@ public class AdditionalPathManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         StartAdditionalPathBuilding();
     }
-    
+
     public void StartAdditionalPathBuilding()
     {
         EventManager.Instance.AdditionalPathPlacingStarted();
@@ -154,6 +185,7 @@ public class AdditionalPathManager : MonoBehaviour
         pathManager.ExtendPath(direction);
         Tile newEnd = pathManager.GetPathTiles()[^1];
         temporaryTiles.RemoveAll(t => t == newEnd);
+        ExpandBounds(newEnd.Position);
         ClearHighlights();
         EventManager.Instance.AdditionalPathPlacingCompleted();
         inGameMenu.CompletelyHideMenu();

@@ -6,11 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MoveAnt : MonoBehaviour
 {
-    private static Guid ID;
-
-    [Header("Movement Settings")] [SerializeField]
-    private float bodyHeight = 0.5f;
-
     [Header("Attack Settings")] [SerializeField]
     private float attackDistance = 0.5f;
 
@@ -26,11 +21,6 @@ public class MoveAnt : MonoBehaviour
 
     private Vector3 inputDir;
     private GameObject enemy;
-
-    private void OnEnable()
-    {
-        ID = Guid.NewGuid();
-    }
 
     private void Start()
     {
