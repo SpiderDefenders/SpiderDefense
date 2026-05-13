@@ -5334,6 +5334,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1530700999}
     m_Modifications:
     - target: {fileID: 1492913142258644148, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
+      propertyPath: visibleY
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492913142258644148, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
       propertyPath: changeSiblingOrder
       value: 0
       objectReference: {fileID: 0}
@@ -5348,6 +5352,14 @@ PrefabInstance:
     - target: {fileID: 2983828688129088577, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
       propertyPath: m_Name
       value: AdditionalPathBuildingMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3637637506127453150, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -155
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017793343349407567, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5302630568167161345, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
       propertyPath: m_Pivot.x
@@ -5415,7 +5427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5302630568167161345, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -96.737366
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 5302630568167161345, guid: e3372ef5bdec1cf41b06e516a229ba65, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11098,12 +11110,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 1956495544}
   darkBackground: {fileID: 486455015}
+  statusText: {fileID: 0}
   scoreLabel: {fileID: 139120367}
   scoreValue: {fileID: 1733573832}
   homeButton: {fileID: 1865470139}
   restartButton: {fileID: 944159325}
+  reviewMapButton: {fileID: 0}
   homeBtnComponent: {fileID: 1865470140}
   restartBtnComponent: {fileID: 944159326}
+  reviewMapBtnComponent: {fileID: 0}
   animDuration: 0.4
   overshoot: 40
 --- !u!1001 &1543442073
