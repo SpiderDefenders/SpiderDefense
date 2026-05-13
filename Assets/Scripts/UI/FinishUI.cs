@@ -109,8 +109,6 @@ public class FinishUI : MonoBehaviour
             return;
         }
 
-        newRecord.gameObject.SetActive(true);
-
         RectTransform rt = newRecord;
         Vector2 targetPos = newRecord.anchoredPosition;
         Vector3 targetScale = newRecord.localScale;
@@ -119,7 +117,10 @@ public class FinishUI : MonoBehaviour
         newRecord.localScale = Vector3.one * 2.5f;
         newRecord.rotation = Quaternion.Euler(0, 0, 15f);
 
-        LeanTween.scale(newRecord, Vector3.one * 0.95f, 0.18f)
+        LeanTween.delayedCall(gameObject, 0.4f, () =>
+        {
+            newRecord.gameObject.SetActive(true);
+            LeanTween.scale(newRecord, Vector3.one * 0.95f, 0.18f)
             .setEaseInQuad()
             .setIgnoreTimeScale(true)
             .setOnComplete(() =>
@@ -140,7 +141,8 @@ public class FinishUI : MonoBehaviour
                 //    .setEaseOutQuad()
                 //    .setIgnoreTimeScale(true);
             });
-}
+        }).setIgnoreTimeScale(true);
+    }
 
     private void Show()
     {
