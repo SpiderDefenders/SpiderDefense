@@ -1,5 +1,3 @@
-using NUnit.Framework.Internal;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -121,12 +119,12 @@ public class FinishUI : MonoBehaviour
         newRecord.localScale = Vector3.one * 2.5f;
         newRecord.rotation = Quaternion.Euler(0, 0, 15f);
 
-        LeanTween.scale(newRecord, Vector3.one * 0.9f, 0.18f)
+        LeanTween.scale(newRecord, Vector3.one * 0.95f, 0.18f)
             .setEaseInQuad()
             .setIgnoreTimeScale(true)
             .setOnComplete(() =>
             {
-                LeanTween.scale(newRecord, new Vector3(1.15f, 0.75f, 1f), 0.08f)
+                LeanTween.scale(rt, new Vector3(targetScale.x * 1.08f, targetScale.y * 0.78f, 1f), 0.09f)
                     .setEaseOutQuad()
                     .setIgnoreTimeScale(true)
                     .setOnComplete(() =>
