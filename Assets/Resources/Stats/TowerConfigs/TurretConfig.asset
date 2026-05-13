@@ -18,3 +18,4 @@ MonoBehaviour:
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
   shootingCooldown: 0.8
   ammoPrefab: {fileID: 5204778606501298190, guid: 98dbc02ee74b1e4448f087f3d64f1ddc, type: 3}
+  ShootingModes: 00000000010000000200000003000000
