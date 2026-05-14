@@ -19,8 +19,8 @@ public class LevelManager : MonoBehaviour
     
     private void OnEnable()
     {
-        EventManager.Instance.OnPathGenerated += StartLevel;
         enemyManager = FindAnyObjectByType<EnemyManager>();
+        EventManager.Instance.OnPathGenerated += StartLevel;
         EventManager.Instance.OnGameOver += HandleGameOver;
         EventManager.Instance.OnEnemyDead += EnemyDead;
         EventManager.Instance.OnEnemyReachedTheEnd += EnemyDead;
@@ -131,4 +131,6 @@ public class LevelManager : MonoBehaviour
     public int GetCurrentWave() => currentWave;
     public int GetCurrentNumberOfEnemies() => currentNumberOfEnemies;
     public float GetDelayAfterAdditionalPathPlaced() => delayAfterAdditionalPathPlaced;
+
+    public int GetMaxWave() => level.waves.Count;
 }

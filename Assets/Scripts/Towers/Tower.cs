@@ -16,6 +16,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     private GameObject target;
     private float yOffset = 0.05f;
     private float shootingCountdown = 0f;
+    private TowerModeManager modeManager;
     public PlacableType Type => PlacableType.Defense;
     private List<GameObject> enemiesInRange = new List<GameObject>();
     private bool isPlaced = false;
@@ -42,6 +43,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private void Awake()
     {
+        modeManager = new TowerModeManager(towerConfig.shootingModes, towerConfig.startShootingMode);
         CreateRangeObject();
     }
     private void Update()
@@ -104,7 +106,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     private void SetTarget()
     {
         GameObject bestTarget = null;
-        float maxProgress = -Mathf.Infinity;
+        float bestValue = -Mathf.Infinity;
 
         // go backwards to avoid errors when removing enemies
         for (int i = enemiesInRange.Count - 1; i >= 0; i--)
@@ -117,11 +119,11 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
                 continue;
             }
 
-            float progress = enemy.GetComponent<Enemy>().GetProgress();
+            float value = modeManager.GetModeValue(enemy.GetComponent<Enemy>());
 
-            if (progress > maxProgress)
+            if (value > bestValue)
             {
-                maxProgress = progress;
+                bestValue = value;
                 bestTarget = enemy;
             }
         }

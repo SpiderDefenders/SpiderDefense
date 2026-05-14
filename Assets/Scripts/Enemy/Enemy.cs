@@ -64,5 +64,6 @@ public class Enemy : MonoBehaviour
     }
 
     public float GetProgress() { return t; }
+    public float GetHealth() { return health; }
     public bool IsDead() { return isDead; }
 }

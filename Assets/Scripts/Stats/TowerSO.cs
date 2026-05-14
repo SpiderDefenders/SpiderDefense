@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "TowerConfig", menuName = "Stats/TowerConfig")]
 public class TowerSO : ScriptableObject
@@ -16,4 +18,9 @@ public class TowerSO : ScriptableObject
     [Header("Shooting")]
     public float shootingCooldown = 1f;
     public GameObject ammoPrefab;
+    public List<TowerModeType> shootingModes = System.Enum
+    .GetValues(typeof(TowerModeType))
+    .Cast<TowerModeType>()
+    .ToList();
+    public TowerModeType startShootingMode = TowerModeType.First;
 }

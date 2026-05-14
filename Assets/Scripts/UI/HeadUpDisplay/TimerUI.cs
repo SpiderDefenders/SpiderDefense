@@ -63,11 +63,15 @@ public class TimerDisplay : MonoBehaviour
         isRunning = false;
     }
 
-    private void UpdateTimerUI()
+    public string GetTimeString()
     {
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
+        return $"{minutes}:{seconds:00}";
+    }
 
-        timerText.text = $"{minutes}:{seconds:00}";
+    private void UpdateTimerUI()
+    {
+        timerText.text = GetTimeString();
     }
 }
