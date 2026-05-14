@@ -5,7 +5,9 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Level")] [SerializeField] private LevelSO level;
 
-    [Header("Settings")] [SerializeField] private float delayBetweenWaves = 3f;
+    [Header("Settings")]
+    [SerializeField] private float delayBetweenWaves = 3f;
+    [SerializeField] private float delayAfterAdditionalPathPlaced = 5f;
 
     private Coroutine levelRoutine;
     private EnemyManager enemyManager;
@@ -13,14 +15,16 @@ public class LevelManager : MonoBehaviour
     
     private bool isGameOver = false;
     private int currentNumberOfEnemies = 0;
+    private bool canStartNextWave = false;
     
     private void OnEnable()
     {
-        EventManager.Instance.OnPathGenerated += StartLevel;
         enemyManager = FindAnyObjectByType<EnemyManager>();
+        EventManager.Instance.OnPathGenerated += StartLevel;
         EventManager.Instance.OnGameOver += HandleGameOver;
         EventManager.Instance.OnEnemyDead += EnemyDead;
         EventManager.Instance.OnEnemyReachedTheEnd += EnemyDead;
+        EventManager.Instance.OnAdditionalPathPlacingCompleted += EnableStartingNextWave;
     }
 
     private void OnDisable()
@@ -29,6 +33,12 @@ public class LevelManager : MonoBehaviour
         EventManager.Instance.OnGameOver -= HandleGameOver;
         EventManager.Instance.OnEnemyDead -= EnemyDead;
         EventManager.Instance.OnEnemyReachedTheEnd -= EnemyDead;
+        EventManager.Instance.OnAdditionalPathPlacingCompleted -= EnableStartingNextWave;
+    }
+    
+    private void EnableStartingNextWave()
+    {
+        canStartNextWave = true;
     }
 
     private void StartLevel()
@@ -60,12 +70,25 @@ public class LevelManager : MonoBehaviour
 
             yield return StartCoroutine(RunWave(wave));
 
+            EventManager.Instance.WaveCompleted(currentWave, i==level.waves.Count-1);
             Debug.Log($"--- Wave {i:00} END ---");
-            
+
             if (i < level.waves.Count - 1)
             {
                 yield return new WaitForSeconds(delayBetweenWaves);
             }
+            else
+            {
+                break;
+            }
+
+            while (!canStartNextWave)
+            {
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            canStartNextWave = false;
+            yield return new WaitForSeconds(delayAfterAdditionalPathPlaced);
         }
         
         EventManager.Instance.LevelCompleted();
@@ -107,4 +130,7 @@ public class LevelManager : MonoBehaviour
     
     public int GetCurrentWave() => currentWave;
     public int GetCurrentNumberOfEnemies() => currentNumberOfEnemies;
+    public float GetDelayAfterAdditionalPathPlaced() => delayAfterAdditionalPathPlaced;
+
+    public int GetMaxWave() => level.waves.Count;
 }

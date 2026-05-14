@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InGameMenu : MonoBehaviour
+public class InGameMenu : AdditionalPathBlocker
 {
     [Header("UI")]
     [SerializeField] protected RectTransform menuPanel;
@@ -8,15 +8,16 @@ public class InGameMenu : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private float animationTime = 0.3f;
-    [SerializeField] private float hiddenY = -300f; // off-screen
+    [SerializeField] private float hiddenY = -300f;
+    [SerializeField] private float completelyHiddenY = -400f;
     [SerializeField] protected float visibleY = -76.05f;
 
+    [SerializeField] private bool overrideIsBlocked = false;
     protected bool isOpen = false;
     protected bool moveBackOnDown = false;
 
     protected void Init()
     {
-        // Start hidden
         Vector2 pos = menuPanel.anchoredPosition;
         pos.y = hiddenY;
         menuPanel.anchoredPosition = pos;
@@ -29,6 +30,7 @@ public class InGameMenu : MonoBehaviour
 
     public void ToggleMenu()
     {
+        if (!overrideIsBlocked && isBlocked) isOpen = true;
         LeanTween.cancel(menuPanel);
 
         float targetY = isOpen ? hiddenY : visibleY;
@@ -46,11 +48,37 @@ public class InGameMenu : MonoBehaviour
 
         isOpen = !isOpen;
     }
-    
+
     public void ToggleMenu(bool desiredState)
     {
         if (isOpen == desiredState) return;
         ToggleMenu();
+    }
+
+    public void CompletelyHideMenu()
+    {
+        LeanTween.cancel(menuPanel);
+
+        LeanTween.moveY(menuPanel, completelyHiddenY, animationTime)
+            .setEaseInOutCubic()
+            .setIgnoreTimeScale(true)
+            .setOnComplete(() =>
+            {
+                menuPanel.transform.SetAsFirstSibling();
+            });
+
+        isOpen = false;
+    }
+
+    public void RestoreHiddenMenu()
+    {
+        LeanTween.cancel(menuPanel);
+
+        LeanTween.moveY(menuPanel, hiddenY, animationTime)
+            .setEaseInOutCubic()
+            .setIgnoreTimeScale(true);
+
+        isOpen = false;
     }
 
     public virtual void CloseEverything()

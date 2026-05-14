@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PathManager : MonoBehaviour
@@ -79,6 +80,7 @@ public class PathManager : MonoBehaviour
             90 => Direction.E,
             180 => Direction.S,
             270 => Direction.W,
+            _ => throw new ArgumentOutOfRangeException()
         };
     }
 
@@ -91,6 +93,7 @@ public class PathManager : MonoBehaviour
             90 => (Direction.N, Direction.E),
             180 => (Direction.E, Direction.S),
             270 => (Direction.S, Direction.W),
+            _ => throw new ArgumentOutOfRangeException()
         };
 
         return currentDir.Opposite() == d1 ? d2 : d1;

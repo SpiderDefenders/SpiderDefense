@@ -166,10 +166,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 96982078855333875}
+  amountText: {fileID: 6137594042302217918}
   hoverScale: 1.2
   animationTime: 0.2
   towerPrefab: {fileID: 0}
-  amountText: {fileID: 6137594042302217918}
 --- !u!1 &8314356882525625881
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,8 +239,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d17334b3341240142a82ebab48aa072d, type: 2}
+  m_sharedMaterial: {fileID: -6594239049137406776, guid: d17334b3341240142a82ebab48aa072d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -264,8 +264,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.75
-  m_fontSizeBase: 41.75
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0

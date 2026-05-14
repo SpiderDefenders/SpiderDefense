@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Event_01_SpawnEnemies
   m_EditorClassIdentifier: 
   enemyType: 1
-  count: 3
+  count: 1
   delayBetween: 2

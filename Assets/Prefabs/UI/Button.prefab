@@ -283,8 +283,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ' Home'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db7a8994f4fe2504283687cb309ebec6, type: 2}
-  m_sharedMaterial: {fileID: 648163807454541950, guid: db7a8994f4fe2504283687cb309ebec6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d17334b3341240142a82ebab48aa072d, type: 2}
+  m_sharedMaterial: {fileID: -6594239049137406776, guid: d17334b3341240142a82ebab48aa072d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -308,8 +308,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.11
-  m_fontSizeBase: 45.11
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
