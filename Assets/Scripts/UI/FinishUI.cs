@@ -47,8 +47,10 @@ public class FinishUI : MonoBehaviour
     }
 
     // TODO temporary solution
-    private bool IsNewRecord()
+    private bool IsNewRecord(float currentTime)
     {
+        if (!(currentTime < PlayerPrefs.GetFloat("RecordTime", 0f))) return false;
+        PlayerPrefs.SetFloat("RecordTime", currentTime);
         return true;
     }
 
@@ -80,11 +82,12 @@ public class FinishUI : MonoBehaviour
 
     private void ShowVictoryUI()
     {
-        scoreValue.text = FindAnyObjectByType<TimerDisplay>().GetTimeString();
+        TimerDisplay timerDisplay = FindAnyObjectByType<TimerDisplay>();
+        scoreValue.text = timerDisplay.GetTimeString();
         scoreLabel.text = "Time";
         statusText.text = "VICTORY";
         statusText.color = Color.green;
-        isNewRecord = IsNewRecord();
+        isNewRecord = IsNewRecord(timerDisplay.GetTime());
         Show();
     }
 

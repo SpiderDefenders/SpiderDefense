@@ -70,6 +70,11 @@ public class TimerDisplay : MonoBehaviour
         return $"{minutes}:{seconds:00}";
     }
 
+    public float GetTime()
+    {
+        return elapsedTime;
+    }
+
     private void UpdateTimerUI()
     {
         timerText.text = GetTimeString();
