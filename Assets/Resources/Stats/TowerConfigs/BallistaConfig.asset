@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: BallistaConfig
   m_EditorClassIdentifier: 
   placingOffset: {x: 0, y: 0.152, z: 0}
-  cost: 100
+  cost: 2000
   rangeRadius: 4
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
   shootingCooldown: 1
   ammoPrefab: {fileID: 0}
+  shootingModes: 00000000010000000200000003000000
+  startShootingMode: 0
