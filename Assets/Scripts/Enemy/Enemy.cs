@@ -31,7 +31,8 @@ public class Enemy : MonoBehaviour
         t = Mathf.Clamp01(t);
 
         Vector3 splinePos = splineContainer.EvaluatePosition(t);
-        transform.position = new Vector3(splinePos.x, splinePos.y + 0.1f, splinePos.z);
+        float y = GetComponentInChildren<MoveAnt>().GetYPos(splinePos.x, splinePos.z);
+        transform.position = new Vector3(splinePos.x, y, splinePos.z);
         transform.forward = splineContainer.EvaluateTangent(t);
     }
     

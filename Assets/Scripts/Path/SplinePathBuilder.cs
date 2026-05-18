@@ -52,10 +52,11 @@ public class SplinePathBuilder : MonoBehaviour
             Vector3 dir1 = (current - prev).normalized;
             Vector3 dir2 = (next - current).normalized;
 
-            if (dir1 != dir2)
-            {
-                result.Add(tiles[i].GetWaypointPosition());
-            }
+            //if (dir1 != dir2)
+            //{
+            //    result.Add(tiles[i].GetWaypointPosition());
+            //}
+            result.Add(tiles[i].GetWaypointPosition());
         }
 
         result.Add(tiles[0].GetWaypointPosition());
