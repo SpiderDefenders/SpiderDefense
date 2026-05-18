@@ -152,6 +152,8 @@ public class FinishUI : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
+        gameObject.transform.SetAsLastSibling();
+
         LeanTween.delayedCall(gameObject, 3f, () =>
         {
 

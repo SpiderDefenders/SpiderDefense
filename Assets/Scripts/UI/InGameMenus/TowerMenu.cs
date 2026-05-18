@@ -1,15 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TowerMenu : InGameMenu
 {
+    [Header("Components")]
+    [SerializeField] private Image towerImage;
+    [SerializeField] private TMP_Text towerNameText;
+    [SerializeField] private TMP_Text deleteText;
+    [SerializeField] private TMP_Text modeText;
+
+
     private Tower selectedTower;
-    private RemoveTowerUI removeTowerUI;
+    private TowerModeManager selectedTowerModeManager;
     private void Start()
     {
         Init();
         toggleButton.gameObject.SetActive(false);
         moveBackOnDown = true;
-        removeTowerUI = GetComponentInChildren<RemoveTowerUI>();
     }
 
     public void OpenMenu(Tower tower)
@@ -32,9 +42,10 @@ public class TowerMenu : InGameMenu
     private void BaseOpen(Tower tower)
     {
         selectedTower = tower;
+        selectedTowerModeManager = tower.GetTowerModeManager();
         toggleButton.gameObject.SetActive(true);
         gameObject.transform.SetAsLastSibling();
-        removeTowerUI.SetAmount(CurrencyManager.Instance.GetMoneyOnTowerRemoved(tower.GetValue()));
+        SetTowerValues();
     }
 
     public override void CloseEverything()
@@ -47,9 +58,29 @@ public class TowerMenu : InGameMenu
         selectedTower = null;
     }
 
+    private void SetTowerValues()
+    {
+        towerNameText.text = selectedTower.GetName();
+        towerImage.sprite = selectedTower.GetImage();
+        modeText.text = selectedTowerModeManager.GetCurrentMode().ToString();
+        deleteText.text = CurrencyManager.Instance.GetMoneyOnTowerRemoved(selectedTower.GetValue()).ToString();
+    }
+
     public void RemoveTower()
     {
         selectedTower.OnRemoved();
         CloseEverything();
+    }
+
+    public void NextMode()
+    {
+        selectedTowerModeManager.Next();
+        modeText.text = selectedTowerModeManager.GetCurrentMode().ToString();
+    }
+
+    public void PreviousMode()
+    {
+        selectedTowerModeManager.Previous();
+        modeText.text = selectedTowerModeManager.GetCurrentMode().ToString();
     }
 }

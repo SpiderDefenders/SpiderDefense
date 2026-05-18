@@ -153,6 +153,9 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public bool IsPlaced() {  return isPlaced; }
     public void AddValue(int extraValue) {  value += extraValue; } // in updates
     public int GetCost() { return towerConfig.cost; }
+    public string GetName() { return towerConfig.towerName; }
+    public Sprite GetImage() { return towerConfig.towerImage; }
+    public TowerModeManager GetTowerModeManager() {return modeManager;}
     public int GetValue() {  return value; }
 
     public void OnClick()

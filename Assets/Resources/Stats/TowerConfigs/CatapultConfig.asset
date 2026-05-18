@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd98070b96878e84db9b5a8c75861563, type: 3}
   m_Name: CatapultConfig
   m_EditorClassIdentifier: 
+  towerName: Catapult
+  towerImage: {fileID: 21300000, guid: c014ea3036cf54044beba987b6065446, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
   cost: 200
   rangeRadius: 3

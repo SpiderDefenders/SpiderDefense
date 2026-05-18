@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TowerConfig", menuName = "Stats/TowerConfig")]
 public class TowerSO : ScriptableObject
 {
+    [Header("Tower Info")]
+    public string towerName;
+    public Sprite towerImage;
+
     [Header("Placing")]
     public Vector3 placingOffset;
 

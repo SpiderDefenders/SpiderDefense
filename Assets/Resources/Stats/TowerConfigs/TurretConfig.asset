@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd98070b96878e84db9b5a8c75861563, type: 3}
   m_Name: TurretConfig
   m_EditorClassIdentifier: 
+  towerName: Turret
+  towerImage: {fileID: 21300000, guid: 7f5048fbe1e1db04184c981bfea34a2c, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
   cost: 50
   rangeRadius: 1.5

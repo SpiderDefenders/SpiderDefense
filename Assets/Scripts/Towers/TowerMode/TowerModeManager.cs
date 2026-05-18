@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class TowerModeManager
 {
@@ -20,7 +19,12 @@ public class TowerModeManager
 
     public void Previous()
     {
-        currentModeIdx = (currentModeIdx - 1) % availableModes.Count;
+        currentModeIdx = (currentModeIdx - 1 + availableModes.Count) % availableModes.Count;
+    }
+
+    public TowerModeType GetCurrentMode()
+    {
+        return availableModes[currentModeIdx];
     }
 
     public float GetModeValue(Enemy enemy)

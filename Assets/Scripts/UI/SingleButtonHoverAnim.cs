@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SingleButtonHoverAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Animation Settings")]
     public float scaleUp = 1.2f;
@@ -27,5 +27,19 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         LeanTween.scale(buttonTransform, originalScale, duration)
             .setEaseOutBack()
             .setIgnoreTimeScale(true);
+    }
+
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        LeanTween.cancel(buttonTransform);
+
+        // Click animation sequence
+        LeanTween.scale(buttonTransform, buttonTransform.localScale * 1.2f, duration / 2)
+            .setEaseInOutQuad()
+            .setOnComplete(() =>
+            {
+                LeanTween.scale(buttonTransform, originalScale * scaleUp, duration / 2)
+                    .setEaseOutBack();
+            });
     }
 }

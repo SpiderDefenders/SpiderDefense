@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd98070b96878e84db9b5a8c75861563, type: 3}
   m_Name: BallistaConfig
   m_EditorClassIdentifier: 
+  towerName: Ballista
+  towerImage: {fileID: 21300000, guid: 2b1d79c7d8e4e504794f672db3614dd2, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
   cost: 2000
   rangeRadius: 4

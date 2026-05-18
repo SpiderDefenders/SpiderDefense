@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd98070b96878e84db9b5a8c75861563, type: 3}
   m_Name: CannonConfig
   m_EditorClassIdentifier: 
+  towerName: Cannon
+  towerImage: {fileID: 21300000, guid: a7ad293e3cd12e045aa28507a7a0674a, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
   cost: 10
   rangeRadius: 2.5
