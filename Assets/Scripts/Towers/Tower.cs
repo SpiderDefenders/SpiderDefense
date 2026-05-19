@@ -5,12 +5,15 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 {
     private ITile tile;
 
-    [SerializeField] private TowerSO towerConfig;
+    [SerializeField] protected TowerSO towerConfig;
     [SerializeField] protected Transform ammoSpawnPoint;
 
     [Header("Pivoting")]
     [SerializeField] protected Transform horizontalPivot;
+    [SerializeField] private Transform verticalPivot;
     [SerializeField] protected float aimTolerance = 10f;
+
+    GameObject ammoObject;
 
     private GameObject rangeObject;
     protected GameObject target;
@@ -29,7 +32,6 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     {
         base.OnEnable();
         EventManager.Instance.OnGameOver += HandleGameOver;
-        Debug.Log("aaa" + aimTolerance);
     }
 
     private new void OnDisable()
@@ -47,6 +49,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     {
         modeManager = new TowerModeManager(towerConfig.shootingModes, towerConfig.startShootingMode);
         CreateRangeObject();
+        ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
     }
     private void Update()
     {
@@ -64,6 +67,11 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
                 Shoot();
                 shootingCountdown = towerConfig.shootingCooldown;
             }
+        }
+
+        if (shootingCountdown <= towerConfig.shootingCooldown / 2 && ammoObject == null)
+        {
+            ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
         }
 
         shootingCountdown -= Time.deltaTime;
@@ -136,9 +144,10 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private void Shoot()
     {
-        GameObject ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
+        //GameObject ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
+        ammoObject = null;
 
     }
 
@@ -202,7 +211,6 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         
         if (Quaternion.Angle(horizontalPivot.rotation, targetRotation) > aimTolerance)
         {
-            Debug.Log(Quaternion.Angle(horizontalPivot.rotation, targetRotation) + " " + aimTolerance);
             isRotatedOnTarget = false;
         }
 
@@ -215,6 +223,23 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     
     protected virtual void RotateVertical(float distance, float height)
     {
-        return;
+
+        float baseAngle = Mathf.Atan2(height, distance) * Mathf.Rad2Deg;
+        float angle = Mathf.Clamp(baseAngle + distance * 2f, 0f, 75f);
+
+        Quaternion verticalTargetRotation = Quaternion.Euler(angle, 0f, 0f);
+        float currentAngle = verticalPivot.localEulerAngles.x;
+        if (currentAngle > 180f) currentAngle -= 360f;
+        float error = Mathf.Abs(Mathf.DeltaAngle(currentAngle, angle));
+        if (error > aimTolerance)
+        {
+            isRotatedOnTarget = false;
+        }
+
+        verticalPivot.localRotation = Quaternion.Slerp(
+            verticalPivot.localRotation,
+            verticalTargetRotation,
+            Time.deltaTime * 10f
+        );
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TurretAmmo : Ammo
+public class BallistaAmmo : Ammo
 {
     private void Update()
     {
