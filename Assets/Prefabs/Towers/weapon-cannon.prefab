@@ -139,6 +139,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6062126, y: 0.5496372, z: 0.6162973}
   m_Center: {x: -0.0029762387, y: 0.26662272, z: 0.0047086775}
+--- !u!1 &8557074605102795988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 567505423807558391}
+  m_Layer: 0
+  m_Name: AmmoSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &567505423807558391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8557074605102795988}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.372, z: -0.036}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1182198433502617735}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8926371554915663655
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +204,7 @@ Transform:
   m_Children:
   - {fileID: 1206478447265427584}
   - {fileID: 3995664281061004848}
+  - {fileID: 567505423807558391}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5751937562271018342
@@ -241,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerConfig: {fileID: 11400000, guid: 3a9e468cf2c445f419be6d82ff22a2b3, type: 2}
-  ammoSpawnPoint: {fileID: 0}
+  ammoSpawnPoint: {fileID: 567505423807558391}
   horizontalPivot: {fileID: 1182198433502617735}
   verticalPivot: {fileID: 3995664281061004848}
+  aimTolerance: 10

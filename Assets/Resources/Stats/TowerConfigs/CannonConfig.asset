@@ -19,6 +19,6 @@ MonoBehaviour:
   rangeRadius: 2.5
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
   shootingCooldown: 1
-  ammoPrefab: {fileID: 0}
+  ammoPrefab: {fileID: 459236634588335255, guid: 676f22a8d1c19fa46904b860ee135a3d, type: 3}
   shootingModes: 00000000010000000200000003000000
   startShootingMode: 0
