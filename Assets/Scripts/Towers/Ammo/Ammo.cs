@@ -6,7 +6,7 @@ public abstract class Ammo : MonoBehaviour
     [SerializeField] protected AmmoSO ammoConfig;
     protected bool shooted = false;
 
-    public void SetTarget(GameObject target)
+    public virtual void SetTarget(GameObject target)
     {
         shooted = true;
         this.target = target;

@@ -13,7 +13,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     [SerializeField] private Transform verticalPivot;
     [SerializeField] protected float aimTolerance = 10f;
 
-    GameObject ammoObject;
+    protected GameObject ammoObject;
 
     private GameObject rangeObject;
     protected GameObject target;
@@ -69,9 +69,9 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
             }
         }
 
-        if (shootingCountdown <= towerConfig.shootingCooldown / 2 && ammoObject == null)
+        if (shootingCountdown <= towerConfig.shootingCooldown / 4 && ammoObject == null)
         {
-            ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
+            ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
         }
 
         shootingCountdown -= Time.deltaTime;
@@ -142,9 +142,8 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         target = bestTarget;
     }
 
-    private void Shoot()
+    protected virtual void Shoot()
     {
-        //GameObject ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
         ammoObject = null;
@@ -173,7 +172,6 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public void OnClick()
     {
         if (isBlocked) return;
-        Debug.Log("Tower clicked");
         rangeObject.SetActive(true);
     }
 
