@@ -62,6 +62,8 @@ public class PauseUI : MonoBehaviour
 
         gameManager.PauseGame();
         menuManager.CloseAll();
+
+        AudioManager.Instance.StopMusicWithFade(0.5f);
         
         LeanTween.cancel(pauseContainer);
         LeanTween.cancel(darkBackground.gameObject);
@@ -95,6 +97,8 @@ public class PauseUI : MonoBehaviour
         isAnimating = true;
 
         gameManager.ResumeGame();
+
+        AudioManager.Instance.ResumeMusicWithFade(0.5f);
         
         LeanTween.cancel(pauseContainer);
         LeanTween.cancel(darkBackground.gameObject);

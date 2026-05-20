@@ -148,7 +148,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
         ammoObject = null;
-
+        AudioManager.Instance.PlaySFX(SoundID.TurretShot, GetComponent<AudioSource>());
     }
 
     public void OnPlaced(ITile tile)
