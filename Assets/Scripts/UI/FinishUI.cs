@@ -73,11 +73,11 @@ public class FinishUI : MonoBehaviour
 
         homeButton.localScale = Vector3.zero;
         restartButton.localScale = Vector3.zero;
-        reviewMapButton.localScale = Vector3.zero;
+        if (reviewMapButton) reviewMapButton.localScale = Vector3.zero;
 
         homeBtnComponent.interactable = false;
         restartBtnComponent.interactable = false;
-        reviewMapBtnComponent.interactable = false;
+        if (reviewMapBtnComponent) reviewMapBtnComponent.interactable = false;
     }
 
     private void ShowVictoryUI()
@@ -215,17 +215,20 @@ public class FinishUI : MonoBehaviour
                      homeBtnComponent.interactable = true;
                  });
 
-        LeanTween.scale(reviewMapButton, Vector3.one * 1.1f, 0.25f)
-                 .setDelay(delay + 0.1f)
-                 .setEaseOutBack()
-                 .setIgnoreTimeScale(true)
-                 .setOnComplete(() =>
-                 {
-                     LeanTween.scale(reviewMapButton, Vector3.one, 0.1f)
-                              .setIgnoreTimeScale(true);
+        if (reviewMapButton)
+        {
+            LeanTween.scale(reviewMapButton, Vector3.one * 1.1f, 0.25f)
+                .setDelay(delay + 0.1f)
+                .setEaseOutBack()
+                .setIgnoreTimeScale(true)
+                .setOnComplete(() =>
+                {
+                    LeanTween.scale(reviewMapButton, Vector3.one, 0.1f)
+                        .setIgnoreTimeScale(true);
 
-                     reviewMapBtnComponent.interactable = true;
-                 });
+                    if (reviewMapBtnComponent) reviewMapBtnComponent.interactable = true;
+                });
+        }
 
         LeanTween.scale(restartButton, Vector3.one * 1.1f, 0.25f)
                  .setDelay(delay + 0.2f)

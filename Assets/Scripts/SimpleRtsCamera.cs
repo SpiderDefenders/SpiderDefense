@@ -43,6 +43,12 @@ namespace SimpleRtsCamera.Scripts
 			public float zMin;
 			public float zMax;
 		}
+		
+		public float MoveSpeed
+		{
+			get => _moveSpeed;
+			set => _moveSpeed = value;
+		}
 
 		private PlayerInput _playerInput;
 		private Vector2 _moveInput;

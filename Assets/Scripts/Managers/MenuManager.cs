@@ -1,22 +1,27 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MenuManager : AdditionalPathBlocker
 {
     private TowerMenu towerMenu;
     private BuildingMenu buildingMenu;
-    
+    private List<InGameMenu> inGameMenus = new();
+
     void Start()
     {
-        towerMenu = FindAnyObjectByType<TowerMenu>();
-        buildingMenu = FindAnyObjectByType<BuildingMenu>();
+        inGameMenus.AddRange(FindObjectsByType<InGameMenu>(FindObjectsSortMode.None));
+        towerMenu = inGameMenus.OfType<TowerMenu>().FirstOrDefault();
+        buildingMenu = inGameMenus.OfType<BuildingMenu>().FirstOrDefault();
     }
 
     public void CloseAll()
     {
-        towerMenu.CloseEverything();
-        towerMenu.CompletelyHideMenu();
-        buildingMenu.CloseEverything();
-        buildingMenu.CompletelyHideMenu();
+        foreach (var menu in inGameMenus)
+        {
+            menu.CloseEverything();
+            menu.CompletelyHideMenu();
+        }
     }
 
     public void OpenTowerMenu(Tower tower)

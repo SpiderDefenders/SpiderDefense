@@ -4,6 +4,10 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    public const string PrefMaster = "Vol_Master";
+    public const string PrefMusic  = "Vol_Music";
+    public const string PrefSFX    = "Vol_SFX";
+    
     public static AudioManager Instance { get; private set; }
 
     [Header("References")]
@@ -17,10 +21,6 @@ public class AudioManager : MonoBehaviour
     private const string MusicVolumeParam  = "MusicVolume";
     private const string SFXVolumeParam    = "SFXVolume";
 
-    private const string PrefMaster = "Vol_Master";
-    private const string PrefMusic  = "Vol_Music";
-    private const string PrefSFX    = "Vol_SFX";
-
     private Coroutine _musicFadeCoroutine;
 
     private void Awake()
@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         Instance = this;
+        transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
         soundLibrary.Init();
     }
@@ -79,11 +80,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(SoundID id)
     {
-        Debug.Log($"[AudioManager] PlayMusic called with {id}");
         if (!soundLibrary.TryGet(id, out SoundEntry entry)) return;
-
-        Debug.Log($"clip: {entry.clip}, volume: {entry.volume}, mixerGroup: {entry.mixerGroup}");
-        Debug.Log($"musicSource.isPlaying after Play: check next frame");
         StopFadeCoroutine();
 
         musicSource.outputAudioMixerGroup = entry.mixerGroup;
