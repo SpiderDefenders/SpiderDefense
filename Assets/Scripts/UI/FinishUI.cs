@@ -82,6 +82,7 @@ public class FinishUI : MonoBehaviour
 
     private void ShowVictoryUI()
     {
+        AudioManager.Instance.PlaySFX(SoundID.LevelCompleteVictory, GetComponent<AudioSource>());
         TimerDisplay timerDisplay = FindAnyObjectByType<TimerDisplay>();
         scoreValue.text = timerDisplay.GetTimeString();
         scoreLabel.text = "Time";
@@ -93,6 +94,7 @@ public class FinishUI : MonoBehaviour
 
     private void ShowDefeatUI()
     {
+        AudioManager.Instance.PlaySFX(SoundID.GameOver, GetComponent<AudioSource>());
         LevelManager levelManager = FindAnyObjectByType<LevelManager>();
         int round = levelManager.GetCurrentWave();
         int maxRound = levelManager.GetMaxWave();
@@ -151,6 +153,8 @@ public class FinishUI : MonoBehaviour
     {
         if (isAnimating) return;
         isAnimating = true;
+
+        gameObject.transform.SetAsLastSibling();
 
         LeanTween.delayedCall(gameObject, 3f, () =>
         {

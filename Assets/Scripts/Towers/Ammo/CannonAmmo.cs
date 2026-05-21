@@ -1,0 +1,25 @@
+﻿using UnityEngine;
+
+public class CannonAmmo : Ammo
+{
+    private void Update()
+    {
+        if (!shooted) return;
+        if (target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Vector3 dir = target.transform.position - transform.position;
+        float frameDist = ammoConfig.speed * Time.deltaTime;
+
+        if (dir.magnitude <= frameDist)
+        {
+            HitTarget();
+            return;
+        }
+
+        transform.Translate(dir.normalized * frameDist, Space.World);
+    }
+}

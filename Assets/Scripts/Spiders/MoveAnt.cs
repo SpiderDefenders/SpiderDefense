@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +13,9 @@ public class MoveAnt : MonoBehaviour
     private List<LegTarget> targets;
 
     [SerializeField] private List<Transform> lastJoints;
+    [SerializeField] private float bodyHeight = 0.5f;
 
     private Rigidbody rb;
-    private bool isAttacking = false;
 
     private Vector3 inputDir;
     private GameObject enemy;
@@ -27,25 +25,17 @@ public class MoveAnt : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private IEnumerator Attack()
+    public float GetYPos(float x, float z)
     {
-        Vector3 startPos = rb.position;
-        Vector3 forwardPos = startPos + transform.forward * attackDistance;
-        float halfDuration = attackDuration / 2f;
-        float timer = 0f;
-        while (timer < halfDuration)
-        {
-            timer += Time.deltaTime;
-            rb.MovePosition(Vector3.Lerp(startPos, forwardPos, timer / halfDuration));
-            yield return null;
-        }
+        return CalculateBodyHeight();
+    }
 
-        timer = 0f;
-        while (timer < halfDuration)
-        {
-            timer += Time.deltaTime;
-            rb.MovePosition(Vector3.Lerp(forwardPos, startPos, timer / halfDuration));
-            yield return null;
-        }
+    private float CalculateBodyHeight()
+    {
+        if (targets.Count == 0) return rb.position.y;
+        float result = 0;
+        foreach (LegTarget t in targets)
+            result += t.transform.position.y;
+        return (result / targets.Count) + bodyHeight;
     }
 }

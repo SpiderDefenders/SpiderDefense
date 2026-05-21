@@ -619,7 +619,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &574568171641290124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,8 +1123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deac1bcf4cb582a4eb05b5eb47c9d67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyHeight: 0.2
-  mouseSensitivity: 3
   attackDistance: 0.5
   attackDuration: 0.15
   targets:
@@ -1146,6 +1143,7 @@ MonoBehaviour:
   - {fileID: 4625939499797642385}
   - {fileID: 3935708340022022777}
   - {fileID: 6013159144126459390}
+  bodyHeight: 0.1
 --- !u!114 &4946555302129473970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2211,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &3945424004944335573
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,7 +2591,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &5406252801251705318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2998,7 +2994,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &5801967027112150118
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,7 +3320,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &6663507294586485216
 GameObject:
   m_ObjectHideFlags: 0
@@ -3566,7 +3560,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &7048245146583267512
 GameObject:
   m_ObjectHideFlags: 0
@@ -4133,7 +4126,6 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0
 --- !u!1 &8562932319089740071
 GameObject:
   m_ObjectHideFlags: 0
@@ -4624,4 +4616,3 @@ MonoBehaviour:
     m_Bits: 64
   antBody: {fileID: 8537929576985484258}
   isOdd: 1
-  simulate: 0

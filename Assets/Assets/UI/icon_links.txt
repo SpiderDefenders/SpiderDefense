@@ -22,5 +22,7 @@ lvl_medium: https://www.flaticon.com/free-icon/speedometer_3563394
 lvl_hard: https://www.flaticon.com/free-icon/speedometer_3563395
 camera: https://www.flaticon.com/free-icon/video_8407947
 magnifier: https://www.flaticon.com/free-icon/magnifier_64673?term=magnifying+glass&page=1&position=4&origin=search&related_id=64673
+outline: https://www.flaticon.com/free-icon/rectangle_9369800?k=1778694586623&log-in=email
+FONT: https://www.1001fonts.com/religius-font.html
 
 [można pobrać stamtąd licencje]

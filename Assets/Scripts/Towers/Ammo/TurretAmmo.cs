@@ -4,6 +4,7 @@ public class TurretAmmo : Ammo
 {
     private void Update()
     {
+        if (!shooted) return;
         if (target == null)
         {
             Destroy(gameObject);

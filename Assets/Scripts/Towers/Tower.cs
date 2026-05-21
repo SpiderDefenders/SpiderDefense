@@ -5,17 +5,21 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 {
     private ITile tile;
 
-    [SerializeField] private TowerSO towerConfig;
-    [SerializeField] Transform ammoSpawnPoint;
+    [SerializeField] protected TowerSO towerConfig;
+    [SerializeField] protected Transform ammoSpawnPoint;
 
     [Header("Pivoting")]
-    [SerializeField] private Transform horizontalPivot;
-    //[SerializeField] private Transform verticalPivot; 
-    
+    [SerializeField] protected Transform horizontalPivot;
+    [SerializeField] private Transform verticalPivot;
+    [SerializeField] protected float aimTolerance = 10f;
+
+    protected GameObject ammoObject;
+
     private GameObject rangeObject;
-    private GameObject target;
+    protected GameObject target;
     private float yOffset = 0.05f;
     private float shootingCountdown = 0f;
+    protected bool isRotatedOnTarget;
     private TowerModeManager modeManager;
     public PlacableType Type => PlacableType.Defense;
     private List<GameObject> enemiesInRange = new List<GameObject>();
@@ -45,6 +49,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     {
         modeManager = new TowerModeManager(towerConfig.shootingModes, towerConfig.startShootingMode);
         CreateRangeObject();
+        ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
     }
     private void Update()
     {
@@ -54,13 +59,19 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
         if (target != null)
         {
+            isRotatedOnTarget = true;
             FollowTarget();
 
-            if (shootingCountdown <= 0f)
+            if (shootingCountdown <= 0f && isRotatedOnTarget)
             {
                 Shoot();
                 shootingCountdown = towerConfig.shootingCooldown;
             }
+        }
+
+        if (shootingCountdown <= towerConfig.shootingCooldown / 4 && ammoObject == null)
+        {
+            ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
         }
 
         shootingCountdown -= Time.deltaTime;
@@ -131,12 +142,12 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         target = bestTarget;
     }
 
-    private void Shoot()
+    protected virtual void Shoot()
     {
-        GameObject ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
-
+        ammoObject = null;
+        AudioManager.Instance.PlaySFX(SoundID.TurretShot, GetComponent<AudioSource>());
     }
 
     public void OnPlaced(ITile tile)
@@ -153,12 +164,14 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public bool IsPlaced() {  return isPlaced; }
     public void AddValue(int extraValue) {  value += extraValue; } // in updates
     public int GetCost() { return towerConfig.cost; }
+    public string GetName() { return towerConfig.towerName; }
+    public Sprite GetImage() { return towerConfig.towerImage; }
+    public TowerModeManager GetTowerModeManager() {return modeManager;}
     public int GetValue() {  return value; }
 
     public void OnClick()
     {
         if (isBlocked) return;
-        Debug.Log("Tower clicked");
         rangeObject.SetActive(true);
     }
 
@@ -182,27 +195,49 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public virtual void FollowTarget()
     {
         Vector3 direction = target.transform.position - horizontalPivot.position;
-
         Vector3 flatDirection = new Vector3(direction.x, 0f, direction.z);
-
-        if (flatDirection.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
-            horizontalPivot.rotation = Quaternion.Slerp(
-                horizontalPivot.rotation,
-                targetRotation,
-                Time.deltaTime * 8f
-                );
-        }
-
         float distance = flatDirection.magnitude;
         float heightDifference = direction.y;
 
-        CalculateAndModifyLaunchAngle(distance, heightDifference);
+        RotateHorizontal(flatDirection);
+        RotateVertical(distance, heightDifference);
+    }
+
+    private void RotateHorizontal(Vector3 flatDirection)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(flatDirection);
+        
+        if (Quaternion.Angle(horizontalPivot.rotation, targetRotation) > aimTolerance)
+        {
+            isRotatedOnTarget = false;
+        }
+
+        horizontalPivot.rotation = Quaternion.Slerp(
+            horizontalPivot.rotation,
+            targetRotation,
+            Time.deltaTime * 15f
+            );
     }
     
-    protected virtual void CalculateAndModifyLaunchAngle(float distance, float height)
+    protected virtual void RotateVertical(float distance, float height)
     {
-        return;
+
+        float baseAngle = Mathf.Atan2(height, distance) * Mathf.Rad2Deg;
+        float angle = Mathf.Clamp(baseAngle + distance * 2f, 0f, 75f);
+
+        Quaternion verticalTargetRotation = Quaternion.Euler(angle, 0f, 0f);
+        float currentAngle = verticalPivot.localEulerAngles.x;
+        if (currentAngle > 180f) currentAngle -= 360f;
+        float error = Mathf.Abs(Mathf.DeltaAngle(currentAngle, angle));
+        if (error > aimTolerance)
+        {
+            isRotatedOnTarget = false;
+        }
+
+        verticalPivot.localRotation = Quaternion.Slerp(
+            verticalPivot.localRotation,
+            verticalTargetRotation,
+            Time.deltaTime * 10f
+        );
     }
 }
