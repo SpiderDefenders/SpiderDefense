@@ -15,6 +15,78 @@ public class LevelGeneratorWindow : EditorWindow
         public bool foldout = true;
         public List<Event> events = new();
     }
+    
+    private void OnEnable()
+    {
+        waves = new List<Wave>
+        {
+            // Wave 0 - Intro
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 5, delay = 0.8f },
+            }},
+
+            // Wave 1 - Picking up
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 8, delay = 0.7f },
+            }},
+
+            // Wave 2 - First split
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 6, delay = 0.6f },
+                new Event { type = EventType.Wait, duration = 3f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 6, delay = 0.6f },
+            }},
+
+            // Wave 3 - Sustained
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 12, delay = 0.6f },
+            }},
+
+            // Wave 4 - Double push
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 8, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 4f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 8, delay = 0.5f },
+            }},
+
+            // Wave 5 - Triple burst
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 5, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 2f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 5, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 2f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 5, delay = 0.5f },
+            }},
+
+            // Wave 6 - Big flood
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 20, delay = 0.5f },
+            }},
+
+            // Wave 7 - Relentless
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 10, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 3f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 10, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 3f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 5, delay = 0.5f },
+            }},
+
+            // Wave 8 - Overwhelming
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 30, delay = 0.5f },
+            }},
+
+            // Wave 9 - Final 50
+            new Wave { events = new List<Event> {
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 20, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 2f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 15, delay = 0.5f },
+                new Event { type = EventType.Wait, duration = 1f },
+                new Event { type = EventType.SpawnEnemies, enemyType = EnemyType.Basic, count = 15, delay = 0.5f },
+            }},
+        };
+    }
 
     public enum EventType
     {
@@ -216,18 +288,13 @@ public class LevelGeneratorWindow : EditorWindow
             AssetDatabase.CreateAsset(waveSO, wavePath);
             levelSO.waves.Add(waveSO);
 
-            Debug.Log($"  Created Wave: {wavePath}");
-
-            // event folder
             string waveEventsPath = $"{eventsPath}/{waveName}";
             AssetDatabase.CreateFolder(eventsPath, waveName);
 
             int eventIndex = 0;
 
-            // 🔥 AUTO START
             CreateAndAddEvent<StartEventSO>(waveSO, waveEventsPath, eventIndex++, "Start");
 
-            // USER EVENTS
             for (int j = 0; j < waves[i].events.Count; j++)
             {
                 var evtData = waves[i].events[j];
@@ -239,13 +306,12 @@ public class LevelGeneratorWindow : EditorWindow
                 AssetDatabase.CreateAsset(evtSO, evtPath);
                 waveSO.events.Add(evtSO);
 
-                Debug.Log($"    Created Event: {evtPath}");
-
                 eventIndex++;
             }
 
-            // 🔥 AUTO END
             CreateAndAddEvent<EndEventSO>(waveSO, waveEventsPath, eventIndex++, "End");
+
+            EditorUtility.SetDirty(waveSO);
         }
 
         EditorUtility.SetDirty(levelSO);
@@ -268,9 +334,8 @@ public class LevelGeneratorWindow : EditorWindow
         string evtPath = $"{path}/{evtName}.asset";
 
         AssetDatabase.CreateAsset(evt, evtPath);
+        EditorUtility.SetDirty(evt); // 👈 add this
         wave.events.Add(evt);
-
-        Debug.Log($"    Created Event: {evtPath}");
     }
 
     private SpawnEventSO CreateEventSO(Event data)

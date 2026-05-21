@@ -46,10 +46,10 @@ public class FinishUI : MonoBehaviour
         EventManager.Instance.OnGameOver -= ShowDefeatUI;
     }
 
-    // TODO temporary solution
     private bool IsNewRecord(float currentTime)
     {
-        if (!(currentTime < PlayerPrefs.GetFloat("RecordTime", 0f))) return false;
+        float savedRecord = PlayerPrefs.GetFloat("RecordTime", float.MaxValue);
+        if (currentTime >= savedRecord) return false;
         PlayerPrefs.SetFloat("RecordTime", currentTime);
         return true;
     }
