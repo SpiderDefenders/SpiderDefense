@@ -10,7 +10,8 @@ Celem gry jest obrona bazy przed rosnącymi falami wrogów poprzez wykorzystanie
 Rozgrywka składa się z rund, w których pojawiają się kolejne fale przeciwników o rosnącym poziomie trudności. Gracz może budować nowe wieżyczki, ulepszać istniejące oraz podejmować decyzje wpływające na rozwój planszy.
 
 ### Przeciwnicy
-Głównymi przeciwnikami w grze są **pająki**, których modele zostaną stworzone z wykorzystaniem zasad **dynamiki odwrotnej (inverse kinematics)**. W grze występuje kilka rodzajów pająków, różniących się m.in. szybkością i wytrzymałością, co wymusza na graczu stosowanie różnych strategii obronnych.
+Głównymi przeciwnikami w grze są **pająki**, których modele zostaną stworzone z wykorzystaniem zasad **dynamiki odwrotnej (inverse kinematics)**. 
+<!-- W grze występuje kilka rodzajów pająków, różniących się m.in. szybkością i wytrzymałością, co wymusza na graczu stosowanie różnych strategii obronnych. -->
 
 ### Mapa rozgrywki
 Mapa rozgrywki składa się z trzech rodzajów pól:
@@ -18,10 +19,12 @@ Mapa rozgrywki składa się z trzech rodzajów pól:
 - pola przeznaczone pod budowę wieżyczek,
 - pola niedostępne, pełniące funkcję wizualną.
 
-\
+<!--
 Po zakończeniu każdej rundy gracz może zdecydować o rozbudowie planszy, wybierając jedną z dwóch opcji:
 - wydłużenie ścieżki przeciwników o jeden segment, co sprawia, że wrogowie pokonują dłuższą drogę do celu,
 - dodanie dwóch nowych pól przeznaczonych pod budowę wieżyczek, co zwiększa możliwości obronne gracza w kolejnych rundach.
+-->
+Po zakończeniu każdej rundy gracz może zdecydować o rozbudowie planszy poprzez wydłużenie ścieżki przeciwników o jeden segment, co sprawia, że wrogowie pokonują dłuższą drogę do celu.
 
 ### Wieżyczki i system nagród
 
