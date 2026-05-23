@@ -9,9 +9,6 @@ public class TowerUI : InGameButtonUI
     [SerializeField] private Image towerImage;
     [SerializeField] private Image moneyImage;
 
-    //private Color orginalColor;
-    //private Color orginalMoneyColor;
-
     private Color orginalColor = Color.white;
     private Color unavailableColor = Color.gray;
 
@@ -22,11 +19,6 @@ public class TowerUI : InGameButtonUI
     {
         towerCost = towerPrefab.GetComponent<Tower>().GetCost();
         SetAmount(towerCost);
-
-        //orginalColor = towerImage.color;
-        //orginalMoneyColor = moneyImage.color;
-
-
     }
 
     private void OnEnable()

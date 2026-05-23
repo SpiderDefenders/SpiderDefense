@@ -3,5 +3,4 @@
     ShootingDamage,
     ShootingCooldown,
     Range,
-
 }
