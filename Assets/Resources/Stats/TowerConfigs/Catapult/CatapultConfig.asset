@@ -18,7 +18,10 @@ MonoBehaviour:
   cost: 200
   rangeRadius: 3
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
-  shootingCooldown: 1
+  shootingCooldown: 1.8
   ammoPrefab: {fileID: 1897928490496794746, guid: 55c7428d715d1e341b0979fca0992e4e, type: 3}
   shootingModes: 00000000010000000200000003000000
   startShootingMode: 0
+  upgrade0: {fileID: 11400000, guid: c77e7f92517d6754f9de8b032c196382, type: 2}
+  upgrade1: {fileID: 11400000, guid: 42d295de0e9a2a24089868859c1953b5, type: 2}
+  upgrade2: {fileID: 11400000, guid: f0b48edecca98de46bd1071ad09e1b1b, type: 2}

@@ -9,8 +9,11 @@ public class TowerUI : InGameButtonUI
     [SerializeField] private Image towerImage;
     [SerializeField] private Image moneyImage;
 
-    private Color orginalColor;
-    private Color orginalMoneyColor;
+    //private Color orginalColor;
+    //private Color orginalMoneyColor;
+
+    private Color orginalColor = Color.white;
+    private Color unavailableColor = Color.gray;
 
     private int towerCost;
     private int currentAmount;
@@ -20,8 +23,10 @@ public class TowerUI : InGameButtonUI
         towerCost = towerPrefab.GetComponent<Tower>().GetCost();
         SetAmount(towerCost);
 
-        orginalColor = towerImage.color;
-        orginalMoneyColor = moneyImage.color;
+        //orginalColor = towerImage.color;
+        //orginalMoneyColor = moneyImage.color;
+
+
     }
 
     private void OnEnable()
@@ -53,8 +58,15 @@ public class TowerUI : InGameButtonUI
     private void HandleMoneyUpdate(int money)
     {
         currentAmount = money;
-        towerImage.color = CanBuyTower() ? orginalColor : Color.gray;
-        moneyImage.color = CanBuyTower() ? orginalMoneyColor : Color.gray;
+        bool canBuy = CanBuyTower();
+        towerImage.color = GetColor(canBuy);
+        moneyImage.color = GetColor(canBuy);
+        amountText.color = GetColor(canBuy);
+    }
+
+    private Color GetColor(bool standardColor)
+    {
+        return standardColor ? orginalColor : unavailableColor;
     }
 
     private bool CanBuyTower()

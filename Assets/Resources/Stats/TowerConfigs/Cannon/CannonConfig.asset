@@ -22,3 +22,6 @@ MonoBehaviour:
   ammoPrefab: {fileID: 459236634588335255, guid: 676f22a8d1c19fa46904b860ee135a3d, type: 3}
   shootingModes: 00000000010000000200000003000000
   startShootingMode: 0
+  upgrade0: {fileID: 11400000, guid: 06b6813bd56e2dc43a8844331dbef1fe, type: 2}
+  upgrade1: {fileID: 11400000, guid: 0009500025bfaf74d92af02f5e5c22e4, type: 2}
+  upgrade2: {fileID: 11400000, guid: fc65e257d51bb6e4f9d1546d95587c77, type: 2}

@@ -20,7 +20,7 @@ public class UpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private Vector3 originalScale;
 
-    private Color originalColor = Color.white;
+    private Color orginalColor = Color.white;
     private Color unavailableColor = Color.gray;
 
     private bool isPurchased = false;
@@ -71,6 +71,7 @@ public class UpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         borderImage.color = GetColor(canBuy);
         coinImage.color = GetColor(canBuy);
         image.color = GetColor(canBuy);
+        costText.color = GetColor(canBuy);
     }
 
     private bool CanBuyTower()
@@ -80,7 +81,7 @@ public class UpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private Color GetColor(bool standardColor)
     {
-        return standardColor ? originalColor : unavailableColor;
+        return standardColor ? orginalColor : unavailableColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -106,14 +107,14 @@ public class UpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             ColorUtility.TryParseHtmlString("#00BF63", out Color color);
             borderImage.color = color;
-            image.color = originalColor;
+            image.color = orginalColor;
 
             moneyUI.SetActive(false);
         }
         else 
         { 
             moneyUI.SetActive(true);
-            borderImage.color = originalColor;
+            borderImage.color = orginalColor;
         }
         
     }
