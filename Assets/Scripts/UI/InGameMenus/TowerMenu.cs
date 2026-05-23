@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TowerMenu : InGameMenu
 {
@@ -11,6 +12,8 @@ public class TowerMenu : InGameMenu
     [SerializeField] private TMP_Text towerNameText;
     [SerializeField] private TMP_Text deleteText;
     [SerializeField] private TMP_Text modeText;
+    List<UpgradeUI> upgrades;
+
 
 
     private Tower selectedTower;
@@ -20,6 +23,7 @@ public class TowerMenu : InGameMenu
         Init();
         toggleButton.gameObject.SetActive(false);
         moveBackOnDown = true;
+        upgrades = GetComponentsInChildren<UpgradeUI>().ToList();
     }
 
     public void OpenMenu(Tower tower)
@@ -46,6 +50,7 @@ public class TowerMenu : InGameMenu
         toggleButton.gameObject.SetActive(true);
         gameObject.transform.SetAsLastSibling();
         SetTowerValues();
+        SetUpgrades();
     }
 
     public override void CloseEverything()
@@ -56,6 +61,15 @@ public class TowerMenu : InGameMenu
             selectedTower.OnUnClick();
         }
         selectedTower = null;
+    }
+
+    private void SetUpgrades()
+    {
+        List<UpgradeSO> towerUpgrades = selectedTower.GetUpgrades();
+        for(int i = 0; i < towerUpgrades.Count; i++)
+        {
+            upgrades[i].SetTowerData(towerUpgrades[i], i, selectedTower.IsUpgradePurchased(i));
+        }
     }
 
     private void SetTowerValues()
@@ -83,4 +97,10 @@ public class TowerMenu : InGameMenu
         selectedTowerModeManager.Previous();
         modeText.text = selectedTowerModeManager.GetCurrentMode().ToString();
     }
+
+    public void UpdateTower(int updateIdx)
+    {
+        selectedTower.Upgrade(updateIdx);
+    }
+
 }

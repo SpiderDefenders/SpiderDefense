@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd98070b96878e84db9b5a8c75861563, type: 3}
-  m_Name: BallistaConfig
+  m_Name: TurretConfig
   m_EditorClassIdentifier: 
-  towerName: Ballista
-  towerImage: {fileID: 21300000, guid: 2b1d79c7d8e4e504794f672db3614dd2, type: 3}
+  towerName: Turret
+  towerImage: {fileID: 21300000, guid: 7f5048fbe1e1db04184c981bfea34a2c, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
-  cost: 200
-  rangeRadius: 4
+  cost: 50
+  rangeRadius: 2.5
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
-  shootingCooldown: 1
-  ammoPrefab: {fileID: 1415152844457807711, guid: 67c421b9a06990741b57cf47f2cb93b9, type: 3}
+  shootingCooldown: 2
+  ammoPrefab: {fileID: 5204778606501298190, guid: 98dbc02ee74b1e4448f087f3d64f1ddc, type: 3}
   shootingModes: 00000000010000000200000003000000
   startShootingMode: 0
+  upgrade0: {fileID: 11400000, guid: 1e9026bad58a8bd449bbb38062fa3e56, type: 2}
+  upgrade1: {fileID: 11400000, guid: f57ab6b0b427fa44f954e7315dfdc765, type: 2}
+  upgrade2: {fileID: 11400000, guid: 98ee76a09020a03449d6124d53927c08, type: 2}

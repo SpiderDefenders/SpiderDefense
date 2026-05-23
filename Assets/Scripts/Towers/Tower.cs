@@ -28,6 +28,11 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private int value;
 
+    // upgrades -> TODO jakiś refactor
+    private bool[] purchasedUpgrades = new bool[] { false, false, false };
+    private float shootingDamageMultiplier = 1f;
+    private float shootingCooldownMultiplier = 1f;
+
     private new void OnEnable()
     {
         base.OnEnable();
@@ -57,6 +62,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
             return;
         SetTarget();
 
+        float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
         if (target != null)
         {
             isRotatedOnTarget = true;
@@ -65,11 +71,11 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
             if (shootingCountdown <= 0f && isRotatedOnTarget)
             {
                 Shoot();
-                shootingCountdown = towerConfig.shootingCooldown;
+                shootingCountdown = currShootingCooldown;
             }
         }
 
-        if (shootingCountdown <= towerConfig.shootingCooldown / 4 && ammoObject == null)
+        if (shootingCountdown <= currShootingCooldown / 4 && ammoObject == null)
         {
             ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
         }
@@ -146,6 +152,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     {
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
+        ammo.SetDamageMultiplier(shootingDamageMultiplier);
         ammoObject = null;
         AudioManager.Instance.PlaySFX(SoundID.TurretShot, GetComponent<AudioSource>());
     }
@@ -239,5 +246,56 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
             verticalTargetRotation,
             Time.deltaTime * 10f
         );
+    }
+
+    // upgrades
+    public List<UpgradeSO> GetUpgrades()
+    {
+        return towerConfig.GetUpgrades();
+    }
+
+    public bool IsUpgradePurchased(int idx)
+    {
+        return purchasedUpgrades[idx];
+    }
+
+    public void Upgrade(int idx)
+    {
+        purchasedUpgrades[idx] = true;
+        var upgrade = towerConfig.GetUpgrades()[idx];
+
+        switch (upgrade.type)
+        {
+            case UpgradeType.ShootingCooldown:
+                UpgradeShootingCooldown(upgrade);
+                break;
+
+            case UpgradeType.Range:
+                UpgradeRange(upgrade);
+                break;
+
+            case UpgradeType.ShootingDamage:
+                UpgradeShootingDamage(upgrade);
+                break;
+        }
+    }
+
+    private void UpgradeShootingCooldown(UpgradeSO upgrade)
+    {
+        shootingCooldownMultiplier *= upgrade.factor;
+    }
+
+    private void UpgradeRange(UpgradeSO upgrade)
+    {
+        float r = towerConfig.rangeRadius * upgrade.factor;
+
+        rangeObject.transform.localScale = new Vector3(r * 2f, 0.01f, r * 2f);
+        SphereCollider col = GetComponent<SphereCollider>();
+        col.radius = r;
+    }
+
+    private void UpgradeShootingDamage(UpgradeSO upgrade)
+    {
+        shootingDamageMultiplier *= upgrade.factor;
     }
 }

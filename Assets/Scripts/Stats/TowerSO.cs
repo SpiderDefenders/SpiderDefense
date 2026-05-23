@@ -27,4 +27,19 @@ public class TowerSO : ScriptableObject
     .Cast<TowerModeType>()
     .ToList();
     public TowerModeType startShootingMode = TowerModeType.First;
+
+    [Header("Upgrades")]
+    public UpgradeSO upgrade0;
+    public UpgradeSO upgrade1;
+    public UpgradeSO upgrade2;
+
+    public List<UpgradeSO> GetUpgrades()
+    {
+        return new List<UpgradeSO>
+        {
+            upgrade0,
+            upgrade1,
+            upgrade2
+        };
+    }
 }

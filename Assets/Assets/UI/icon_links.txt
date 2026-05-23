@@ -25,4 +25,8 @@ magnifier: https://www.flaticon.com/free-icon/magnifier_64673?term=magnifying+gl
 outline: https://www.flaticon.com/free-icon/rectangle_9369800?k=1778694586623&log-in=email
 FONT: https://www.1001fonts.com/religius-font.html
 
+range: https://www.flaticon.com/free-icon/range_9850859?term=range&page=1&position=2&origin=search&related_id=9850859
+speed: https://www.flaticon.com/free-icon/quick_5246195
+bullet: https://www.flaticon.com/free-icon/bullet_3207632
+
 [można pobrać stamtąd licencje]
