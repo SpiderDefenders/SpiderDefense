@@ -263,6 +263,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     {
         purchasedUpgrades[idx] = true;
         var upgrade = towerConfig.GetUpgrades()[idx];
+        value += upgrade.cost;
 
         switch (upgrade.type)
         {

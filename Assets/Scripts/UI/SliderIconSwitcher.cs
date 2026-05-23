@@ -16,7 +16,7 @@ public class SliderHandleSwitcher : MonoBehaviour
 
     private void OnDestroy()
     {
-        slider.onValueChanged.RemoveListener(OnValueChanged);
+        if(slider) slider.onValueChanged.RemoveListener(OnValueChanged);
     }
 
     private void OnValueChanged(float value) => UpdateHandle(value);

@@ -100,6 +100,7 @@ public class TowerMenu : InGameMenu
     public void UpdateTower(int updateIdx)
     {
         selectedTower.Upgrade(updateIdx);
+        deleteText.text = CurrencyManager.Instance.GetMoneyOnTowerRemoved(selectedTower.GetValue()).ToString();
     }
 
 }

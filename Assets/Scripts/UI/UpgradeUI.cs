@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+// TODO -> można zrobić dziedziczenie po SingleHoverAni (tylko start trzeba zrobić odpowiednio 
+// i skorzytać z base)
 public class UpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Components")]
