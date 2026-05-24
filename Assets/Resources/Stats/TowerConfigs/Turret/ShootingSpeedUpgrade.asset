@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ShootingSpeedUpgrade
   m_EditorClassIdentifier: 
   upgardeImage: {fileID: 21300000, guid: 59bff30f333837b4ea35d7d6e570a6bf, type: 3}
-  cost: 150
-  factor: 0.1
+  cost: 200
+  factor: 0.6
   type: 1

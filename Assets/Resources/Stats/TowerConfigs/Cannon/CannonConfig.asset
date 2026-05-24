@@ -15,10 +15,10 @@ MonoBehaviour:
   towerName: Cannon
   towerImage: {fileID: 21300000, guid: a7ad293e3cd12e045aa28507a7a0674a, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
-  cost: 10
-  rangeRadius: 2.5
+  cost: 175
+  rangeRadius: 2
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
-  shootingCooldown: 1
+  shootingCooldown: 1.3
   ammoPrefab: {fileID: 459236634588335255, guid: 676f22a8d1c19fa46904b860ee135a3d, type: 3}
   shootingModes: 00000000010000000200000003000000
   startShootingMode: 0

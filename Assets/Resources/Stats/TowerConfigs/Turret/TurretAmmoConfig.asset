@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: TurretAmmoConfig
   m_EditorClassIdentifier: 
   speed: 15
-  damage: 5
+  damage: 4

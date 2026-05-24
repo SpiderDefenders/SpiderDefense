@@ -15,10 +15,10 @@ MonoBehaviour:
   towerName: Turret
   towerImage: {fileID: 21300000, guid: 7f5048fbe1e1db04184c981bfea34a2c, type: 3}
   placingOffset: {x: 0, y: 0.152, z: 0}
-  cost: 50
-  rangeRadius: 2.5
+  cost: 85
+  rangeRadius: 2
   rangeMaterial: {fileID: 2100000, guid: b68786763088a874290da10df928472a, type: 2}
-  shootingCooldown: 2
+  shootingCooldown: 1
   ammoPrefab: {fileID: 5204778606501298190, guid: 98dbc02ee74b1e4448f087f3d64f1ddc, type: 3}
   shootingModes: 00000000010000000200000003000000
   startShootingMode: 0
