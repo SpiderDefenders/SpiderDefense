@@ -25,6 +25,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     private List<GameObject> enemiesInRange = new List<GameObject>();
     private bool isPlaced = false;
     private bool isGameOver = false;
+    private bool isShooting = false;
 
     private int value;
 
@@ -62,19 +63,20 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
             return;
         SetTarget();
 
-        float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
+        
         if (target != null)
         {
             isRotatedOnTarget = true;
             FollowTarget();
 
-            if (shootingCountdown <= 0f && isRotatedOnTarget)
+            if (shootingCountdown <= 0f && isRotatedOnTarget && !isShooting)
             {
+                isShooting = true;
                 Shoot();
-                shootingCountdown = currShootingCooldown;
             }
         }
 
+        float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
         if (shootingCountdown <= currShootingCooldown / 4 && ammoObject == null)
         {
             ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
@@ -150,9 +152,13 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     protected virtual void Shoot()
     {
+        float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
+        shootingCountdown = currShootingCooldown;
+
         Ammo ammo = ammoObject.GetComponent<Ammo>();
         ammo.SetTarget(target);
         ammo.SetDamageMultiplier(shootingDamageMultiplier);
+        isShooting = false;
         ammoObject = null;
         AudioManager.Instance.PlaySFX(SoundID.TurretShot, GetComponent<AudioSource>());
     }

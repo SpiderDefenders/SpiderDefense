@@ -58,8 +58,6 @@ public class Catapult : Tower
                 ammo.SetGravity(gravity);
 
                 base.Shoot();
-
-
                 CatapultArmBack();
             });
     }
