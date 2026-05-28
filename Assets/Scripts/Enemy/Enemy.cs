@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Splines;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class Enemy : MonoBehaviour
     private bool isDead = false;
     private float health;
 
+    public Guid id;
+
     private void Start()
     {
         health = stats.maxHealth;
+        id = System.Guid.NewGuid();
     }
 
     void Update()
@@ -45,16 +49,18 @@ public class Enemy : MonoBehaviour
     private void DealDamageAndDie()
     {
         isDead = true;
-        EventManager.Instance.EnemyReachedTheEnd(stats.attackDamage);
+        EventManager.Instance.EnemyReachedTheEnd(stats.attackDamage, this.gameObject);
         DestroyEnemy();
     }
 
     public void GetDamage(float damage)
     {
+        if (isDead) return;
+
         health -= damage;
         if (health > 0) return;
         isDead = true;
-        EventManager.Instance.EnemyDead(stats.moneyAfterDeath);
+        EventManager.Instance.EnemyDead(stats.moneyAfterDeath, this.gameObject);
         DestroyEnemy();
     }
 

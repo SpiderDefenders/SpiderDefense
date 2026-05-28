@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     
     public Vector2Int GetStartPosition() => startPosition;
 
-    public void DealDamage(int damage)
+    public void DealDamage(int damage, GameObject enemyObject)
     {
         currentHP -= damage;
         currentHP = Math.Max(0, currentHP);

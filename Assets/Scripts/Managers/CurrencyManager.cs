@@ -89,7 +89,7 @@ public class CurrencyManager : MonoBehaviour
         EventManager.Instance.MoneyChanged(currentAmount);
     }
 
-    public void AddEnemyMoney(int moneyAfterDead)
+    public void AddEnemyMoney(int moneyAfterDead, GameObject enemyObject)
     {
         AddMoney(moneyAfterDead);
     }

@@ -18,11 +18,11 @@ public class EventManager : MonoBehaviour
 
     public event Action OnPathGenerated;
     public event Action OnAdditionalPathPlacingStarted;
-    public event Action<int> OnEnemyReachedTheEnd;
+    public event Action<int, GameObject> OnEnemyReachedTheEnd;
     public event Action<int> OnWaveStarted;
     public event Action<int, bool> OnWaveCompleted;
     public event Action OnGameOver;
-    public event Action<int> OnEnemyDead;
+    public event Action<int, GameObject> OnEnemyDead;
     public event Action OnLevelCompleted;
     public event Action<Vector2, Vector2> OnPathBoundsChanged;
     public event Action OnGameResumed;
@@ -32,11 +32,11 @@ public class EventManager : MonoBehaviour
     public event Action OnAdditionalPathPlacingCompleted;
 
     public void PathGenerated() => OnPathGenerated?.Invoke();
-    public void EnemyReachedTheEnd(int damage) => OnEnemyReachedTheEnd?.Invoke(damage);
+    public void EnemyReachedTheEnd(int damage, GameObject enemyObject) => OnEnemyReachedTheEnd?.Invoke(damage, enemyObject);
     public void WaveStarted(int waveIndex) => OnWaveStarted?.Invoke(waveIndex);
     public void WaveCompleted(int waveIndex, bool isLastWave) => OnWaveCompleted?.Invoke(waveIndex, isLastWave);
     public void GameOver() => OnGameOver?.Invoke();
-    public void EnemyDead(int moneyAfterDead) => OnEnemyDead?.Invoke(moneyAfterDead);
+    public void EnemyDead(int moneyAfterDead, GameObject enemyObject) => OnEnemyDead?.Invoke(moneyAfterDead, enemyObject);
     public void LevelCompleted() => OnLevelCompleted?.Invoke();
     public void MoneyChanged(int moneyAmount) => OnMoneyChanged?.Invoke(moneyAmount);
     public void HPChanged(int hp) => OnHPChanged?.Invoke(hp);

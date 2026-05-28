@@ -71,7 +71,7 @@ public class LevelManager : MonoBehaviour
             yield return StartCoroutine(RunWave(wave));
 
             EventManager.Instance.WaveCompleted(currentWave, i==level.waves.Count-1);
-            Debug.Log($"--- Wave {i:00} END ---");
+            Debug.Log($"--- Wave {i:00} END {currentNumberOfEnemies}---");
 
             if (i < level.waves.Count - 1)
             {
@@ -123,9 +123,10 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Level stopped due to Game Over");
     }
     
-    private void EnemyDead(int moneyAfterDead)
+    private void EnemyDead(int moneyAfterDead, GameObject enemyObject)
     {
         currentNumberOfEnemies -= 1;
+        Debug.Log(currentNumberOfEnemies + " " + enemyObject.GetComponent<Enemy>().id);
     }
     
     public int GetCurrentWave() => currentWave;
