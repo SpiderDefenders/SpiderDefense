@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SingleButtonHoverAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SingleButtonHoverAnim : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Animation Settings")]
     public float scaleUp = 1.2f;

@@ -3,10 +3,11 @@ using UnityEngine.UI;
 
 public class SettingsUI : MonoBehaviour
 {
+    private const string CAMERA_SPEED_KEY = "CameraSpeed";
+
     [Header("References")]
     public RectTransform settingsContainer;
     public CanvasGroup darkBackground;
-    public RectTransform pauseContainer;
 
     [Header("Animation")]
     public float animDuration = 0.4f;
@@ -17,27 +18,56 @@ public class SettingsUI : MonoBehaviour
     public Slider musicSlider;
     public Slider sfxSlider;
 
+    [Header("Camera Sliders")]
+    public Slider cameraSpeedSlider;
+    public SimpleRtsCamera.Scripts.SimpleRtsCamera rtsCamera;
+
     private Vector2 hiddenPos;
     private Vector2 centerPos;
+    private RectTransform _callerContainer;
+    
+    private Vector2 _callerOriginalPos;
 
     private void Start()
     {
         Canvas.ForceUpdateCanvases();
         centerPos = settingsContainer.anchoredPosition;
-        float screenOffset = Screen.height;
-        hiddenPos = centerPos + Vector2.down * screenOffset;
+        hiddenPos = centerPos + Vector2.down * Screen.height;
         settingsContainer.anchoredPosition = hiddenPos;
         settingsContainer.gameObject.SetActive(false);
 
-        InitSliders();
-        AddListeners();
+        LoadSettings();
     }
 
     private void OnEnable()
     {
-        if (AudioManager.Instance == null) return;
         InitSliders();
         AddListeners();
+    }
+
+    private void InitSliders()
+    {
+        masterSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat(AudioManager.PrefMaster, 1f));
+        musicSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat(AudioManager.PrefMusic, 1f));
+        sfxSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat(AudioManager.PrefSFX, 1f));
+        cameraSpeedSlider.SetValueWithoutNotify(PlayerPrefs.GetFloat(CAMERA_SPEED_KEY, 200f));
+    }
+
+    private void AddListeners()
+    {
+        RemoveListeners();
+        masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
+        musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+        sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        cameraSpeedSlider.onValueChanged.AddListener(OnCameraSpeedChanged);
+    }
+
+    private void RemoveListeners()
+    {
+        masterSlider.onValueChanged.RemoveListener(OnMasterVolumeChanged);
+        musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+        sfxSlider.onValueChanged.RemoveListener(OnSFXVolumeChanged);
+        cameraSpeedSlider.onValueChanged.RemoveListener(OnCameraSpeedChanged);
     }
 
     private void OnDisable()
@@ -45,37 +75,46 @@ public class SettingsUI : MonoBehaviour
         RemoveListeners();
     }
 
-    private void InitSliders()
-    {
-        masterSlider.SetValueWithoutNotify(AudioManager.Instance.GetMasterVolume());
-        musicSlider.SetValueWithoutNotify(AudioManager.Instance.GetMusicVolume());
-        sfxSlider.SetValueWithoutNotify(AudioManager.Instance.GetSFXVolume());
-    }
-
-    private void AddListeners()
-    {
-        RemoveListeners();
-        masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
-        musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
-        sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSFXVolume);
-    }
-
-    private void RemoveListeners()
+    private void LoadSettings()
     {
         if (AudioManager.Instance == null) return;
-        masterSlider.onValueChanged.RemoveListener(AudioManager.Instance.SetMasterVolume);
-        musicSlider.onValueChanged.RemoveListener(AudioManager.Instance.SetMusicVolume);
-        sfxSlider.onValueChanged.RemoveListener(AudioManager.Instance.SetSFXVolume);
+
+        float master = PlayerPrefs.GetFloat(AudioManager.PrefMaster, 1f);
+        float music = PlayerPrefs.GetFloat(AudioManager.PrefMusic, 1f);
+        float sfx = PlayerPrefs.GetFloat(AudioManager.PrefSFX, 1f);
+        float cameraSpeed = PlayerPrefs.GetFloat(CAMERA_SPEED_KEY, rtsCamera != null ? rtsCamera.MoveSpeed : 10f);
+
+        AudioManager.Instance.SetMasterVolume(master);
+        AudioManager.Instance.SetMusicVolume(music);
+        AudioManager.Instance.SetSFXVolume(sfx);
+
+        if (rtsCamera != null)
+            rtsCamera.MoveSpeed = cameraSpeed;
     }
+    
+    private void OnMasterVolumeChanged(float value) => AudioManager.Instance.SetMasterVolume(value);
+    private void OnMusicVolumeChanged(float value)  => AudioManager.Instance.SetMusicVolume(value);
+    private void OnSFXVolumeChanged(float value)    => AudioManager.Instance.SetSFXVolume(value);
 
-    public void OpenSettings()
+    private void OnCameraSpeedChanged(float value)
     {
-        LeanTween.cancel(pauseContainer);
+        if (rtsCamera != null)
+            rtsCamera.MoveSpeed = value;
 
-        LeanTween.move(pauseContainer, pauseContainer.anchoredPosition + Vector2.down * Screen.height, animDuration * 0.7f)
+        PlayerPrefs.SetFloat(CAMERA_SPEED_KEY, value);
+        PlayerPrefs.Save();
+    }
+        
+    public void OpenSettings(RectTransform callerContainer)
+    {
+        _callerContainer = callerContainer;
+        _callerOriginalPos = callerContainer.anchoredPosition;
+
+        LeanTween.cancel(callerContainer);
+        LeanTween.move(callerContainer, callerContainer.anchoredPosition + Vector2.down * Screen.height, animDuration * 0.7f)
             .setEaseInCubic()
             .setIgnoreTimeScale(true)
-            .setOnComplete(() => { pauseContainer.gameObject.SetActive(false); });
+            .setOnComplete(() => callerContainer.gameObject.SetActive(false));
 
         settingsContainer.anchoredPosition = hiddenPos;
         settingsContainer.gameObject.SetActive(true);
@@ -93,8 +132,9 @@ public class SettingsUI : MonoBehaviour
 
     public void CloseSettings()
     {
-        LeanTween.cancel(settingsContainer);
+        if (_callerContainer == null) return;
 
+        LeanTween.cancel(settingsContainer);
         LeanTween.move(settingsContainer, centerPos + Vector2.up * overshoot, animDuration * 0.3f)
             .setEaseOutCubic()
             .setIgnoreTimeScale(true)
@@ -103,25 +143,20 @@ public class SettingsUI : MonoBehaviour
                 LeanTween.move(settingsContainer, hiddenPos, animDuration * 0.7f)
                     .setEaseInCubic()
                     .setIgnoreTimeScale(true)
-                    .setOnComplete(() => { settingsContainer.gameObject.SetActive(false); });
+                    .setOnComplete(() => settingsContainer.gameObject.SetActive(false));
             });
 
-        pauseContainer.anchoredPosition = pauseContainer.anchoredPosition + Vector2.down * Screen.height;
-        pauseContainer.gameObject.SetActive(true);
+        _callerContainer.anchoredPosition = _callerOriginalPos + Vector2.down * Screen.height;
+        _callerContainer.gameObject.SetActive(true);
 
-        LeanTween.move(pauseContainer, GetPauseCenterPos(), animDuration * 0.7f)
+        LeanTween.move(_callerContainer, _callerOriginalPos, animDuration * 0.7f)
             .setEaseOutCubic()
             .setIgnoreTimeScale(true)
             .setOnComplete(() =>
             {
-                LeanTween.move(pauseContainer, GetPauseCenterPos(), animDuration * 0.3f)
+                LeanTween.move(_callerContainer, _callerOriginalPos, animDuration * 0.3f)
                     .setEaseInOutQuad()
                     .setIgnoreTimeScale(true);
             });
-    }
-
-    private Vector2 GetPauseCenterPos()
-    {
-        return new Vector2(pauseContainer.anchoredPosition.x, 0f);
     }
 }

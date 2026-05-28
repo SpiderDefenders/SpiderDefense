@@ -25,6 +25,7 @@ public class EventManager : MonoBehaviour
     public event Action<int> OnEnemyDead;
     public event Action OnLevelCompleted;
     public event Action<Vector2, Vector2> OnPathBoundsChanged;
+    public event Action OnGameResumed;
 
     public event Action<int> OnMoneyChanged;
     public event Action<int> OnHPChanged;
@@ -42,4 +43,5 @@ public class EventManager : MonoBehaviour
     public void AdditionalPathPlacingStarted() => OnAdditionalPathPlacingStarted?.Invoke();
     public void AdditionalPathPlacingCompleted() => OnAdditionalPathPlacingCompleted?.Invoke();
     public void PathBoundsChanged(Vector2 xLimits, Vector2 zLimits) => OnPathBoundsChanged?.Invoke(xLimits, zLimits);
+    public void GameResumed() => OnGameResumed?.Invoke();
 }

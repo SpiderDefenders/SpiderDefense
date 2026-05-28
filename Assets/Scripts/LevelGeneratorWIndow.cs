@@ -15,7 +15,7 @@ public class LevelGeneratorWindow : EditorWindow
         public bool foldout = true;
         public List<Event> events = new();
     }
-
+    
     public enum EventType
     {
         SpawnEnemies,
@@ -216,18 +216,13 @@ public class LevelGeneratorWindow : EditorWindow
             AssetDatabase.CreateAsset(waveSO, wavePath);
             levelSO.waves.Add(waveSO);
 
-            Debug.Log($"  Created Wave: {wavePath}");
-
-            // event folder
             string waveEventsPath = $"{eventsPath}/{waveName}";
             AssetDatabase.CreateFolder(eventsPath, waveName);
 
             int eventIndex = 0;
 
-            // 🔥 AUTO START
             CreateAndAddEvent<StartEventSO>(waveSO, waveEventsPath, eventIndex++, "Start");
 
-            // USER EVENTS
             for (int j = 0; j < waves[i].events.Count; j++)
             {
                 var evtData = waves[i].events[j];
@@ -239,13 +234,12 @@ public class LevelGeneratorWindow : EditorWindow
                 AssetDatabase.CreateAsset(evtSO, evtPath);
                 waveSO.events.Add(evtSO);
 
-                Debug.Log($"    Created Event: {evtPath}");
-
                 eventIndex++;
             }
 
-            // 🔥 AUTO END
             CreateAndAddEvent<EndEventSO>(waveSO, waveEventsPath, eventIndex++, "End");
+
+            EditorUtility.SetDirty(waveSO);
         }
 
         EditorUtility.SetDirty(levelSO);
@@ -268,9 +262,8 @@ public class LevelGeneratorWindow : EditorWindow
         string evtPath = $"{path}/{evtName}.asset";
 
         AssetDatabase.CreateAsset(evt, evtPath);
+        EditorUtility.SetDirty(evt); // 👈 add this
         wave.events.Add(evt);
-
-        Debug.Log($"    Created Event: {evtPath}");
     }
 
     private SpawnEventSO CreateEventSO(Event data)

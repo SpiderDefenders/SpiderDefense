@@ -12,6 +12,8 @@ public class CurrencyManager : MonoBehaviour
     private int currentAmount;
     private float currentInterval = 0f;
 
+    private bool isAddingMoneyStopped = false;
+
     void Awake()
     {
         Instance = this;
@@ -25,6 +27,8 @@ public class CurrencyManager : MonoBehaviour
 
     private void Update()
     {
+        if (isAddingMoneyStopped) return;
+
         if (currentInterval >= intervalSecond)
         {
             AddMoney(moneyPerInterval);
@@ -36,11 +40,41 @@ public class CurrencyManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Instance.OnEnemyDead += AddEnemyMoney;
+
+        EventManager.Instance.OnGameOver += StopAddingMoney;
+        EventManager.Instance.OnLevelCompleted += StopAddingMoney;
+        EventManager.Instance.OnWaveStarted += WaveStarted;
+        EventManager.Instance.OnWaveCompleted += WaveFinished;
     }
 
     private void OnDisable()
     {
         EventManager.Instance.OnEnemyDead -= AddEnemyMoney;
+
+        EventManager.Instance.OnGameOver -= StopAddingMoney;
+        EventManager.Instance.OnLevelCompleted -= StopAddingMoney;
+        EventManager.Instance.OnWaveStarted -= WaveStarted;
+        EventManager.Instance.OnWaveCompleted -= WaveFinished;
+    }
+
+    private void WaveFinished(int _, bool isLastWave)
+    {
+        StopAddingMoney();
+    }
+
+    private void WaveStarted(int _)
+    {
+        StartAddingMoney();
+    }
+
+    private void StopAddingMoney()
+    {
+        isAddingMoneyStopped = true;
+    }
+
+    private void StartAddingMoney()
+    {
+        isAddingMoneyStopped = false;
     }
 
     private void AddMoney(int addValue)

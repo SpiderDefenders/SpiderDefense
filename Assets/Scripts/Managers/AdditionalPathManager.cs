@@ -83,11 +83,16 @@ public class AdditionalPathManager : MonoBehaviour
     {
         EventManager.Instance.AdditionalPathPlacingStarted();
         menuManager.CloseAll();
-        GenerateAvailableTiles();
-        inGameMenu.ToggleMenu();
+        if (GenerateAvailableTiles())
+        {
+            inGameMenu.ToggleMenu();
+            return;
+        }
+        inGameMenu.CompletelyHideMenu();
+        EventManager.Instance.AdditionalPathPlacingCompleted();
     }
 
-    public void GenerateAvailableTiles()
+    public bool GenerateAvailableTiles()
     {
         ClearHighlights();
 
@@ -98,6 +103,7 @@ public class AdditionalPathManager : MonoBehaviour
         CheckDirection(lastTile, Direction.E);
         CheckDirection(lastTile, Direction.S);
         CheckDirection(lastTile, Direction.W);
+        return availableTiles.Count != 0;
     }
 
     private void CheckDirection(Tile tile, Direction dir)

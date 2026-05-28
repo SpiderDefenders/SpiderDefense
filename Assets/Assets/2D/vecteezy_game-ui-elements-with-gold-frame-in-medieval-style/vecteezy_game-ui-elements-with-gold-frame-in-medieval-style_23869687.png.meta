@@ -215,7 +215,7 @@ TextureImporter:
         width: 1316
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -224,6 +224,28 @@ TextureImporter:
       bones: []
       spriteID: be9b56723bc1a934a90c7365654b680e
       internalID: 1247949928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_game-ui-elements-with-gold-frame-in-medieval-style_23869687_6
+      rect:
+        serializedVersion: 2
+        x: 3219
+        y: 1243
+        width: 901
+        height: 228
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd9812c7cb63751408b14a6aaefc93ac
+      internalID: -1578631814
       vertices: []
       indices: 
       edges: []
@@ -248,6 +270,7 @@ TextureImporter:
       vecteezy_game-ui-elements-with-gold-frame-in-medieval-style_23869687_3: 301219552
       vecteezy_game-ui-elements-with-gold-frame-in-medieval-style_23869687_4: 418179559
       vecteezy_game-ui-elements-with-gold-frame-in-medieval-style_23869687_5: 1247949928
+      vecteezy_game-ui-elements-with-gold-frame-in-medieval-style_23869687_6: -1578631814
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

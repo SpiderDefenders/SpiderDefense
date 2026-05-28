@@ -124,5 +124,6 @@ public class PauseUI : MonoBehaviour
                         isAnimating = false;
                     });
             });
+        EventManager.Instance.GameResumed();
     }
 }
