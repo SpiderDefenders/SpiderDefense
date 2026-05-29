@@ -104,6 +104,18 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         col.radius = towerConfig.rangeRadius;
         col.center = new Vector3(0f, yOffset, 0f);
         col.isTrigger = true;
+
+        Vector3 worldCenter = transform.position + col.center;
+
+        Collider[] hits = Physics.OverlapSphere(worldCenter, col.radius);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                enemiesInRange.Add(hit.gameObject);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -299,6 +311,19 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         rangeObject.transform.localScale = new Vector3(r * 2f, 0.01f, r * 2f);
         SphereCollider col = GetComponent<SphereCollider>();
         col.radius = r;
+
+        Vector3 worldCenter = transform.position + col.center;
+        enemiesInRange = new List<GameObject>();
+
+        Collider[] hits = Physics.OverlapSphere(worldCenter, col.radius);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                enemiesInRange.Add(hit.gameObject);
+            }
+        }
     }
 
     private void UpgradeShootingDamage(UpgradeSO upgrade)
