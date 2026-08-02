@@ -1,0 +1,117 @@
+name: Manual Unity multi-platform build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Prevent two manual builds of the same branch from running simultaneously.
+concurrency:
+  group: unity-manual-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build ${{ matrix.displayName }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    strategy:
+      # Continue building the other platforms when one platform fails.
+      fail-fast: false
+
+      # Run sequentially to avoid activating the same Unity Personal
+      # licence in multiple jobs simultaneously.
+      max-parallel: 1
+
+      matrix:
+        include:
+          - targetPlatform: StandaloneWindows64
+            displayName: Windows 64-bit
+            archiveName: Windows64.zip
+
+          - targetPlatform: StandaloneLinux64
+            displayName: Linux 64-bit
+            archiveName: Linux64.tar.gz
+
+          - targetPlatform: iOS
+            displayName: iOS Xcode project
+            archiveName: iOS-XcodeProject.tar.gz
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: >-
+            unity-library-${{ matrix.targetPlatform }}-${{
+              hashFiles(
+                'Packages/manifest.json',
+                'Packages/packages-lock.json',
+                'ProjectSettings/ProjectVersion.txt'
+              )
+            }}
+          restore-keys: |
+            unity-library-${{ matrix.targetPlatform }}-
+
+      - name: Build project with GameCI
+        uses: game-ci/unity-builder@v5.0.0
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: .
+          unityVersion: auto
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildsPath: build
+          buildName: GameBuild
+
+      - name: Package build
+        shell: bash
+        env:
+          TARGET_PLATFORM: ${{ matrix.targetPlatform }}
+          ARCHIVE_NAME: ${{ matrix.archiveName }}
+        run: |
+          set -euo pipefail
+
+          BUILD_DIRECTORY="build/${TARGET_PLATFORM}"
+          PACKAGE_DIRECTORY="packaged"
+
+          if [ ! -d "${BUILD_DIRECTORY}" ]; then
+            echo "Build directory does not exist: ${BUILD_DIRECTORY}"
+            find build -maxdepth 3 -type d 2>/dev/null || true
+            exit 1
+          fi
+
+          mkdir -p "${PACKAGE_DIRECTORY}"
+
+          if [ "${TARGET_PLATFORM}" = "StandaloneWindows64" ]; then
+            (
+              cd "${BUILD_DIRECTORY}"
+              zip -r "../../${PACKAGE_DIRECTORY}/${ARCHIVE_NAME}" .
+            )
+          else
+            tar -czf \
+              "${PACKAGE_DIRECTORY}/${ARCHIVE_NAME}" \
+              -C "${BUILD_DIRECTORY}" \
+              .
+          fi
+
+          echo "Created package:"
+          ls -lh "${PACKAGE_DIRECTORY}/${ARCHIVE_NAME}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          path: packaged/${{ matrix.archiveName }}
+          archive: false
+          if-no-files-found: error
+          retention-days: 7
