@@ -6,7 +6,7 @@ public class CatapultAmmo : Ammo
     private float overallTime;
     private float timeElapsed = 0f;
     private Vector3 startPos;
-    private void Update()
+    protected override void Update()
     {
         if (!shooted) return;
         if (target == null)
