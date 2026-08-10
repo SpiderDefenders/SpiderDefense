@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+// TODO zrobić odpowiednie komponenty w towerhelpers
 
 public class Catapult : Tower
 {
@@ -15,9 +16,10 @@ public class Catapult : Tower
         catapultArm.rotation = rotatingPivot.rotation;
     }
 
-    protected override void RotateVertical(float distance, float height)
+    protected override void CreateHelpers()
     {
-        return;
+        base.CreateHelpers();
+        aiming = new CatapultAiming(horizontalPivot, null, aimTolerance);
     }
 
     private float CalculateLinearSpeed(Vector3 shootingPos)
