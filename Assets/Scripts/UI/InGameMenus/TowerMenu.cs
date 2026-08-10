@@ -45,7 +45,7 @@ public class TowerMenu : InGameMenu
     private void BaseOpen(Tower tower)
     {
         selectedTower = tower;
-        selectedTowerModeManager = tower.GetTowerModeManager();
+        selectedTowerModeManager = tower.TowerModeManager;
         toggleButton.gameObject.SetActive(true);
         gameObject.transform.SetAsLastSibling();
         SetTowerValues();
@@ -73,10 +73,10 @@ public class TowerMenu : InGameMenu
 
     private void SetTowerValues()
     {
-        towerNameText.text = selectedTower.GetName();
-        towerImage.sprite = selectedTower.GetImage();
+        towerNameText.text = selectedTower.Name;
+        towerImage.sprite = selectedTower.Image;
         modeText.text = selectedTowerModeManager.GetCurrentMode().ToString();
-        deleteText.text = CurrencyManager.Instance.GetMoneyOnTowerRemoved(selectedTower.GetValue()).ToString();
+        deleteText.text = CurrencyManager.Instance.GetMoneyOnTowerRemoved(selectedTower.Value).ToString();
     }
 
     public void RemoveTower()
@@ -100,7 +100,7 @@ public class TowerMenu : InGameMenu
     public void UpdateTower(int updateIdx)
     {
         selectedTower.Upgrade(updateIdx);
-        deleteText.text = CurrencyManager.Instance.GetMoneyOnTowerRemoved(selectedTower.GetValue()).ToString();
+        deleteText.text = CurrencyManager.Instance.GetMoneyOnTowerRemoved(selectedTower.Value).ToString();
     }
 
 }

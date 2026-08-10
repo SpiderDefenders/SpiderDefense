@@ -46,7 +46,7 @@ public class SelectionManger : MonoBehaviour
 
     void HandleTowerClick(Tower tower)
     {
-        if (!tower.IsPlaced()) return;
+        if (!tower.IsPlaced) return;
 
         if (selectedTower != null)
         {

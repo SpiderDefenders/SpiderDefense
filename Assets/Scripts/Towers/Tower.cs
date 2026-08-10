@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+// rozbijamy na shooting, upgrades, range, targeting (z obrotami?)
 public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 {
     private ITile tile;
@@ -29,10 +31,26 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private int value;
 
+    //private TowerTargeting targeting;
+    //private TowerShooting shooting;
+    //private TowerUpgrades upgrades;
+    //private TowerRange range;
+    //private TowerAiming aiming;
+
     // upgrades -> TODO jakiś refactor
     private bool[] purchasedUpgrades = new bool[] { false, false, false };
     private float shootingDamageMultiplier = 1f;
     private float shootingCooldownMultiplier = 1f;
+
+    //public Tower()
+    //{
+    //    range = new TowerRange();
+    //    targeting = new TowerTargeting(range);
+    //    shooting = new TowerShooting();
+    //    upgrades = new TowerUpgrades();
+    //    aiming = new TowerAiming();
+    //    //upgrades = new TowerUpgrades(range, shooting);
+    //}
 
     private new void OnEnable()
     {
@@ -57,32 +75,40 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         CreateRangeObject();
         ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
     }
+
     private void Update()
     {
         if (isGameOver)
             return;
         SetTarget();
 
-        
         if (target != null)
         {
             isRotatedOnTarget = true;
             FollowTarget();
-
-            if (shootingCountdown <= 0f && isRotatedOnTarget && !isShooting)
-            {
-                isShooting = true;
-                Shoot();
-            }
+            UpdateShooting();
         }
 
+        UpdateAmmo();
+        shootingCountdown -= Time.deltaTime;
+    }
+
+    private void UpdateShooting()
+    {
+        if (shootingCountdown <= 0f && isRotatedOnTarget && !isShooting)
+        {
+            isShooting = true;
+            Shoot();
+        }
+    }
+
+    private void UpdateAmmo()
+    {
         float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
         if (shootingCountdown <= currShootingCooldown / 4 && ammoObject == null)
         {
             ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
         }
-
-        shootingCountdown -= Time.deltaTime;
     }
 
     private void CreateRangeObject()
@@ -104,7 +130,13 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         col.radius = towerConfig.rangeRadius;
         col.center = new Vector3(0f, yOffset, 0f);
         col.isTrigger = true;
+    }
 
+    private void RefreshEnemiesInRange()
+    {
+        enemiesInRange.Clear();
+
+        SphereCollider col = GetComponent<SphereCollider>();
         Vector3 worldCenter = transform.position + col.center;
 
         Collider[] hits = Physics.OverlapSphere(worldCenter, col.radius);
@@ -180,19 +212,19 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         this.tile = tile;
         rangeObject.SetActive(false);
         CreateCollider();
+        RefreshEnemiesInRange();
         isPlaced = true;
 
         value = towerConfig.cost;
         CurrencyManager.Instance.RemoveMoney(towerConfig.cost);
     }
 
-    public bool IsPlaced() {  return isPlaced; }
-    public void AddValue(int extraValue) {  value += extraValue; } // in updates
-    public int GetCost() { return towerConfig.cost; }
-    public string GetName() { return towerConfig.towerName; }
-    public Sprite GetImage() { return towerConfig.towerImage; }
-    public TowerModeManager GetTowerModeManager() {return modeManager;}
-    public int GetValue() {  return value; }
+    public bool IsPlaced => isPlaced;
+    public int Cost => towerConfig.cost;
+    public string Name => towerConfig.towerName;
+    public Sprite Image => towerConfig.towerImage;
+    public TowerModeManager TowerModeManager => modeManager;
+    public int Value => value;
 
     public void OnClick()
     {
@@ -312,18 +344,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         SphereCollider col = GetComponent<SphereCollider>();
         col.radius = r;
 
-        Vector3 worldCenter = transform.position + col.center;
-        enemiesInRange = new List<GameObject>();
-
-        Collider[] hits = Physics.OverlapSphere(worldCenter, col.radius);
-
-        foreach (Collider hit in hits)
-        {
-            if (hit.CompareTag("Enemy"))
-            {
-                enemiesInRange.Add(hit.gameObject);
-            }
-        }
+        RefreshEnemiesInRange();
     }
 
     private void UpgradeShootingDamage(UpgradeSO upgrade)

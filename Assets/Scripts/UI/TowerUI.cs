@@ -17,7 +17,7 @@ public class TowerUI : InGameButtonUI
 
     private void Start()
     {
-        towerCost = towerPrefab.GetComponent<Tower>().GetCost();
+        towerCost = towerPrefab.GetComponent<Tower>().Cost;
         SetAmount(towerCost);
     }
 
