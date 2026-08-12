@@ -15,14 +15,11 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     [SerializeField] private Transform verticalPivot;
     [SerializeField] protected float aimTolerance = 10f;
 
-    protected GameObject ammoObject;
 
-    protected GameObject target;
-    private float shootingCountdown = 0f;
+    private GameObject target;
     public PlacableType Type => PlacableType.Defense;
     private bool isPlaced = false;
     private bool isGameOver = false;
-    private bool isShooting = false;
 
     private int value;
 
@@ -34,8 +31,6 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     // upgrades -> TODO jakiś refactor
     private bool[] purchasedUpgrades = new bool[] { false, false, false };
-    private float shootingDamageMultiplier = 1f;
-    private float shootingCooldownMultiplier = 1f;
 
     private new void OnEnable()
     {
@@ -56,14 +51,13 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     {
         CreateManagers();
         range.CreateRangeObject(towerConfig.rangeRadius, towerConfig.rangeMaterial, transform);
-        ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
     }
 
     protected virtual void CreateManagers()
     {
         range = gameObject.AddComponent<TowerRange>();
         targeting = new TowerTargeting(range, towerConfig.shootingModes, towerConfig.startShootingMode);
-        shooting = new TowerShooting();
+        shooting = new TowerShooting(ammoSpawnPoint, towerConfig.ammoPrefab, GetComponent<AudioSource>(), towerConfig.shootingCooldown);
         upgrades = new TowerUpgrades();
         aiming = new TowerAiming(horizontalPivot, verticalPivot, aimTolerance);
     }
@@ -77,41 +71,10 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         if (target != null)
         {
             aiming.AimTarget(target.transform);
-            UpdateShooting();
+            shooting.UpdateShooting(aiming.IsAimed, target);
         }
 
-        UpdateAmmo();
-        shootingCountdown -= Time.deltaTime;
-    }
-
-    private void UpdateShooting()
-    {
-        if (shootingCountdown <= 0f && aiming.IsAimed && !isShooting)
-        {
-            isShooting = true;
-            Shoot();
-        }
-    }
-    private void UpdateAmmo()
-    {
-        float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
-        if (shootingCountdown <= currShootingCooldown / 4 && ammoObject == null)
-        {
-            ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
-        }
-    }
-
-    protected virtual void Shoot()
-    {
-        float currShootingCooldown = towerConfig.shootingCooldown * shootingCooldownMultiplier;
-        shootingCountdown = currShootingCooldown;
-
-        Ammo ammo = ammoObject.GetComponent<Ammo>();
-        ammo.SetTarget(target);
-        ammo.SetDamageMultiplier(shootingDamageMultiplier);
-        isShooting = false;
-        ammoObject = null;
-        AudioManager.Instance.PlaySFX(SoundID.TurretShot, GetComponent<AudioSource>());
+        shooting.UpdateAmmo();
     }
 
     public void OnPlaced(ITile tile)
@@ -192,7 +155,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private void UpgradeShootingCooldown(UpgradeSO upgrade)
     {
-        shootingCooldownMultiplier *= upgrade.factor;
+        shooting.CooldownMultiplier *= upgrade.factor;
     }
 
     private void UpgradeRange(UpgradeSO upgrade)
@@ -203,6 +166,6 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private void UpgradeShootingDamage(UpgradeSO upgrade)
     {
-        shootingDamageMultiplier *= upgrade.factor;
+        shooting.DamageMultiplier *= upgrade.factor;
     }
 }
