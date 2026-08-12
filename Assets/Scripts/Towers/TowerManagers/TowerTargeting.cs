@@ -5,32 +5,18 @@ public class TowerTargeting
 {
     private GameObject target;
     private TowerRange range;
-    private List<GameObject> enemiesInRange = new List<GameObject>();
     public TowerModeManager ModeManager { get; private set; }
     public TowerTargeting(TowerRange range, List<TowerModeType> shootingModes, TowerModeType startMode) { 
         this.range = range;
         ModeManager = new TowerModeManager(shootingModes, startMode);
     }
 
-    public void AddEnemy(GameObject enemy)
-    {   
-        enemiesInRange.Add(enemy);
-    }
-
-    public void RemoveEnemy(GameObject enemy)
-    {
-        enemiesInRange.Remove(enemy);
-    }
-
-    public void ClearEnemies()
-    {
-        enemiesInRange.Clear();
-    }
 
     public GameObject FindTarget()
     {
         GameObject bestTarget = null;
         float bestValue = -Mathf.Infinity;
+        List<GameObject> enemiesInRange = range.EnemiesInRange;
 
         // go backwards to avoid errors when removing enemies
         for (int i = enemiesInRange.Count - 1; i >= 0; i--)

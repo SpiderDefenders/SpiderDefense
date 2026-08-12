@@ -16,9 +16,9 @@ public class Catapult : Tower
         catapultArm.rotation = rotatingPivot.rotation;
     }
 
-    protected override void CreateHelpers()
+    protected override void CreateManagers()
     {
-        base.CreateHelpers();
+        base.CreateManagers();
         aiming = new CatapultAiming(horizontalPivot, null, aimTolerance);
     }
 

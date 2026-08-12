@@ -17,9 +17,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     protected GameObject ammoObject;
 
-    private GameObject rangeObject;
     protected GameObject target;
-    private float yOffset = 0.05f;
     private float shootingCountdown = 0f;
     public PlacableType Type => PlacableType.Defense;
     private bool isPlaced = false;
@@ -56,14 +54,14 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private void Awake()
     {
-        CreateHelpers();
-        CreateRangeObject();
+        CreateManagers();
+        range.CreateRangeObject(towerConfig.rangeRadius, towerConfig.rangeMaterial, transform);
         ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, transform);
     }
 
-    protected virtual void CreateHelpers()
+    protected virtual void CreateManagers()
     {
-        range = new TowerRange();
+        range = gameObject.AddComponent<TowerRange>();
         targeting = new TowerTargeting(range, towerConfig.shootingModes, towerConfig.startShootingMode);
         shooting = new TowerShooting();
         upgrades = new TowerUpgrades();
@@ -102,60 +100,6 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
             ammoObject = Instantiate(towerConfig.ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
         }
     }
-    private void CreateRangeObject()
-    {
-        rangeObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        rangeObject.tag = "Range";
-        rangeObject.name = "Range";
-        rangeObject.transform.SetParent(transform);
-        rangeObject.transform.localPosition = new Vector3(0f, yOffset, 0f);
-        rangeObject.transform.localRotation = Quaternion.identity;
-        rangeObject.transform.localScale = new Vector3(towerConfig.rangeRadius * 2f, 0.01f, towerConfig.rangeRadius * 2f);
-
-        rangeObject.GetComponent<MeshRenderer>().material = towerConfig.rangeMaterial;
-    }
-
-    private void CreateCollider()
-    {
-        SphereCollider col = gameObject.AddComponent<SphereCollider>();
-        col.radius = towerConfig.rangeRadius;
-        col.center = new Vector3(0f, yOffset, 0f);
-        col.isTrigger = true;
-    }
-
-    private void RefreshEnemiesInRange()
-    {
-        targeting.ClearEnemies();
-
-        SphereCollider col = GetComponent<SphereCollider>();
-        Vector3 worldCenter = transform.position + col.center;
-
-        Collider[] hits = Physics.OverlapSphere(worldCenter, col.radius);
-
-        foreach (Collider hit in hits)
-        {
-            if (hit.CompareTag("Enemy"))
-            {
-                targeting.AddEnemy(hit.gameObject);
-            }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            targeting.AddEnemy(other.gameObject);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            targeting.RemoveEnemy(other.gameObject);
-        }
-    }
 
     protected virtual void Shoot()
     {
@@ -173,9 +117,9 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public void OnPlaced(ITile tile)
     {
         this.tile = tile;
-        rangeObject.SetActive(false);
-        CreateCollider();
-        RefreshEnemiesInRange();
+        range.SetActive(false);
+        range.CreateCollider(towerConfig.rangeRadius);
+        range.RefreshEnemiesInRange();
         isPlaced = true;
 
         value = towerConfig.cost;
@@ -192,12 +136,12 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public void OnClick()
     {
         if (isBlocked) return;
-        rangeObject.SetActive(true);
+        range.SetActive(true);
     }
 
     public void OnUnClick()
     {
-        rangeObject.SetActive(false);
+        range.SetActive(false);
     }
 
     public void OnRemoved()
@@ -254,12 +198,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     private void UpgradeRange(UpgradeSO upgrade)
     {
         float r = towerConfig.rangeRadius * upgrade.factor;
-
-        rangeObject.transform.localScale = new Vector3(r * 2f, 0.01f, r * 2f);
-        SphereCollider col = GetComponent<SphereCollider>();
-        col.radius = r;
-
-        RefreshEnemiesInRange();
+        range.UpgradeRange(r);
     }
 
     private void UpgradeShootingDamage(UpgradeSO upgrade)
