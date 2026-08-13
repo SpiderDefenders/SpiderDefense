@@ -35,7 +35,7 @@ public class Tile : MonoBehaviour, ITile
         placedObject = placable;
 
         MonoBehaviour mb = placable as MonoBehaviour;
-        mb.transform.position = transform.position + placable.GetPlacingOffset();
+        mb.transform.position = transform.position + placable.PlacingOffset;
 
         placable.OnPlaced(this);
 

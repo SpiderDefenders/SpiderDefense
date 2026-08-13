@@ -6,7 +6,6 @@ public class CatapultAiming : TowerAiming
     {}
     protected override void RotateVertical(float distance, float height)
     {
-
         return;
     }
 }

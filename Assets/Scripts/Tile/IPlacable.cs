@@ -4,7 +4,7 @@ public interface IPlacable
 {
     void OnPlaced(ITile tile);
     void OnRemoved();
-    Vector3 GetPlacingOffset();
+    Vector3 PlacingOffset { get; }
 
     PlacableType Type { get; }
 }

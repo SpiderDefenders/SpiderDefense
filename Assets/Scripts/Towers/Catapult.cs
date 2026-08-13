@@ -13,9 +13,11 @@ public class Catapult : Tower
 
     protected override void CreateManagers()
     {
-        base.CreateManagers();
+        range = gameObject.AddComponent<TowerRange>();
+        targeting = new TowerTargeting(range, towerConfig.shootingModes, towerConfig.startShootingMode);
         aiming = new CatapultAiming(horizontalPivot, null, aimTolerance);
         shooting = new CatapultShooting(ammoSpawnPoint, towerConfig.ammoPrefab, GetComponent<AudioSource>(), 
             towerConfig.shootingCooldown, rotatingPivot, catapultArm, gameObject);
+        upgrades = new TowerUpgrades(range, shooting, towerConfig.GetUpgrades());
     }
 }

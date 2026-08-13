@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
 public class CatapultShooting : TowerShooting
 {
     private Transform rotatingPivot;

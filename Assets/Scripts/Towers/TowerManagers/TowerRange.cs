@@ -9,8 +9,6 @@ public class TowerRange : MonoBehaviour
     private float yScale = 0.01f;
     private Transform towerTransform;
 
-    
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
@@ -72,10 +70,12 @@ public class TowerRange : MonoBehaviour
         rangeObject.SetActive(active);
     }
 
-    public void UpgradeRange(float newRadius)
+    public void UpgradeRange(float radiusFactor)
     {
-        rangeObject.transform.localScale = new Vector3(newRadius * 2f, yScale, newRadius * 2f);
         SphereCollider col = GetComponent<SphereCollider>();
+        float newRadius = col.radius * radiusFactor;
+
+        rangeObject.transform.localScale = new Vector3(newRadius * 2f, yScale, newRadius * 2f);
         col.radius = newRadius;
 
         RefreshEnemiesInRange();

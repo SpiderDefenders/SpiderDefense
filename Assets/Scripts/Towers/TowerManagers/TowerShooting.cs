@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
 public class TowerShooting
 {
     protected Transform ammoSpawnPoint;
@@ -33,7 +32,6 @@ public class TowerShooting
             isShooting = true;
             Shoot(target);
         }
-        countdown -= Time.deltaTime;
     }
 
     public void UpdateAmmo()
@@ -43,6 +41,7 @@ public class TowerShooting
         {
             ammoObject = Object.Instantiate(ammoPrefab, ammoSpawnPoint.position, ammoSpawnPoint.rotation, ammoSpawnPoint);
         }
+        countdown -= Time.deltaTime;
     }
 
     protected virtual void Shoot(GameObject target)

@@ -55,7 +55,7 @@ public class BuildManager : MonoBehaviour
             if (tile == null)
                 return;
 
-            previewObject.transform.position = tile.transform.position + previewPlacable.GetPlacingOffset();
+            previewObject.transform.position = tile.transform.position + previewPlacable.PlacingOffset;
 
             bool canPlace = tile.CanPlace(previewPlacable);
 

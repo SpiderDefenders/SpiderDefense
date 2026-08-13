@@ -2,7 +2,6 @@
 using UnityEngine;
 
 
-// rozbijamy na shooting, upgrades, range, targeting (z obrotami?)
 public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 {
     private ITile tile;
@@ -23,14 +22,11 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
 
     private int value;
 
-    private TowerTargeting targeting;
+    protected TowerTargeting targeting;
     protected TowerShooting shooting;
-    private TowerUpgrades upgrades;
-    private TowerRange range;
+    protected TowerUpgrades upgrades;
+    protected TowerRange range;
     protected TowerAiming aiming;
-
-    // upgrades -> TODO jakiś refactor
-    private bool[] purchasedUpgrades = new bool[] { false, false, false };
 
     private new void OnEnable()
     {
@@ -58,7 +54,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         range = gameObject.AddComponent<TowerRange>();
         targeting = new TowerTargeting(range, towerConfig.shootingModes, towerConfig.startShootingMode);
         shooting = new TowerShooting(ammoSpawnPoint, towerConfig.ammoPrefab, GetComponent<AudioSource>(), towerConfig.shootingCooldown);
-        upgrades = new TowerUpgrades();
+        upgrades = new TowerUpgrades(range, shooting, towerConfig.GetUpgrades());
         aiming = new TowerAiming(horizontalPivot, verticalPivot, aimTolerance);
     }
 
@@ -95,6 +91,7 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
     public Sprite Image => towerConfig.towerImage;
     public TowerModeManager TowerModeManager => targeting.ModeManager;
     public int Value => value;
+    public Vector3 PlacingOffset => towerConfig.placingOffset;
 
     public void OnClick()
     {
@@ -114,58 +111,16 @@ public abstract class Tower : AdditionalPathBlocker, IPlacable, IDefense
         Destroy(gameObject);
     }
 
-    // TODO -> simple getter
-    public Vector3 GetPlacingOffset()
-    {
-        return towerConfig.placingOffset;
-    }
-
     // upgrades
-    public List<UpgradeSO> GetUpgrades()
-    {
-        return towerConfig.GetUpgrades();
-    }
+    public List<UpgradeSO> Upgrades => towerConfig.GetUpgrades();
 
     public bool IsUpgradePurchased(int idx)
     {
-        return purchasedUpgrades[idx];
+        return upgrades.IsPurchased(idx);
     }
 
     public void Upgrade(int idx)
     {
-        purchasedUpgrades[idx] = true;
-        var upgrade = towerConfig.GetUpgrades()[idx];
-        value += upgrade.cost;
-
-        switch (upgrade.type)
-        {
-            case UpgradeType.ShootingCooldown:
-                UpgradeShootingCooldown(upgrade);
-                break;
-
-            case UpgradeType.Range:
-                UpgradeRange(upgrade);
-                break;
-
-            case UpgradeType.ShootingDamage:
-                UpgradeShootingDamage(upgrade);
-                break;
-        }
-    }
-
-    private void UpgradeShootingCooldown(UpgradeSO upgrade)
-    {
-        shooting.CooldownMultiplier *= upgrade.factor;
-    }
-
-    private void UpgradeRange(UpgradeSO upgrade)
-    {
-        float r = towerConfig.rangeRadius * upgrade.factor;
-        range.UpgradeRange(r);
-    }
-
-    private void UpgradeShootingDamage(UpgradeSO upgrade)
-    {
-        shooting.DamageMultiplier *= upgrade.factor;
+        value += upgrades.Upgrade(idx);
     }
 }

@@ -64,7 +64,7 @@ public class TowerMenu : InGameMenu
 
     private void SetUpgrades()
     {
-        List<UpgradeSO> towerUpgrades = selectedTower.GetUpgrades();
+        List<UpgradeSO> towerUpgrades = selectedTower.Upgrades;
         for(int i = 0; i < towerUpgrades.Count; i++)
         {
             upgrades[i].SetTowerData(towerUpgrades[i], i, selectedTower.IsUpgradePurchased(i));
